@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanuj's Achievements & Certificates</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .card-inner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .card-front table {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two micro-cards per row */
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .micro-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            width: 300px;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 10px;
+            text-align: center;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation bar with navigation links for each page -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#about">About Me</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact Me</a>
+            </div>
+
+            <!-- Social links -->
+            <ul class="social-links">
+                <li style="padding-top: 5px;"><a href="https://docs.google.com/document/d/1du2Tz73MA0h-P4GYSVaQe-4GHdQ_1KGq/edit?usp=sharing&ouid=101422220277547791767&rtpof=true&sd=true" target="_blank">Resume</a></li>
+                <li><a href="https://github.com/tanujranjith" target="_blank"><img src="25231.png" alt="GitHub" width="25" height="25"></a></li>
+                <li><a href="https://github.com/tanujranjith" target="_blank"><img src="Google_Scholar_logo.svg.png" alt="Google Scholar" width="25" height="25"></a></li>
+                <li><a href="https://www.linkedin.com/in/your_profile_url" target="_blank"><img src="LinkedIn_logo_initials.png" alt="LinkedIn" width="25" height="25"></a></li>
+                <li><a href="https://x.com/uibuybu" target="_blank"><img src="xLogo.png" alt="X" width="27" height="27"></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <section style="padding-top: 200px; max-width: 900px; width: 100%;">
+            <div class="container">
+                <div style="display: grid; place-items: center;">
+                    <div class="typewriter">
+                        <h1>Achievements & Certificates</h1>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <section class="floating_Card">
+                <a class="ecs card" style="height: 600px; width: 1500px;">
+                    <div class="card-inner">
+                        <!-- Front side of the card -->
+                        <div class="card-front" style="padding-left: 120px;">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <th>
+                                        <a href="achievement1.html">
+                                            <div class="micro-card">
+                                                <h3>Certificate of Excellence</h3>
+                                                <p>Completed AI course with top grades.</p>
+                                            </div>
+                                        </a>
+                                        <a href="achievement2.html">
+                                            <div class="micro-card">
+                                                <h3>Python Programming Award</h3>
+                                                <p>Awarded for excellent coding skills.</p>
+                                            </div>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <a href="achievement3.html">
+                                            <div class="micro-card">
+                                                <h3>Machine Learning Specialist</h3>
+                                                <p>Certification in advanced ML techniques.</p>
+                                            </div>
+                                        </a>
+                                        <a href="achievement4.html">
+                                            <div class="micro-card">
+                                                <h3>F1 Data Analysis</h3>
+                                                <p>For outstanding contribution to F1 analytics.</p>
+                                            </div>
+                                        </a>
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </a>
+            </section>
+        </section>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

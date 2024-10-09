@@ -1,0 +1,229 @@
+/* styles.css */
+:root {
+    --primary-color: #325ea8;
+    --secondary-color: #325ea8;
+    --background-color: #fff;
+    --text-color: #000000;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: var(--primary-color);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+.social-links {
+    display: flex; 
+    justify-content: flex-end; /* Push social links to the right */
+    list-style: none;
+}
+
+.social-links li {
+    margin-left: 15px; /* Add some spacing between the social icons */
+}
+
+.social-links a {
+    color: #fff;
+    text-decoration: none;
+}
+
+
+.hero-section {
+    height: 100vh;
+    background-image: linear-gradient(to bottom, var(--secondary-color), var(--background-color));
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1, h2 {
+    font-size: 44px;
+    color: #29306c;
+    
+}
+
+.button {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none; /* Remove underline */
+    display: block; /* Make it full-width */
+    border-radius: 5px; /* Add rounded corners */
+}
+
+.contact-section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-section {
+    background-color: var(--background-color);
+    color: #333;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+.typewriter h1 {
+    color: #29306c;
+    font-family: monospace;
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid rgb(36, 50, 107); /* The typwriter cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .15em; /* Adjust as needed */
+    animation: 
+      typing 2.5s steps(30, end),
+      blink-caret .5s step-end infinite;
+  }
+  
+  /* The typing effect */
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  /* The typewriter cursor effect */
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: rgb(25, 25, 81) }
+    
+  }
+
+  :root {
+  animation: hide-cursor .5s;
+}
+
+:root:nth-child(1) ~ *::before {
+  visibility: hidden;
+}
+
+:root:nth-child(n) ~ *::before {
+  animation: hide-cursor ncalc(.5s);
+}
+
+@keyframes hide-cursor {
+  0% {
+    visibility: visible;
+  }
+  100% {
+    visibility: hidden;
+  }
+}
+
+
+/* styles.css */
+
+/* General reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Floating card styles */
+.floating_Card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+    perspective: 1000px; /* Add perspective for 3D effect */
+}
+
+.card {
+    width: 45%;
+    height: 200px;
+    position: relative;
+    padding:10px;
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s ease;
+    transform-style: preserve-3d;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 0 15px rgba(0, 0, 255, 0.2);
+    border-radius: 20px;
+}
+
+/* Front and back sides of the card */
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.card-front {
+    background: linear-gradient(145deg, #f0f0f5, #e6e6ec);
+}
+
+.card-back {
+    background-color: #ffffff;
+    transform: rotateX(180deg); /* Back side rotated initially */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 0 15px rgba(0, 0, 255, 0.2); /* Slight blue glow */
+}
+
+/* Flip the card */
+.card.flipped .card-inner {
+    transform: rotateX(180deg);
+}
