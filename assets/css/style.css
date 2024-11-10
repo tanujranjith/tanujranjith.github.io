@@ -556,6 +556,7 @@ main {
 }
 
 .service-item-text-list{ color:#fcfcfc;}
+.service-item-text-list li{list-style:circle;}
 
 
 /**
