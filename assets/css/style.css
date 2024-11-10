@@ -555,7 +555,7 @@ main {
   line-height: 1.6;
 }
 
-.service-item-text-list{ color:#fcfcfc;}
+.service-item-text-list{ color:#fcfcfc; font-size: var(--fs-7);}
 .service-item-text-list li{list-style:circle;}
 
 
