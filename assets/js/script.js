@@ -75,6 +75,8 @@ for (let i = 0; i < selectItems.length; i++) {
   });
 }
 
+filterFunc("vets it guide");
+
 // filter variables
 const filterItems = document.querySelectorAll("[data-filter-item]");
 
