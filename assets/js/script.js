@@ -103,7 +103,7 @@ const filterFunc = function (selectedValue) {
 }
 
 // add event in all filter button items for large screen
-let lastClickedBtn = filterBtn[0];
+let lastClickedBtn = filterBtn[1];
 
 for (let i = 0; i < filterBtn.length; i++) {
 
