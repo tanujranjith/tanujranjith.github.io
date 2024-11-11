@@ -786,6 +786,8 @@ main {
 
 .timeline { margin-bottom: 30px; }
 
+.timeline-link{text-decoration: underline;color: var(--white-2);}
+
 .timeline .title-wrapper {
   display: flex;
   align-items: center;
