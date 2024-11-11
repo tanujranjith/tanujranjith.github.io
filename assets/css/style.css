@@ -115,6 +115,113 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+/*-----------------------------------*\
+  #slide show content
+\*-----------------------------------*/
+
+
+
+
+/* Slideshow container */
+.slideshow-container {
+    position: relative;
+    max-width: 800px;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Hide slides by default */
+.slide {
+    display: none;
+}
+
+/* Style for the images */
+.slide-image {
+    width: 100%;
+    border-radius: 8px;
+}
+
+/* Caption text */
+.caption {
+    color: #f2f2f2;
+    font-size: 18px;
+    padding: 16px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    border-radius: 0 0 8px 8px;
+}
+
+/* Next and previous buttons */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.3s;
+    user-select: none;
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
+
+/* On hover, add a background color */
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Dot indicators */
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+    background-color: #717171;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*-----------------------------------*\
   #RESET
 \*-----------------------------------*/
