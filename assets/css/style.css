@@ -555,9 +555,9 @@ main {
   line-height: 1.6;
 }
 
-.service-item-text-list{ color:#fcfcfc; font-size: var(--fs-7);}
+.service-item-text-list{ color:var(--light-gray); font-size:var(--fs-7);}
 .service-item-text-list li{list-style:circle;}
-.service-item-text-list li a{text-decoration: underline;color: #FCFEFC;}
+.service-item-text-list li a{text-decoration: underline;color:var(--light-gray);}
 
 
 /**
