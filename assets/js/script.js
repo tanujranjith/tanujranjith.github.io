@@ -73,6 +73,13 @@ for (let i = 0; i < selectItems.length; i++) {
     filterFunc(selectedValue);
 
   });
+
+  var defaultMenu = selectItems[i].innerText.toLowerCase();
+  if(defaultMenu == "vets it guide")
+  {
+    selectItems[i].click(); 
+  }
+    
 }
 
 
@@ -82,8 +89,7 @@ const filterItems = document.querySelectorAll("[data-filter-item]");
 const filterFunc = function (selectedValue) {
 
   for (let i = 0; i < filterItems.length; i++) {
-    var defaultMenu = filterItems[i].innerText.toLowerCase();
-    alert(defaultMenu);
+
     
     if (selectedValue === "all") {
       filterItems[i].classList.add("active");
