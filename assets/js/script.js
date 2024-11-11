@@ -76,8 +76,6 @@ for (let i = 0; i < selectItems.length; i++) {
 
   if(selectItems[i].innerText.toLowerCase() == "vets it guide")
   {
-    alert("test");
-    filterFunc("vets it guide");
     selectItems[i].click(); 
   }
     
