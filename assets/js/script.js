@@ -74,9 +74,10 @@ for (let i = 0; i < selectItems.length; i++) {
 
   });
 
-  var defaultMenu = selectItems[i].innerText.toLowerCase();
-  if(defaultMenu == "vets it guide")
+  if(selectItems[i].innerText.toLowerCase() == "vets it guide")
   {
+    alert("test");
+    filterFunc("vets it guide");
     selectItems[i].click(); 
   }
     
