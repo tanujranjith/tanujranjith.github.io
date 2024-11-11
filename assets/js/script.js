@@ -74,10 +74,10 @@ for (let i = 0; i < selectItems.length; i++) {
 
   });
 
-  if(selectItems[i].innerText.toLowerCase() == "vets it guide")
-  {
-    selectItems[i].click(); 
-  }
+  //if(selectItems[i].innerText.toLowerCase() == "vets it guide")
+  //{
+  //  selectItems[i].click(); 
+  //}
     
 }
 
