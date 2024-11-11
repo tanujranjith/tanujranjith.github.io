@@ -1066,6 +1066,8 @@ main {
   z-index: 1;
 }
 
+.blog-posts-title {color: #fcfcfc;}
+
 .blog-post-item > a::before {
   content: "";
   position: absolute;
