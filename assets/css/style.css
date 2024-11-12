@@ -562,11 +562,10 @@ main {
   font-size: var(--fs-6);
   font-weight: var(--fw-3);
   line-height: 1.6;
-  text-align: left; 
-  padding-left: revert;
+  
 }
 
-.service-item-text-list{ color:var(--light-gray); font-size:var(--fs-7);}
+.service-item-text-list{ color:var(--light-gray); font-size:var(--fs-7);text-align: left;padding-left: revert;}
 .service-item-text-list li{list-style:circle;}
 .service-item-text-list li a{text-decoration: underline;color:var(--light-gray);}
 
@@ -1271,7 +1270,8 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .project-img { min-height: auto;}
 
-  .service-item-text-list {color: var(--light-gray); font-size: var(--fs-7); text-align: none; padding-left: none;}
+  .service-item-text-list {color: var(--light-gray); font-size: var(--fs-7);}
+  .service-item-text-list{ color:var(--light-gray); font-size:var(--fs-7);text-align: inherit;padding-left: inherit;}
 }
 
 
