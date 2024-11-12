@@ -1268,6 +1268,7 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .project-img { min-height: auto;}
 
+  .service-item-text-list {color: var(--light-gray); font-size: var(--fs-7); text-align: left; padding-left: revert;}
 }
 
 
