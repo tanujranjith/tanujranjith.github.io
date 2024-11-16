@@ -168,8 +168,8 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
 
 const imgViewElems = document.querySelectorAll("[img-view]");
-for (let i = 0; i < imgViewElems.length; i++) {
-  imgViewElems[i].addEventListener("click", function () {
-    window.open(this.src,'targetWindow', 'toolbar=no, location=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1090px, height=900px, top=25px left=120px');
+for (let i = 0; i < imgLinkElems.length; i++) {
+  imgLinkElems[i].addEventListener("click", function () {
+    window.open(this.querySelectorAll("[img-link]").src,'targetWindow', 'toolbar=no, location=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1090px, height=900px, top=25px left=120px');
   });
 }
