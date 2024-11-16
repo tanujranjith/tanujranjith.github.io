@@ -1093,6 +1093,23 @@ main {
   transition: var(--transition-1);
 }
 
+.blog-post-item-icon-box {
+  --scale: 0.8;
+
+  background: var(--jet);
+  color: var(--orange-yellow-crayola);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(var(--scale));
+  font-size: 20px;
+  padding: 18px;
+  border-radius: 12px;
+  opacity: 0;
+  z-index: 1;
+  transition: var(--transition-1);
+}
+
 .blog-post-item > a:hover .blog-banner-box img { transform: scale(1.1); }
 
 .blog-content { padding: 15px; }
