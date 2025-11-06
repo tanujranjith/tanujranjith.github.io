@@ -200,6 +200,17 @@ body { background: var(--smoky-black); }
     color-mix(in oklab, var(--bg-elev-2) 80%, black) 0%,
     color-mix(in oklab, var(--bg-elev-1) 20%, transparent) 100%), var(--bg-elev-1);
   --text-gradient-yellow: linear-gradient(to right, var(--gold), color-mix(in oklab, var(--gold) 80%, white));
+
+  /* Blob + canvas color controls (dark default) */
+  --blob-opacity: 0.38;
+  --blob-accent-1: var(--blue);
+  --blob-accent-2: var(--gold);
+  --blob-accent-3: color-mix(in oklab, var(--blue) 50%, var(--gold) 50%);
+  --canvas-blob-1: rgba(43,106,255,0.20);
+  --canvas-blob-2: rgba(200,168,87,0.16);
+  /* Material-inspired tokens (dark) */
+  --md-primary: var(--blue);
+  --md-ripple-color: rgba(43,106,255,0.22);
 }
 
 /* Apple system typography + improved rendering */
@@ -231,6 +242,101 @@ body::before {
   transform: translate(0, 0);
 }
 @media (prefers-reduced-motion: reduce) { body::before { opacity: 0.15; } }
+
+/* Light theme palette overrides (whitish blue) */
+html[data-theme="light"] { color-scheme: light; }
+
+:root[data-theme="light"] {
+  --bg: #f4f7ff;
+  --bg-elev-1: #ffffff;
+  --bg-elev-2: #eff3ff;
+  --fg: #0e1220;
+  --fg-muted: #3a4154;
+  --gold: #b8942e; /* kept for accents */
+  --blue: #2b6aff;
+  --ring: color-mix(in oklab, var(--blue) 55%, black);
+  --shadow-soft: 0 6px 16px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06);
+  --shadow-strong: 0 16px 48px rgba(0,0,0,0.16), 0 6px 16px rgba(0,0,0,0.10);
+
+  --smoky-black: var(--bg);
+  --eerie-black-1: var(--bg-elev-1);
+  --eerie-black-2: var(--bg-elev-2);
+  --white-2: var(--fg);
+  --light-gray: var(--fg-muted);
+  --light-gray-70: color-mix(in oklab, var(--fg-muted) 60%, transparent);
+  --orange-yellow-crayola: var(--gold);
+  --vegas-gold: color-mix(in oklab, var(--gold) 80%, #b58b19);
+  --jet: #d8dde8;
+  --onyx: #e8ebf3;
+
+  --bg-gradient-onyx: radial-gradient(1200px 800px at var(--mx) var(--my), rgba(43,106,255,0.07), transparent 50%),
+    linear-gradient(to bottom right, hsl(225 35% 98%) 3%, hsl(225 35% 96%) 97%);
+  --bg-gradient-jet: linear-gradient(to bottom right,
+    color-mix(in oklab, var(--bg-elev-2) 80%, white) 0%,
+    color-mix(in oklab, var(--bg-elev-1) 20%, transparent) 100%), var(--bg-elev-1);
+  --text-gradient-yellow: linear-gradient(to right, color-mix(in oklab, var(--gold) 90%, #f7e3a0), color-mix(in oklab, var(--gold) 70%, #fff));
+
+  /* Light theme blob/canvas adjustments (grey + blue) */
+  --blob-opacity: 0.55;
+  --blob-accent-1: var(--blue);
+  --blob-accent-2: #9aa7b5; /* cool grey */
+  --blob-accent-3: color-mix(in oklab, var(--blue) 35%, #9aa7b5 65%);
+  --canvas-blob-1: rgba(43,106,255,0.24);
+  --canvas-blob-2: rgba(138,156,178,0.18);
+  /* Material-inspired tokens (light) */
+  --md-primary: var(--blue);
+  --md-ripple-color: rgba(43,106,255,0.28);
+}
+
+/* Light theme palette overrides */
+html[data-theme="light"] { color-scheme: light; }
+
+:root[data-theme="light"] {
+  --bg: #f6f7fb;
+  --bg-elev-1: #ffffff;
+  --bg-elev-2: #eef1f7;
+  --fg: #0f1320;
+  --fg-muted: #3c4151;
+  --gold: #c29a3a;
+  --blue: #2b6aff;
+  --ring: color-mix(in oklab, var(--blue) 55%, black);
+  --shadow-soft: 0 6px 16px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06);
+  --shadow-strong: 0 16px 48px rgba(0,0,0,0.16), 0 6px 16px rgba(0,0,0,0.10);
+
+  --smoky-black: var(--bg);
+  --eerie-black-1: var(--bg-elev-1);
+  --eerie-black-2: var(--bg-elev-2);
+  --white-2: var(--fg);
+  --light-gray: var(--fg-muted);
+  --light-gray-70: color-mix(in oklab, var(--fg-muted) 60%, transparent);
+  --orange-yellow-crayola: var(--gold);
+  --vegas-gold: color-mix(in oklab, var(--gold) 80%, #b58b19);
+  --jet: #d8dde8;
+  --onyx: #e8ebf3;
+
+  --bg-gradient-onyx: radial-gradient(1200px 800px at var(--mx) var(--my), rgba(43,106,255,0.07), transparent 50%),
+    linear-gradient(to bottom right, hsl(225 35% 98%) 3%, hsl(225 35% 96%) 97%);
+  --bg-gradient-jet: linear-gradient(to bottom right,
+    color-mix(in oklab, var(--bg-elev-2) 80%, white) 0%,
+    color-mix(in oklab, var(--bg-elev-1) 20%, transparent) 100%), var(--bg-elev-1);
+  --text-gradient-yellow: linear-gradient(to right, color-mix(in oklab, var(--gold) 90%, #f7e3a0), color-mix(in oklab, var(--gold) 70%, #fff));
+}
+
+/* Subtle vignette + grain for premium glass look */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(1200px 800px at 50% 0%, rgba(255,255,255,0.035), transparent 60%),
+    linear-gradient(to bottom, rgba(255,255,255,0.02), rgba(0,0,0,0.12)),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0 1px, rgba(0,0,0,0.012) 1px 2px);
+  mix-blend-mode: overlay;
+  opacity: 0.45;
+}
+html[data-theme="light"] body::after { opacity: 0.20; }
 
 /* Liquid Glass - Luxury Premium Aesthetic */
 .sidebar,
@@ -278,6 +384,34 @@ article::before {
   box-shadow: 0 0 8px color-mix(in oklab, var(--blue) 15%, transparent);
 }
 
+/* Specular highlights and glass grain overlay for all glassy surfaces */
+.sidebar::after,
+article::after,
+.navbar::after,
+.content-card::after,
+.service-item::after,
+.blog-post-item > a::after,
+.project-item > a::after,
+.testimonials-modal::after,
+.filter-select::after,
+.select-list::after,
+.form-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  /* Static specular highlights only — sheen sweep removed */
+  background:
+    radial-gradient(120% 60% at 10% 8%, rgba(255,255,255,0.10), transparent 40%),
+    radial-gradient(120% 60% at 90% 92%, rgba(255,255,255,0.05), transparent 50%),
+    radial-gradient(900px 600px at var(--mx) var(--my), color-mix(in oklab, var(--blue) 6%, transparent), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.01) 0 1px, rgba(0,0,0,0.01) 1px 2px);
+  mix-blend-mode: screen;
+  opacity: 0.28;
+}
+
+
 /* Micro-interactions: glow only (no movement) */
 .content-card,
 .service-item,
@@ -287,19 +421,118 @@ article::before {
 .info_more-btn,
 .navbar {
   transition: box-shadow 300ms ease, background-color 200ms ease, transform 300ms ease;
+  will-change: transform, box-shadow, background-color;
+}
+
+/* Dock-like soft reflection below navbar (Apple-esque) */
+.navbar::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: calc(100% - 1px);
+  width: clamp(280px, 70%, 980px);
+  height: 22px;
+  background:
+    radial-gradient(120% 220% at 50% -40%, rgba(255,255,255,0.18), transparent 65%),
+    radial-gradient(120% 180% at 50% -60%, color-mix(in oklab, var(--blue) 16%, transparent), transparent 70%);
+  filter: blur(18px);
+  opacity: 0.45;
+  pointer-events: none;
+}
+html[data-theme="light"] .navbar::before { opacity: 0.35; filter: blur(20px); }
+html[data-theme="light"] .navbar {
+  background: hsla(225, 60%, 98%, 0.85);
+  border-color: color-mix(in oklab, var(--jet) 50%, white);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.6);
 }
 .content-card:hover,
 .service-item:hover,
 .blog-post-item > a:hover,
 .project-item > a:hover,
 .form-btn:hover,
-.info_more-btn:hover,
-.navbar:hover {
+.info_more-btn:hover {
   box-shadow: 
     0 12px 40px rgba(0, 0, 0, 0.35),
     0 4px 16px color-mix(in oklab, var(--blue) 20%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  transform: translateY(-1px);
+  transform: translateY(-2px) scale(1.01);
+}
+
+/* Disable hover lift on touch to avoid glitches */
+@media (hover: none) {
+  .content-card:hover,
+  .service-item:hover,
+  .blog-post-item > a:hover,
+  .project-item > a:hover,
+  .form-btn:hover,
+  .info_more-btn:hover {
+    transform: none;
+    box-shadow: inherit;
+  }
+}
+
+/* Navbar hover transforms: preserve base positioning per layout */
+@media (max-width: 1023px) {
+.navbar:hover {
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.35),
+      0 4px 16px color-mix(in oklab, var(--blue) 20%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transform: translateX(-50%) translateY(-2px);
+}
+
+/* Thin white shimmer outline for name/contact card and Contact panel */
+.sidebar,
+article.contact {
+  box-shadow:
+    var(--shadow-1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14), /* thin inner ring */
+    inset 0 0 12px rgba(255, 255, 255, 0.05);  /* soft shimmer glow */
+}
+}
+@media (min-width: 1024px) {
+  .navbar:hover {
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.35),
+      0 4px 16px color-mix(in oklab, var(--blue) 20%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+}
+
+/* Global rounded corners for a softer, premium feel */
+:root {
+  --radius-soft: 20px;
+  --radius-strong: 26px;
+}
+
+/* Apply stronger rounding to primary surfaces */
+:where(
+  .sidebar,
+  article,
+  .navbar,
+  .content-card,
+  .service-item,
+  .blog-post-item > a,
+  .project-item > a,
+  .testimonials-modal,
+  .filter-select,
+  .select-list,
+  .mapbox,
+  .modal-avatar-box,
+  .avatar-box,
+  .project-img,
+  .blog-banner-box,
+  .form-btn,
+  .info_more-btn,
+  .icon-box,
+  .project-item-icon-box
+) { border-radius: var(--radius-strong) !important; overflow: hidden; background-clip: padding-box; }
+
+/* Secondary elements: inputs and small UI chips */
+:where(.form-input, .skill-progress-bg, .skill-progress-fill, .contact-item .icon-box) {
+  border-radius: var(--radius-soft) !important;
 }
 
 /* Navbar liquid glass - Luxury */
@@ -310,14 +543,79 @@ article::before {
     color-mix(in oklab, var(--eerie-black-2) 78%, transparent) 50%,
     color-mix(in oklab, var(--eerie-black-2) 88%, transparent) 100%
   );
-  backdrop-filter: blur(28px) saturate(200%);
-  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   box-shadow: 
     0 12px 48px rgba(0, 0, 0, 0.5),
     0 4px 16px rgba(43, 106, 255, 0.1),
     inset 0 1.5px 0 rgba(255, 255, 255, 0.15),
     inset 0 0 40px color-mix(in oklab, var(--blue) 4%, transparent);
   border-top: 1.5px solid color-mix(in oklab, white 12%, transparent);
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, color-mix(in oklab, var(--eerie-black-2) 88%, transparent) 0%, color-mix(in oklab, var(--eerie-black-2) 78%, transparent) 100%);
+  border: 1px solid color-mix(in oklab, var(--jet) 45%, transparent);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12);
+  color: var(--light-gray);
+}
+.theme-toggle--global { position: fixed; top: 12px; right: 12px; left: auto; z-index: 50; }
+.theme-toggle:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.16); }
+.theme-toggle ion-icon { font-size: 18px; color: var(--orange-yellow-crayola); }
+
+/* Material ripple removed per request */
+
+/* Smooth theme transition across core surfaces */
+html.is-theming body,
+html.is-theming .sidebar,
+html.is-theming article,
+html.is-theming .navbar,
+html.is-theming .content-card,
+html.is-theming .service-item,
+html.is-theming .blog-post-item > a,
+html.is-theming .project-item > a,
+html.is-theming .testimonials-modal {
+  transition: background-color 750ms ease-in-out, color 750ms ease-in-out, border-color 750ms ease-in-out, box-shadow 750ms ease-in-out, backdrop-filter 750ms ease-in-out;
+}
+
+/* Subtle interactive lighting on hover to feel premium */
+.content-card:hover::after,
+.service-item:hover::after,
+.blog-post-item > a:hover::after,
+.project-item > a:hover::after,
+.form-btn:hover::after {
+  opacity: 0.75;
+}
+
+/* Frosted tiles: subtle increase in blur and translucency */
+.content-card,
+.service-item,
+.blog-post-item > a,
+.project-item > a,
+.testimonials-modal {
+  background-color: color-mix(in oklab, var(--eerie-black-2) 82%, transparent);
+  backdrop-filter: blur(18px) saturate(170%);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  border-color: color-mix(in oklab, var(--jet) 42%, transparent);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10);
+}
+
+html[data-theme="light"] .content-card,
+html[data-theme="light"] .service-item,
+html[data-theme="light"] .blog-post-item > a,
+html[data-theme="light"] .project-item > a,
+html[data-theme="light"] .testimonials-modal {
+  background-color: color-mix(in oklab, var(--eerie-black-2) 88%, white 6%);
+  border-color: color-mix(in oklab, var(--jet) 55%, white 10%);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.35);
 }
 
 /* Reveal on scroll */
@@ -344,17 +642,19 @@ article::before {
 .sidebar,
 article {
   background: var(--eerie-black-2);
-  border: 1px solid var(--jet);
+  border: 1px solid color-mix(in oklab, var(--jet) 45%, transparent);
   border-radius: 20px;
   padding: 15px;
   box-shadow: var(--shadow-1);
   z-index: 1;
+  overflow: hidden;
+  background-clip: padding-box;
 }
 
 .separator {
   width: 100%;
   height: 1px;
-  background: var(--jet);
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--blue) 20%, var(--jet)), transparent);
   margin: 16px 0;
 }
 
@@ -369,7 +669,7 @@ article {
   align-items: center;
   font-size: 16px;
   color: var(--orange-yellow-crayola);
-  box-shadow: var(--shadow-1);
+  box-shadow: var(--shadow-1), 0 0 0 1px color-mix(in oklab, var(--blue) 28%, transparent) inset;
   z-index: 1;
 }
 
@@ -389,6 +689,10 @@ article { display: none; }
 article.active {
   display: block;
   animation: fade 0.5s ease backwards;
+  box-shadow: 
+    0 24px 64px rgba(0,0,0,0.45),
+    0 8px 24px rgba(43,106,255,0.10),
+    inset 0 0 80px color-mix(in oklab, var(--blue) 6%, transparent);
 }
 
 @keyframes fade {
@@ -402,6 +706,7 @@ article.active {
 .h5 {
   color: var(--white-2);
   text-transform: capitalize;
+  text-shadow: 0 0 6px color-mix(in oklab, var(--blue) 12%, transparent);
 }
 
 .h2 { font-size: var(--fs-1); }
@@ -429,6 +734,7 @@ article.active {
   height: 3px;
   background: var(--text-gradient-yellow);
   border-radius: 3px;
+  box-shadow: 0 0 12px color-mix(in oklab, var(--blue) 35%, transparent);
 }
 
 .has-scrollbar::-webkit-scrollbar {
@@ -454,16 +760,20 @@ article.active {
   padding: 15px;
   padding-top: 45px;
   border-radius: 14px;
+  border: 1px solid color-mix(in oklab, var(--jet) 40%, transparent);
   box-shadow: var(--shadow-2);
   cursor: pointer;
   z-index: 1;
+  overflow: hidden;
+  background-clip: padding-box;
 }
 
 .content-card::before {
   content: "";
   position: absolute;
-  inset: 1px;
+  inset: 0;
   background: var(--bg-gradient-jet);
+  opacity: 0.55; /* allow background blobs to show through */
   border-radius: inherit;
   z-index: -1;
 }
@@ -632,15 +942,17 @@ main {
 
 .navbar {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
   background: hsla(240, 1%, 17%, 0.75);
   backdrop-filter: blur(10px);
   border: 1px solid var(--jet);
-  border-radius: 12px 12px 0 0;
+  border-radius: 999px; /* pill shape */
   box-shadow: var(--shadow-2);
   z-index: 5;
+  padding: 0 16px;
 }
 
 .navbar-list {
@@ -648,7 +960,8 @@ main {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  padding: 0 10px;
+  gap: 14px;
+  padding: 6px 8px;
 }
 
 .navbar-link {
@@ -656,53 +969,54 @@ main {
   font-size: var(--fs-8);
   padding: 20px 7px;
   transition: all var(--transition-1);
-  border-radius: 8px;
+  border-radius: var(--radius-soft);
   position: relative;
+  overflow: visible; /* let glow/aura extend */
 }
 
 .navbar-link:hover,
-.navbar-link:focus { color: var(--light-gray-70); }
+.navbar-link:focus { color: color-mix(in oklab, var(--blue) 45%, var(--light-gray-70)); }
 
 .navbar-link.active {
   color: var(--white-1);
-  text-shadow: 0 0 8px color-mix(in oklab, var(--blue) 60%, transparent);
+  text-shadow: 0 0 10px color-mix(in oklab, var(--blue) 75%, transparent), 0 0 20px color-mix(in oklab, var(--blue) 35%, transparent);
 }
 
 .navbar-link.active::before {
   content: "";
   position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  background: radial-gradient(ellipse at center, color-mix(in oklab, var(--blue) 20%, transparent) 0%, transparent 60%);
-  opacity: 1;
+  inset: -8px; /* extend beyond bounds so glow surrounds item */
+  border-radius: inherit;
+  background: radial-gradient(ellipse at center, color-mix(in oklab, var(--blue) 36%, transparent) 0%, transparent 70%);
+  opacity: 0.95;
   animation: pulseGlow 2.5s ease-in-out infinite;
   pointer-events: none;
   z-index: -1;
-  filter: blur(8px);
+  filter: blur(10px);
 }
 
 .navbar-link.active::after {
   content: "";
   position: absolute;
-  inset: -4px;
-  border-radius: 10px;
-  background: radial-gradient(ellipse at center, transparent 0%, color-mix(in oklab, var(--blue) 15%, transparent) 50%, transparent 100%);
+  inset: -16px; /* larger outer aura */
+  border-radius: inherit;
+  background: radial-gradient(ellipse at center, color-mix(in oklab, var(--blue) 18%, transparent) 0%, transparent 80%);
   opacity: 0.8;
-  animation: pulseGlow 2.5s ease-in-out infinite;
-  animation-delay: 0.3s;
+  animation: pulseGlow 2.8s ease-in-out infinite;
+  animation-delay: 0.2s;
   pointer-events: none;
   z-index: -2;
-  filter: blur(12px);
+  filter: blur(18px);
 }
 
 @keyframes pulseGlow {
   0%, 100% {
-    opacity: 0.6;
+    opacity: 0.8;
     transform: scale(1);
   }
   50% {
     opacity: 1;
-    transform: scale(1.1);
+    transform: scale(1.12);
   }
 }
 
@@ -1251,12 +1565,12 @@ main {
   left: 0;
   width: 100%;
   height: 100%;
-  background: transparent;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--blue) 8%, transparent), transparent);
   z-index: 1;
   transition: var(--transition-1);
 }
 
-.project-item > a:hover .project-img::before { background: hsla(0, 0%, 0%, 0.5); }
+.project-item > a:hover .project-img::before { background: linear-gradient(180deg, color-mix(in oklab, var(--blue) 15%, transparent), hsla(0, 0%, 0%, 0.5)); }
 
 .project-item-icon-box {
   --scale: 0.8;
@@ -1287,6 +1601,7 @@ main {
   height: 100%;
   object-fit: cover;
   transition: var(--transition-1);
+  border-radius: inherit;
 }
 
 .project-item > a:hover img { transform: scale(1.1); }
@@ -1306,6 +1621,74 @@ main {
   color: var(--light-gray-70);
   font-size: var(--fs-6);
   font-weight: var(--fw-300);
+}
+
+/* GitHub link bar under project cards */
+.project-gh { display: block; margin: 10px 10px 6px 10px; }
+.project-gh a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 14px;
+  background: linear-gradient(135deg,
+    color-mix(in oklab, var(--eerie-black-2) 96%, transparent) 0%,
+    color-mix(in oklab, var(--eerie-black-2) 86%, transparent) 100%);
+  border: 1px solid color-mix(in oklab, var(--jet) 60%, transparent);
+  border-top: 1px solid color-mix(in oklab, white 12%, transparent);
+  color: var(--white-2);
+  font-weight: var(--fw-600);
+  letter-spacing: 0.2px;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.10), inset 0 0 0 1px rgba(255,255,255,0.18);
+  cursor: pointer;
+}
+.project-gh a:hover,
+.project-gh a:focus-visible {
+  outline: none;
+  background: linear-gradient(135deg,
+    color-mix(in oklab, var(--eerie-black-2) 98%, transparent) 0%,
+    color-mix(in oklab, var(--eerie-black-2) 90%, transparent) 100%);
+  border-color: color-mix(in oklab, var(--jet) 70%, transparent);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.35), 0 0 0 2px color-mix(in oklab, var(--blue) 22%, transparent) inset, inset 0 0 0 1px rgba(255,255,255,0.24);
+}
+
+/* Hide per-card duplicates; show only one global GitHub button per filter */
+.project-list .project-gh { display: none !important; }
+#project-gh-global { display: none; margin: 10px 10px 6px 10px; }
+
+/* Mobile refinements */
+@media (max-width: 768px) {
+  /* Center the global GitHub button and make it comfortable to tap */
+  #project-gh-global { display: none; text-align: center; margin: 12px 12px 8px 12px; }
+  #project-gh-global a { width: 100%; justify-content: center; padding: 10px 16px; }
+
+  /* Ensure the floating navbar pill fits the viewport width */
+  .navbar {
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    padding: 0 10px;
+  }
+  .navbar-list { gap: 10px; padding: 6px 6px; }
+
+  /* Project cards comfortable spacing */
+  .project-list { gap: 24px; }
+
+  /* Keep the sidebar toggle button fully visible and easy to tap */
+  .info_more-btn {
+    top: 8px !important;
+    right: 24px !important; /* push further to the right edge */
+    padding: 10px 12px;
+    border-radius: 12px;
+    z-index: 10; /* above glass overlays */
+  }
+  /* Add a little top padding to avoid overlap with the moved button */
+  .sidebar { padding-top: 48px; }
+
+  /* When expanded, show all sidebar info like desktop */
+  .sidebar.active { max-height: none; overflow: visible; }
 }
 
 
@@ -1345,7 +1728,7 @@ main {
   overflow: hidden;
 }
 
-.blog-posts-title {color: #fcfcfc;}
+.blog-posts-title { color: var(--white-2); }
 
 .blog-post-item > a::before {
   content: "";
@@ -1384,6 +1767,7 @@ main {
   height: 115%;
   object-fit: cover;
   transition: var(--transition-1);
+  border-radius: inherit;
 }
 
 .blog-post-item-icon-box {
@@ -1493,7 +1877,7 @@ main {
 
 .form-input::placeholder { font-weight: var(--fw-500); }
 
-.form-input:focus { border-color: var(--orange-yellow-crayola); }
+.form-input:focus { border-color: var(--ring); box-shadow: 0 0 0 2px color-mix(in oklab, var(--blue) 25%, transparent); }
 
 textarea.form-input {
   min-height: 100px;
@@ -1705,7 +2089,7 @@ textarea.form-input::-webkit-resizer { display: none; }
    * #NAVBAR
    */
 
-  .navbar { border-radius: 20px 20px 0 0; }
+  .navbar { border-radius: 999px; }
 
   .navbar-list { gap: 20px; }
 
@@ -2037,6 +2421,7 @@ textarea.form-input::-webkit-resizer { display: none; }
     left: auto;
     right: 0;
     width: max-content;
+    transform: none; /* reset mobile centering */
     border-radius: 0 20px;
     padding: 0 20px;
     box-shadow: none;
@@ -2212,3 +2597,4 @@ textarea.form-input::-webkit-resizer { display: none; }
   .timeline-text { max-width: 700px; }
 
 }
+a:hover { color: color-mix(in oklab, var(--blue) 55%, currentColor); }
