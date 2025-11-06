@@ -308,6 +308,10 @@ for (let i = 0; i < imgLinkElems.length; i++) {
 document.querySelectorAll('img').forEach(img => {
   img.style.cursor = img.style.cursor || 'zoom-in';
   img.addEventListener('click', (e) => {
+    // Skip zoom for profile/any explicitly disabled images
+    if (img.hasAttribute('data-no-zoom') || img.closest('.sidebar')) {
+      return;
+    }
     // If this image is inside a clickable project/blog link, let the link navigate
     const enclosingAnchor = img.closest('a[href]');
     if (enclosingAnchor && (enclosingAnchor.closest('.project-item') || enclosingAnchor.closest('.blog-post-item'))) {
@@ -325,7 +329,8 @@ document.querySelectorAll('img').forEach(img => {
 
 // Delegated handler: ensure project/blog tiles also open their image when clicking the visual area
 document.addEventListener('click', (e) => {
-  const tileImgContainer = e.target.closest('.project-img, .blog-banner-box');
+  // Only trigger for project tiles and blog list items, not sidebar avatar
+  const tileImgContainer = e.target.closest('.project-img, .blog-post-item .blog-banner-box');
   if (!tileImgContainer) return;
   // If container is inside an anchor with href (project/blog tiles), let anchor navigate
   if (tileImgContainer.closest('a[href]')) return;
