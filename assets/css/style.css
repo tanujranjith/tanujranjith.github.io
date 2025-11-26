@@ -1685,7 +1685,7 @@ main {
     z-index: 10; /* above glass overlays */
   }
   /* Add a little top padding to avoid overlap with the moved button */
-  .sidebar { padding-top: 48px; }
+  .sidebar { /*padding-top: 48px;*/ }
 
   /* When expanded, show all sidebar info like desktop */
   .sidebar.active { max-height: none; overflow: visible; }
