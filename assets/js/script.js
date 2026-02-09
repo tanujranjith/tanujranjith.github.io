@@ -71,7 +71,8 @@ sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); }
 
   // Initialize theme
   const saved = getSaved();
-  const initial = saved ? saved : (systemPrefersLight() ? 'light' : 'dark');
+  // Default to dark unless user explicitly saved a preference
+  const initial = saved ? saved : 'dark';
   applyTheme(initial);
 
   btn.addEventListener('click', () => {
