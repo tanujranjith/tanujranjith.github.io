@@ -1682,6 +1682,21 @@ main {
   /* Project cards comfortable spacing */
   .project-list { gap: 24px; }
 
+  /* Robotics section: enable horizontal side scrolling on mobile */
+  .robotics-project-list {
+    grid-template-columns: none !important;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(260px, 85%);
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+  }
+
+  .robotics-project-list .project-item {
+    scroll-snap-align: start;
+  }
+
   /* Keep the sidebar toggle button fully visible and easy to tap */
   .info_more-btn {
     top: 8px !important;
