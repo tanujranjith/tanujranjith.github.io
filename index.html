@@ -1,2266 +1,829 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark light">
-  <title>Tanuj Ranjith - Personal Portfolio</title>
-
-  <!--
-    - favicon
-  -->
+  <title>Tanuj Ranjith | Robotics, AI/ML &amp; Computer Vision</title>
+  <meta name="description" content="Tanuj Ranjith is a high school engineer building robotics, AI/ML, computer vision, and software. Founder of VetsITGuide. VEX Robotics competitor. Open-source contributor at the University of Michigan Neurobionics Lab.">
+  <meta property="og:title" content="Tanuj Ranjith | Student Engineer — Robotics, AI/ML &amp; Software">
+  <meta property="og:description" content="High school engineer building robotics, AI/ML, computer vision, and software. Founder of VetsITGuide. VEX Robotics competitor. Open-source contributor at the University of Michigan Neurobionics Lab.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tanujranjith.github.io/">
+  <meta property="og:image" content="https://tanujranjith.github.io/assets/images/ProfilePic_BG4.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tanuj Ranjith | Student Engineer — Robotics, AI/ML &amp; Software">
+  <meta name="twitter:description" content="High school engineer building robotics, AI/ML, computer vision, and software. Founder of VetsITGuide. VEX Robotics competitor. Open-source contributor at the University of Michigan Neurobionics Lab.">
   <link rel="shortcut icon" href="./assets/images/avatar.ico" type="image/png">
-
-  <!--
-    - custom css link
-  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/css/style.css">
-
-  
 </head>
-
 <body>
 
-  <!--
-    - #MAIN
-  -->
+  <!-- ═══════════════════════════════════════════════════
+       BACKGROUND SHADER (retired in favour of paper texture)
+  ═══════════════════════════════════════════════════ -->
+  <canvas id="bg-shader" aria-hidden="true"></canvas>
 
-  <main>
-
-    <!--
-      - #SIDEBAR
-    -->
-
-    <aside class="sidebar" data-sidebar>
-
-      <div class="sidebar-info">
-
-        <figure class="blog-banner-box">
-          <img src="assets\images\ProfilePic_BG4.png" alt="Tanuj Ranjith" width="80" data-no-zoom>
-        </figure>
-
-        <div class="info-content" style="min-width:50%;">
-          <h1 class="name" title="Tanuj Ranjith">Tanuj Ranjith</h1>
-
-          <p class="title">Founder of VetsITGuide</p>
-          <p class="title">Specialized in Robotics, AI/ML & Computer Vision</p>
-        </div>
-
-        <button class="info_more-btn" data-sidebar-btn>
-          <span>Show Contacts</span>
-
-          <ion-icon name="chevron-down"></ion-icon>
-        </button>
-
-      </div>
-
-      <div class="sidebar-info_more">
-
-        <div class="separator"></div>
-
-        <ul class="contacts-list">
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="mail-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Email</p>
-
-              <a href="mailto:tanujranjith@gmail.com" class="contact-link">tanujranjith@gmail.com</a>
-            </div>
-
-          </li>
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="phone-portrait-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Phone</p>
-
-              <a href="tel:+4848150047" class="contact-link">+1 (484) 815-0047</a>
-            </div>
-
-          </li>
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="location-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Location</p>
-
-              <address>West Chester, PA</address>
-            </div>
-
-          </li>
-
-        </ul>
-
-        <div class="separator"></div>
-
-        <ul class="social-list">
+  <!-- Faint architectural vertical gridlines (editorial structure) -->
+  <div class="editorial-grid" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
 
 
-          <li class="social-item">
-            <a href="https://x.com/uibuybu" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-              <ion-icon name="logo-twitter"></ion-icon>
-            </a>
-          </li>
+  <!-- ═══════════════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════════════ -->
+  <header class="site-nav" role="banner">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo" aria-label="Tanuj Ranjith — home">TR.</a>
 
-          <li class="social-item">
-            <a href="https://www.instagram.com/tanujranjith/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <ion-icon name="logo-instagram"></ion-icon>
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://www.linkedin.com/in/tanuj-ranjith/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <ion-icon name="logo-linkedin"></ion-icon>
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://github.com/tanujranjith" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              <ion-icon name="logo-github"></ion-icon>
-            </a>
-          </li>
-
-          
-        </ul>
-
-      </div>
-
-    </aside>
-
-
-
-
-
-    <!--
-      - #main-content
-    -->
-
-    <div class="main-content">
-
-      <!--
-        - #NAVBAR
-      -->
-
-      <nav class="navbar">
-
-        <ul class="navbar-list">
-
-          <li class="navbar-item">
-            <button class="navbar-link  active" data-nav-link>About</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Projects</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Robotics</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Achievements</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Experience</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Resume</button>
-          </li>
-      
-            
-          <!--<li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Contact</button>
-          </li>-->
-
-        </ul>
-
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#about"      class="nav-link">About</a>
+        <a href="#robotics"   class="nav-link">Robotics</a>
+        <a href="#work"       class="nav-link">Projects</a>
+        <a href="#experience" class="nav-link">Experience</a>
+        <a href="#resume"     class="nav-link">Résumé</a>
+        <a href="#research"   class="nav-link">Research/Patent</a>
+        <a href="https://www.linkedin.com/in/tanuj-ranjith/" class="nav-link nav-link--ext"
+           target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">LinkedIn&nbsp;↗</a>
+        <a href="https://github.com/tanujranjith" class="nav-link nav-link--ext"
+           target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">GitHub&nbsp;↗</a>
       </nav>
 
-
-
-
-
-      <!--
-        - #ABOUT
-      -->
-
-      <article class="about active" data-page="about">
-
-        <header>
-          </br></br><h2 class="h2 article-title">About me</h2>
-          <ul class="social-list" style="float:right;top: 90px;position: fixed;left: 740px;">
-
-
-          <li class="social-item">
-            <a href="https://x.com/uibuybu" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-              <ion-icon name="logo-twitter" role="img" class="md hydrated" aria-label="logo twitter"></ion-icon>
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://www.instagram.com/tanujranjith/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <ion-icon name="logo-instagram" role="img" class="md hydrated" aria-label="logo instagram"></ion-icon>
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://www.linkedin.com/in/tanuj-ranjith/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <ion-icon name="logo-linkedin" role="img" class="md hydrated" aria-label="logo linkedin"></ion-icon>
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://github.com/tanujranjith" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              <ion-icon name="logo-github" role="img" class="md hydrated" aria-label="logo github"></ion-icon>
-            </a>
-          </li>
-
-          
-        </ul>
-        </header>
-
-        <section class="about-text">
-          <p>
-           I'm a high school student/tech enthusiast with a deep passion for Robotics, AI and machine learning. I enjoy working with technologies, frameworks, machines and sensors that bring Robots with AI to life, such as TensorFlow and google Gemini in Google Cloud. 
-            My web development skills include HTML, CSS, and JavaScript, and I love building web applications using Django. 
-          </p>
-
-          <p>
-            Python is my go-to programming language, and I'm always exploring new ways to leverage its power. 
-            I'm also fascinated by Google Cloud and its capabilities, and I enjoy experimenting with Kubernetes to manage containerized applications. My interests revolve around cutting-edge technologies, especially those related to Robotics, AI, web development, and cloud computing.
-          </p>
-        </section>
-
-
-        <!--
-          - service
-        -->
-
-        <section class="service">
-
-          <h3 class="h3 service-title">What i'm doing</h3>
-
-          <ul class="service-list">
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <img src="./assets/images/robot-icon.png" alt="design icon" width="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Robotics</h4>
-
-                <p class="service-item-text">
-                  <ul class="service-item-text-list">
-                    <li>VEX VRC</li>
-                    <li>FLL</li>
-                  </ul>
-                </p>
-              </div>
-
-            </li>
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <img src="./assets/images/icon-dev.svg" alt="Web development icon" width="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Projects</h4>
-
-                <p class="service-item-text">
-                  <ul class="service-item-text-list">
-                    <li><a href='https://noteflowlocal.github.io/' target='_new'>NoteFlow</a></li>
-                    <li><a href='https://www.vetsitguide.com/' target='_new'>Vets IT Guide</a></li>
-                    <li><a href='https://www.youtube.com/watch?v=UKmkkb-I8TY' target='_new'>AI Pong</a></li>
-                    <li><a href='http://ivoted.us/' target='_new'>iVoted.us</a></li>
-                  </ul>
-                </p>
-              </div>
-
-            </li>
-
-            <!--<li class="service-item">
-
-              <div class="service-icon-box">
-                <img src="./assets/images/experince-icon.png" alt="mobile app icon" width="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Experience</h4>
-
-                <p class="service-item-text">
-                  <ul class="service-item-text-list">
-                    <li><b>HUVTSP Internship at Vanguard Defense:</b> Led the Aerial/Satellite data track/ Trained yolo classification model to achieve around 85% accuracy
-                    <li><b>Advances in AI Workshop, Duke University:</b> Gained hands-on experience with AI platforms and tools while exploring ethical AI development, focusing on fairness, transparency, and accountability
-                    <li><b>Machine Learning Project – Income Classification, Stanford University:</b> Built a classification model using the income dataset to predict whether individuals earn over or under $50K annually
-                  </ul>
-                </p>
-              </div>
-
-            </li>-->
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <img src="./assets/images/certificates-icon.png" alt="mobile app icon" width="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Achievements</h4>
-
-                <p class="service-item-text">
-                  <ul class="service-item-text-list">
-                    <li>Harvard CS50 on Python and Web Programming</li>
-                    <li>Duke University: Data Science with NumPy, Sets, and Dictionaries</li>
-                    <li>University of Michigan: Joy of coding with Python</li>
-                    <li>Microsoft: PyTorch fundamentals</li>
-                    <li>Google Cloud: Introduction to Generative AI and Kubernetes Engine</li>
-                    <li>VEX Robotics: Won design award for VEX robot design</li>
-                    <li>Harvard CS50's Web Programming with Python and JavaScrip</li>
-                    <li>University of Michigan: Joy of coding</li>
-                    <li>Stanford University: Intro to Machine Learning</li>
-                  </ul>
-                </p>
-              </div>
-
-            </li>
-            
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <img src="./assets/images/services-icon.png" alt="camera icon" width="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Community Services</h4>
-
-                <p class="service-item-text">
-                  <ul class="service-item-text-list">
-                    <li>YAPA Kids - Tutoring Science to elementary and middle schoolers through YAPAKids.org</li>
-                    <li>ENGin - Taught English reading &  writing skills and helped to improve communication skills for students affected in war in Ukraine</li>
-                    <li>Safe Harbor of Chester County - Provided media support, editing and translating, research and virtual mentorship</li>
-                    <li>Sankara Eye Foundation - Worked as a fundraising ambassador</li>
-                  </ul>
-                </p>
-              </div>
-
-            </li>
-
-          </ul>
-
-        </section>
-
-
-        <!--
-          - testimonials
-        -->
-
-        <section class="testimonials" style="display:none;">
-
-          <h3 class="h3 testimonials-title">Testimonials</h3>
-
-          <ul class="testimonials-list has-scrollbar">
-
-            <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
-
-                <figure class="testimonials-avatar-box">
-                  <img src="./assets/images/avatar-1.png" alt="Daniel lewis" width="60" data-testimonials-avatar>
-                </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Daniel lewis</h4>
-
-                <div class="testimonials-text" data-testimonials-text>
-                  <p>
-                    Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                    lot of 
-                    and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                    consectetur adipiscing
-                    elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
-                  </p>
-                </div>
-
-              </div>
-            </li>
-
-            <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
-
-                <figure class="testimonials-avatar-box">
-                  <img src="./assets/images/avatar-2.png" alt="Jessica miller" width="60" data-testimonials-avatar>
-                </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Jessica miller</h4>
-
-                <div class="testimonials-text" data-testimonials-text>
-                  <p>
-                    Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                    lot of 
-                    and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                    consectetur adipiscing
-                    elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
-                  </p>
-                </div>
-
-              </div>
-            </li>
-
-            <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
-
-                <figure class="testimonials-avatar-box">
-                  <img src="./assets/images/avatar-3.png" alt="Emily evans" width="60" data-testimonials-avatar>
-                </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Emily evans</h4>
-
-                <div class="testimonials-text" data-testimonials-text>
-                  <p>
-                    Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                    lot of 
-                    and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                    consectetur adipiscing
-                    elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
-                  </p>
-                </div>
-
-              </div>
-            </li>
-
-            <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
-
-                <figure class="testimonials-avatar-box">
-                  <img src="./assets/images/avatar-4.png" alt="Henry william" width="60" data-testimonials-avatar>
-                </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Henry william</h4>
-
-                <div class="testimonials-text" data-testimonials-text>
-                  <p>
-                    Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                    lot of 
-                    and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                    consectetur adipiscing
-                    elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
-                  </p>
-                </div>
-
-              </div>
-            </li>
-
-          </ul>
-
-        </section>
-
-
-        <!--
-          - testimonials modal
-        -->
-
-        <div class="modal-container" data-modal-container>
-
-          <div class="overlay" data-overlay></div>
-
-          <section class="testimonials-modal">
-
-            <button class="modal-close-btn" data-modal-close-btn>
-              <ion-icon name="close-outline"></ion-icon>
-            </button>
-
-            <div class="modal-img-wrapper">
-              <figure class="modal-avatar-box">
-                <img src="./assets/images/avatar-1.png" alt="Daniel lewis" width="80" data-modal-img>
-              </figure>
-
-              <img src="./assets/images/icon-quote.svg" alt="quote icon">
-            </div>
-
-            <div class="modal-content">
-
-              <h4 class="h3 modal-title" data-modal-title>Daniel lewis</h4>
-
-              <time datetime="2021-06-14">14 June, 2021</time>
-
-              <div data-modal-text>
-                <p>
-                  Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                  lot of 
-                  and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                  consectetur adipiscing
-                  elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
-                </p>
-              </div>
-
-            </div>
-
-          </section>
-
-        </div>
-
-
-        <!--
-          - clients
-        -->
-
-        <section class="clients" style="display: none;">
-
-          <h3 class="h3 clients-title">Clients</h3>
-
-          <ul class="clients-list has-scrollbar">
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-1-color.png" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-2-color.png" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-3-color.png" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-4-color.png" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-5-color.png" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-6-color.png" alt="client logo">
-              </a>
-            </li>
-
-          </ul>
-
-        </section>
-
-      </article>
-
-
-
-      <!--
-        - #Projects
-      -->
-
-      <article class="projects" data-page="projects">
-
-        <header>
-          </br></br><h2 class="h2 article-title">Projects</h2>
-        </header>
-
-        <section class="projects">
-
-          <ul class="filter-list">
-            
-            <li class="filter-item" style="display:none;">
-              <button data-filter-btn>All</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn class="active">Vets IT Guide</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>NoteFlow</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Pong (AI vs Human)</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Endangered Animals</button>
-            </li>
-
-            <li class="filter-item">
-                <button data-filter-btn>iVoted</button>
-              </li>
-
-          </ul>
-
-          <div class="filter-select-box">
-
-            <button class="filter-select" data-select>
-
-              <div class="select-value" data-selecct-value>vets it guide</div>
-
-              <div class="select-icon">
-                <ion-icon name="chevron-down"></ion-icon>
-              </div>
-
-            </button>
-
-            <ul class="select-list">
-              
-              <li class="select-item" style="display:none;">
-                <button data-select-item>All</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Vets IT Guide</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>NoteFlow</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Pong (AI vs Human)</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Endangered Animals</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>iVoted</button>
-              </li>
-            </ul>
-
-          </div>
-
-          <!-- Single GitHub button for the current project filter -->
-          <div id="project-gh-global" class="project-gh"><a href="#" target="_blank" rel="noopener noreferrer">Link to GitHub page for this project</a></div>
-
-          <ul class="project-list">
-
-            <li class="project-item active" data-filter-item data-category="vets it guide">
-              <a href="https://www.vetsitguide.com/" target="_new">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="link"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/VetsITGuide_Home.png" alt="Vets IT Guide Home" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Home Page</h3>
-
-                <p class="project-category">vets it guide</p>
-
-              </a>
-            </li>
-
-            <li class="project-item" data-filter-item data-category="ivoted">
-              <a href="https://ivoted.us/" target="_new">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="link"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/iVoted_CampingHighlights.png" alt="Campaign Highlights" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Campaign Highlights</h3>
-
-                <p class="project-category">ivoted</p>
-
-              </a>
-            </li>
-
-            <li class="project-item active" data-filter-item data-category="vets it guide">
-              <a href="https://www.vetsitguide.com/employment/" target="_new">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="link"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/VetsITGuide_Employement.png" alt="Vets IT Guide Employement" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Employement Page</h3>
-
-                <p class="project-category">vets it guide</p>
-
-              </a>
-            </li>
-
-             <li class="project-item" data-filter-item data-category="noteflow">
-              <a href="https://noteflowlocal.github.io/" target="_new">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="link"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/NoteFlow is a local-first.png" alt="NoteFlow - A Local-First, Private Alternative to Notion" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">NoteFlow</h3>
-
-                <p class="project-category">noteflow</p>
-
-              </a>
-            </li>
-
-            <li class="project-item" data-filter-item data-category="pong (ai vs human)">
-              <a href="https://www.youtube.com/watch?v=UKmkkb-I8TY" target="_new">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="link"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/Pong_AITraining.png" alt="Training" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Pong AI Training</h3>
-
-                <p class="project-category">pong (ai vs human)</p>
-
-              </a>
-            </li>
-
-            <li class="project-item active" data-filter-item data-category="vets it guide">
-              <a href="https://www.vetsitguide.com/" target="_new">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="link"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/VetsITGuide_Education1.png" alt="Vets IT Guide Education1" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Education Page</h3>
-
-                <p class="project-category">vets it guide</p>
-
-              </a>
-            </li>
-
-            <li class="project-item" data-filter-item data-category="ivoted">
-              <a href="https://ivoted.us/" target="_new">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="link"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/iVoted_Home.png" alt="iVoted Home" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Home Page</h3>
-
-                <p class="project-category">ivoted</p>
-
-              </a>
-            </li>
-
-            <li class="project-item active" data-filter-item data-category="vets it guide">
-              <a href="https://www.vetsitguide.com/education/" target="_new">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="link"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/VetsITGuide_Education2.png" alt="Vets IT Guide Education2" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Education Details</h3>
-
-                <p class="project-category">vets it guide</p>
-
-              </a>
-            </li>
-
-            <li class="project-item" data-filter-item data-category="ivoted">
-              <a href="https://ivoted.us/" target="_new">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="link"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/iVoted_WhoAreWe.png" alt="iVoted WhoAreWe" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Who Are We</h3>
-
-                <p class="project-category">ivoted</p>
-
-              </a>
-            </li>
-
-            <li class="project-item" data-filter-item data-category="endangered animals">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/animalendagerment1.png" alt="summary" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Home Page</h3>
-
-                <p class="project-category">endangered animals</p>
-
-              </a>
-            </li>
-
-            <li class="project-item" data-filter-item data-category="pong (ai vs human)">
-              <a href="https://www.youtube.com/watch?v=UKmkkb-I8TY" target="_new">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="link"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/Pong_PlayingAgainstAI.png" alt="Pong PlayingAgainstAI" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Pong Playing against AI</h3>
-
-                <p class="project-category">pong (ai vs human)</p>
-
-              </a>
-            </li>
-
-             <li class="project-item" data-filter-item data-category="endangered animals">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/animalendagerment2.png" alt="summary" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Continental View</h3>
-
-                <p class="project-category">endangered animals</p>
-
-              </a>
-            </li>
-
-            <li class="project-item" data-filter-item data-category="ivoted">
-              <a href="https://ivoted.us/" target="_new">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="link"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/iVoted_WhyVoting.png" alt="iVoted WhyVoting" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Why Voting</h3>
-
-                <p class="project-category">ivoted</p>
-
-              </a>
-            </li>
-
-             <li class="project-item" data-filter-item data-category="endangered animals">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/animalendagerment4.png" alt="summary" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Canada Lynx</h3>
-
-                <p class="project-category">endangered animals</p>
-
-              </a>
-            </li>
-
-            <li class="project-item active" data-filter-item data-category="vets it guide">
-              <a href="https://www.vetsitguide.com/jobfind/" target="_new">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="link"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/VetsITGuide_FindAJob.png" alt="Vets IT Guide FindAJob" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Find a job</h3>
-
-                <p class="project-category">vets it guide</p>
-
-              </a>
-            </li>
-
-            <li class="project-item" data-filter-item data-category="ivoted">
-                <a href="https://ivoted.us/" target="_new">
-  
-                  <figure class="project-img">
-                    <div class="project-item-icon-box">
-                      <ion-icon name="link"></ion-icon>
-                    </div>
-  
-                    <img src="./assets/images/iVoted_Voting1.png" alt="iVoted Voting" loading="lazy">
-                  </figure>
-  
-                  <h3 class="project-title">iVoted Voting</h3>
-  
-                  <p class="project-category">ivoted</p>
-  
-                </a>
-            </li>
-
-          </ul>
-
-        </section>
-
-      </article>
-
-
-
-
-
-      <!--
-        - #Robotics
-      -->
-
-      <article class="projects" data-page="robotics">
-
-        <header>
-          </br></br><h2 class="h2 article-title">Robotics</h2>
-        </header>
-
-        <section class="projects">
-          <ul class="project-list robotics-project-list">
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/robotics1.jpeg" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">VRC 2022 Worlds</h3>
-              </a>
-            </li>
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/robotics2.jpg" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">VRC 2023 States</h3>
-              </a>
-            </li>
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/robotics3.jpg" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">VRC 2023 States</h3>
-              </a>
-            </li>
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/robotics4.jpg" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">VRC 2023 States</h3>
-              </a>
-            </li>
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/robotics5.jpeg" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">VRC 2023 States</h3>
-              </a>
-            </li>
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/robotics6.jpg" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">VRC 2023 States</h3>
-              </a>
-            </li>
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/robotics7.jpg" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">VRC 2024 States</h3>
-              </a>
-            </li>
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/robotics8.jpg" alt="robotics" loading="lazy"img-view>
-                </figure>
-                <h3 class="blog-posts-title">VRC 2024 States</h3>
-              </a>
-            </li>
-
-            <li class="project-item active">
-              <div class="project-item-icon-box">
-                <ion-icon name="eye-outline"></ion-icon>
-              </div>
-              <video width="320" height="215" controls>
-                <source src="./assets/images/robotics9.mp4" type="video/mp4">
-              </video>
-              <h3 class="blog-posts-title">Vex 90H</h3>
-            </li>
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/robotics20.jpeg" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">Vex Design Award</h3>
-              </a>
-            </li>
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/robotics21.jpeg" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">Vex Worlds</h3>
-              </a>
-            </li>
-
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/Vex_2024_1.png" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">Vex 2024</h3>
-              </a>
-            </li>
-
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/Vex_2024_2.png" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">Vex 2024</h3>
-              </a>
-            </li>
-
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/Vex_2024_3.png" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">Vex 2024</h3>
-              </a>
-            </li>
-
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/Vex_2024_5.png" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">Vex 2024</h3>
-              </a>
-            </li>
-
-
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/Vex_2024_6.png" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">Vex 2024</h3>
-              </a>
-            </li>
-
-
-
-            <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/Vex_2024_7.png" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">Vex 2024</h3>
-              </a>
-            </li>
-
-
-
-             <li class="project-item active">
-              <a href="#" img-link>
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/Vex_2024_8.png" alt="robotics" loading="lazy" img-view>
-                </figure>
-                <h3 class="blog-posts-title">Vex 2024</h3>
-              </a>
-            </li>
-            
-
-          </ul>
-
-        </section>
-
-      </article>
-
-
-      <!--
-        - #Achievements
-      -->
-
-      <article class="projects" data-page="achievements">
-
-        <header>
-          </br></br><h2 class="h2 article-title">Achievements</h2>
-        </header>
-
-        <section class="blog-posts">
-
-          <ul class="blog-posts-list">
-
-            <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/HUVTSP.png" alt="Harvard Ventures-TECH Undergraduate Summer Program" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Harvard</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">JuL 18, 2025</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Harvard Ventures-TECH Undergraduate Summer Program</h3>
-
-                  <p class="blog-text">
-                    Harvard Ventures-TECH Undergraduate Summer Program
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/Duke_Advances in AI.png" alt="Advanced AI Workshop" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Duke</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">JuL 07, 2025</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Advanced AI Workshop</h3>
-
-                  <p class="blog-text">
-                    Advanced AI Workshop
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            
-            
-           <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/Stanford_ML.png" alt="Intro to Machine Learning" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Stanford</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Jun 27, 2025</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Intro to Machine Learning</h3>
-
-                  <p class="blog-text">
-                    Intro to Machine Learning
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            
-            
-            <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="assets/images/Screenshot 2025-03-30 121210.png" alt="CS50's Web Programming with Python and JavaScript" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Harvard</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Dec 2, 2024</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">CS50's Web Programming with Python and JavaScript</h3>
-
-                  <p class="blog-text">
-                    CS50's Web Programming with Python and JavaScript.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-            
-           
-
-
-             <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/joyofcoding.png" alt="Joy of Coding from University of Michigan" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">University of Michigan</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Jun 05, 2025</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Joy of Coding</h3>
-
-                  <p class="blog-text">
-                    Joy of Coding
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-
-
-
-
-
-            
-            <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/duke_datascience.png" alt=" Data Science with NumPy, Sets, and Dictionaries" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Duke University</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Jul 12, 2024</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Data Science with NumPy, Sets, and Dictionaries</h3>
-
-                  <p class="blog-text">
-                    Data Science with NumPy, Sets, and Dictionaries from Duke University.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-
-
-
-
-
-           <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/cs501.png" alt="CS50's Introduction to Programming with Python and CS50 Web Programming with Python and JavaScript" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Harvard</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Jun 05, 2023</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Introduction to Programming with Python</h3>
-
-                  <p class="blog-text">
-                    CS50's Introduction to Programming with Python and CS50’s Web Programming with Python and JavaScript
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-
-
-            
-            <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/gcp_vertexai.png" alt="Prompt Design in Vertex AI" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Google Cloud</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Jul 12, 2024</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Prompt Design in Vertex AI</h3>
-
-                  <p class="blog-text">
-                    Google Cloud - Prompt Design in Vertex AI.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            
-
-            <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/gcp_genai.png" alt="Introduction to Gen AI" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Google Cloud</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Jul 12, 2024</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Introduction to Gen AI</h3>
-
-                  <p class="blog-text">
-                    Google Cloud - Introduction to Gen AI.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/gcp_llm.png" alt="Introduction to LLM" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Google Cloud</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Jul 12, 2024</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Introduction to LLM</h3>
-
-                  <p class="blog-text">
-                    Google Cloud - Introduction to LLM.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/DrexelCCI.jpeg" alt="Digital development camp" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Drexel</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Jun 20, 2024</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Digital development camp</h3>
-
-                  <p class="blog-text">
-                    Drexel - Digital development camp.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/ms_pytorch.png" alt="Introduction to natural language processing with PyTorch" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Microsoft</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Aug 01, 2024</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Introduction to natural language processing with PyTorch</h3>
-
-                  <p class="blog-text">
-                    Microsoft - Introduction to natural language processing with PyTorch.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/gcp_aiml.png" alt="Introduction to AI and Machine Learning" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Google Cloud</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Jul 12, 2024</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Introduction to AI and Machine Learning</h3>
-
-                  <p class="blog-text">
-                    Google Cloud - Introduction to AI and Machine Learning.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/ms_pytorch_audio_classification.png" alt="Introduction to audio classification with PyTorch" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Microsoft</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Aug 01, 2024</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Introduction to audio classification with PyTorch</h3>
-
-                  <p class="blog-text">
-                    Microsoft - Introduction to audio classification with PyTorch.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#" img-link>
-
-                <figure class="blog-banner-box">
-                  <div class="blog-post-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="./assets/images/ms_pytorch_computer_vision.png" alt="Introduction to computer vision with PyTorch" loading="lazy" img-view>
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Microsoft</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Aug 01, 2024</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Introduction to computer vision with PyTorch</h3>
-
-                  <p class="blog-text">
-                    Microsoft - Introduction to computer vision with PyTorch.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-          </ul>
-
-        </section>
-
-      </article>
-
-
-
-       <!--
-        - #Experience
-      -->
-
-      <article class="contact" data-page="experience">
-
-        <header>
-          </br></br><h2 class="h2 article-title">Experience</h2>
-        </header>
-
-        <section class="service">
-
-          <ul class="service-list">
-            <li class="service-item">
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">HUVTSP - Vanguard Defense</h4>
-
-                <p class="service-item-text">
-                  <ul class="service-item-text-list">
-                    <li>Trained yolo classification model to achieve around a 95% accuracy</li>
-                    <li>Led the Aerial/Satellite data track</li>
-                    <li>Ensured high precision to support object-detection model training</li>
-                    <li>Detailed dataset trade-offs and the end-to-end labeling pipeline</li>
-                  </ul>
-                </p>
-              </div>
-
-            </li>
-
-            <li class="service-item">
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Machine Learning Project – Income Classification, Stanford University</h4>
-
-                <p class="service-item-text">
-                  <ul class="service-item-text-list">
-                    <li>Built a classification model using the Adult Income dataset (UCI ML Repository) to predict whether individuals earn over or under $50K annually</li>
-                    <li>Trained and fine-tuned multiple models including Logistic Regression, Decision Tree, Random Forest, AdaBoost, Gradient Boosting, XGBoost, Bagging Classifier, and Support Vector Machine (SVM)</li>
-                  </ul>
-                </p>
-              </div>
-
-            </li>
-
-            <li class="service-item">
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Advances in AI Workshop, Duke University</h4>
-
-                <p class="service-item-text">
-                  <ul class="service-item-text-list">
-                    <li>Gained hands-on experience with AI platforms and tools while exploring ethical AI development, focusing on fairness, transparency, accountability, and responsible prompting</li>
-                    <li>Analyzed real-world AI applications across healthcare and finance, investigating societal impacts, bias mitigation, model evaluation, and emerging intersections with quantum computing</li>
-                  </ul>
-                </p>
-              </div>
-
-            </li>
-
-
-            <li class="service-item">
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Forest Cover Classification – UCI Covertype Dataset</h4>
-
-                <p class="service-item-text">
-                  <ul class="service-item-text-list">
-                    <li>Built a machine learning pipeline to classify forest cover types from terrain and soil features</li>
-                    <li>Performed data preprocessing, exploratory visualizations (scatter plots, distributions, correlation heatmaps), and one-hot encoding of categorical features</li>
-                    <li>Trained multiple classification models (Logistic Regression, KNN, Decision Tree) with multi layered cross-validation and compared performance using accuracy metrics & execution time</li>
-                  </ul>
-                </p>
-              </div>
-
-            </li>
-
-
-          </ul>
-
-        </section>
-
-      </article>
-
-
-      
-
-      <!--
-        - #RESUME
-      -->
-
-      <article class="resume" data-page="resume">
-
-        <header>
-          </br></br><h2 class="h2 article-title">Resume</h2>
-        </header>
-        
-        
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="book-outline"></ion-icon>
-            </div>
-
-            <h3 class="h3">Education</h3>
-          </div>
-
-          <ol class="timeline-list">
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">B. Reed Henderson High School, West Chester, PA</h4>
-
-              <span>Aug 2023 — Aug 2027</span>
-
-              <p class="timeline-text">
-                <ul class="service-item-text-list">
-                  <li>AP: Computer Science Principles and Computer Science A</li>
-                  <li>Accelerated Honors: Math and Biology</li>
-                  <li>Honors: Engineering Design and Architecture</li>
-                </ul>
-              </p>
-
-            </li>
-          </ol>
-
-        </section>
-
-
-
-
-
-
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="book-outline"></ion-icon>
-            </div>
-
-            <h3 class="h3">Internships</h3>
-          </div>
-
-          <ol class="timeline-list">
-            
-            
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><a class="timeline-link" href='https://www.vetsitguide.com/' alt='_new'>HUVTSP - Vanguard Defense</a></h4>
-
-              <span>Jun 2025 — Jul 2025</span>
-
-              <p class="timeline-text">
-                <ul class="service-item-text-list">
-                   <li>Trained yolo classification model to achieve around a 95% accuracy</li>
-                    <li>Led the Aerial/Satellite data track</li>
-                    <li>Ensured high precision to support object-detection model training</li>
-                    <li>Detailed dataset trade-offs and the end-to-end labeling pipeline</li>
-                </ul>
-              </p>
-
-            </li>
-          </ol>
-
-        </section>
-
-        
-
-
-
-        <!--<section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="book-outline"></ion-icon>
-            </div>
-
-            <h3 class="h3">Experience</h3>
-          </div>
-
-          <ol class="timeline-list">
-            
-            
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><a class="timeline-link" href='https://www.vetsitguide.com/' alt='_new'>Machine Learning Project – Income Classification, Stanford University</a></h4>
-
-              <span>Jun 2025 — Jul 2025</span>
-
-              <p class="timeline-text">
-                <ul class="service-item-text-list">
-                  <li>Built a classification model using the Adult Income dataset (UCI ML Repository) to predict whether individuals earn over or under $50K annually</li>
-                  <li>Performed data cleaning, label encoding, exploratory data analysis, and feature preprocessing to prepare the dataset for training and evaluation</li>
-                  <li>Trained and fine-tuned multiple models including Logistic Regression, Decision Tree, Random Forest, AdaBoost, Gradient Boosting, XGBoost, Bagging Classifier, and Support Vector Machine (SVM)</li>
-                </ul>
-              </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><a class="timeline-link" href='https://www.vetsitguide.com/' alt='_new'>Advances in AI Workshop, Duke University</a></h4>
-
-              <span>Jun 2025 — Jul 2025</span>
-
-              <p class="timeline-text">
-                <ul class="service-item-text-list">
-                  <li>Gained hands-on experience with AI platforms and tools while exploring ethical AI development, focusing on fairness, transparency, accountability, and responsible prompting</li>
-                  <li>Analyzed real-world AI applications across healthcare and finance, investigating societal impacts, bias mitigation, model evaluation, and emerging intersections with quantum computing</li>
-                </ul>
-              </p>
-
-            </li>
-
-            
-
-          </ol>
-
-        </section>-->
-
-
-
-
-
-
-
-        
-
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="book-outline"></ion-icon>
-            </div>
-
-            <h3 class="h3">Projects</h3>
-          </div>
-
-          <ol class="timeline-list">
-
-              <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><a class="timeline-link" href='https://noteflowlocal.github.io/' alt='_new'>NoteFlow - A Local-First, Private Alternative to Notion</a></h4>
-
-              <span>Aug 2025 — Sep 2025</span>
-
-              <p class="timeline-text">
-                <ul class="service-item-text-list">
-                  <li>NoteFlow is a local-first, single-file notes app that runs 100% in your browser—no accounts, servers, or background sync.</li>
-                  <li>Your entire workspace lives on your device (saved to local storage), with one-click Export/Import to a single JSON file, hierarchical pages, a flexible theming engine, and optional Google Drive backups for convenience.</li>
-                  <li>It’s a private, portable Notion-style workspace where your data stays yours.</li>
-                </ul>
-              </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><a class="timeline-link" href='https://www.vetsitguide.com/' alt='_new'>Machine Learning Project – Income Classification, Stanford University</a></h4>
-
-              <span>Jun 2025 — Jul 2025</span>
-
-              <p class="timeline-text">
-                <ul class="service-item-text-list">
-                  <li>Built a classification model using the Adult Income dataset (UCI ML Repository) to predict whether individuals earn over or under $50K annually</li>
-                  <li>Performed data cleaning, label encoding, exploratory data analysis, and feature preprocessing to prepare the dataset for training and evaluation</li>
-                  <li>Trained and fine-tuned multiple models including Logistic Regression, Decision Tree, Random Forest, AdaBoost, Gradient Boosting, XGBoost, Bagging Classifier, and Support Vector Machine (SVM)</li>
-                </ul>
-              </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><a class="timeline-link" href='https://www.vetsitguide.com/' alt='_new'>Advances in AI Workshop, Duke University</a></h4>
-
-              <span>Jun 2025 — Jul 2025</span>
-
-              <p class="timeline-text">
-                <ul class="service-item-text-list">
-                  <li>Gained hands-on experience with AI platforms and tools while exploring ethical AI development, focusing on fairness, transparency, accountability, and responsible prompting</li>
-                  <li>Analyzed real-world AI applications across healthcare and finance, investigating societal impacts, bias mitigation, model evaluation, and emerging intersections with quantum computing</li>
-                </ul>
-              </p>
-
-            </li>
-            
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><a class="timeline-link" href='https://www.vetsitguide.com/' alt='_new'>Vets IT Guide</a></h4>
-
-              <span>Dec 2023 — Present</span>
-
-              <p class="timeline-text">
-                Built an AI infused Site and mobile web app using Python, Django, Google Gemini, JS to help and guide veterans to get in to IT jobs.
-              </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><a class="timeline-link" href='http://ivoted.us/' alt='_new'>iVoted</a></h4>
-
-              <span>Jun 2024 — Nov 2024</span>
-
-              <p class="timeline-text">
-                Brought voting awareness in the local community by building a website to emphasize the importance of voting and distributing door-to-door flyers.
-              </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><a class="timeline-link" href='https://www.youtube.com/watch?v=UKmkkb-I8TY' alt='_new'>Pong (Human vs AI)</a></h4>
-
-              <span>Spe 2024 — Oct 2024</span>
-
-              <p class="timeline-text">
-                Built a Python base video game  using NEAT algorithm for human Vs AI pong game.
-              </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><a class="timeline-link" href='https://www.youtube.com/watch?v=W72ouL0qhmc' alt='_new'>Endangered Animals</a></h4>
-
-              <span>Jun 2024 — Jul 2024</span>
-
-              <p class="timeline-text">
-                Created a website using Python, Django, Javascript, CSS to build awareness for Animal Endangerment.
-              </p>
-
-            </li>
-
-            
-
-          </ol>
-
-        </section>
-
-
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="book-outline"></ion-icon>
-            </div>
-
-            <h3 class="h3">Certificates & Awards</h3>
-          </div>
-
-          <ol class="timeline-list">
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">Harvard</h4>
-              <p class="timeline-text">
-                <ul class="service-item-text-list">
-                  <li>CS50's Introduction to Programming with Python</li>
-                  <li>CS50’s Web Programming with Python and JavaScript</li>
-                </ul>
-              </p>
-            </li>
-            
-            <li class="timeline-item"></li>
-              <h4 class="h4 timeline-item-title">Duke University</h4>
-              <p class="timeline-text">Data Science with NumPy, Sets, and Dictionaries</p>
-            </li>
-
-             <li class="timeline-item"></li>
-              <h4 class="h4 timeline-item-title">University of Michigan</h4>
-              <p class="timeline-text">Joy of coding with Python</p>
-            </li>
-            
-            <li class="timeline-item">
-              <h4 class="h4 timeline-item-title">Microsoft</h4>
-              <p class="timeline-text">PyTorch fundamentals</p>
-            </li>
-
-            <li class="timeline-item">
-              <h4 class="h4 timeline-item-title">Google Cloud</h4>
-              <p class="timeline-text">
-                <ul class="service-item-text-list">
-                  <li>Introduction to Generative AI</li>
-                  <li>Introduction to LLM</li>
-                  <li>Introduction to Responsible AI</li>
-                  <li>Prompt Design in Vertex AI</li>
-                  <li>Applying AI Principles</li>
-                  <li>Getting Started with Google Kubernetes Engine</li>
-                  <li>Introduction to AI and Machine Learning</li>
-                </ul>
-              </p>
-
-            </li>
-          </ol>
-
-        </section>
-
-        <section class="skill">
-
-          <h3 class="h3 skills-title">My skills</h3>
-
-          <ul class="skills-list content-card">
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Coding: Python, Java, Java script, Django, NumPy, PyTorch, TensorFlow,  HTML 5, CSS</h5>
-                <data value="80">80%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 80%;"></div>
-              </div>
-
-            </li>
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">CAD: AutoCAD, Inventor, Revit</h5>
-                <data value="70">70%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 70%;"></div>
-              </div>
-
-            </li>
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Machines: Drill Press, Band Saw, 3D Printer, Laser Cutter, Dremel, Chop saw</h5>
-                <data value="90">90%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 90%;"></div>
-              </div>
-
-            </li>
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Mobile Apps</h5>
-                <data value="50">50%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 50%;"></div>
-              </div>
-
-            </li>
-
-          </ul>
-
-        </section>
-
-        <section class="mapbox" style="height:100%;">
-          <figure>
-              <iframe src="https://docs.google.com/document/d/e/2PACX-1vSy0xqVZaK5Z-d8aou3dBgkY8pyYkFEU3rtgxXJqkhYFy3mfLo7d9pIt8T9e0E7YA/pub?embedded=true" width="100%" height="1159px" loading="lazy" style="width:100%;height:1159px;" ></iframe>
-          </figure>
-        </section>
-
-      </article>
-
-   
-
-      
-
-
-      <!--
-        - #CONTACT
-      -->
-
-      <article class="contact" data-page="contact">
-
-        <header>
-          </br></br><h2 class="h2 article-title">Contact</h2>
-        </header>
-
-        <section class="mapbox" data-mapbox>
-          <figure>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24465.2771712116!2d-75.62623058000966!3d39.9601832270334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c6f11492d82275%3A0x7dfc689b13b6e5b2!2sWest%20Chester%2C%20PA!5e0!3m2!1sen!2sus!4v1731270228555!5m2!1sen!2sus"
-              width="400" height="300" loading="lazy"></iframe>
-          </figure>
-        </section>
-
-        <section class="contact-form">
-
-          <h3 class="h3 form-title">Contact Form</h3>
-
-          <form action="#" class="form" data-form>
-
-            <div class="input-wrapper">
-              <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
-
-              <input type="email" name="email" class="form-input" placeholder="Email address" required data-form-input>
-            </div>
-
-            <textarea name="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
-
-            <button class="form-btn" type="submit" disabled data-form-btn>
-              <ion-icon name="paper-plane"></ion-icon>
-              <span>Send Message</span>
-            </button
-
-          </form>
-
-        </section>
-
-      </article>
-
+      <button class="nav-theme-btn" id="nav-theme-toggle" aria-label="Toggle light/dark theme">
+        <ion-icon name="moon-outline"></ion-icon>
+      </button>
+
+      <button class="nav-hamburger" id="nav-hamburger"
+              aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span><span></span><span></span>
+      </button>
     </div>
 
-  </main>
+    <div class="mobile-nav" id="mobile-nav" aria-hidden="true" role="dialog" aria-label="Mobile navigation">
+      <a href="#about"      class="mobile-link" data-mobile-nav-link>About</a>
+      <a href="#robotics"   class="mobile-link" data-mobile-nav-link>Robotics</a>
+      <a href="#work"       class="mobile-link" data-mobile-nav-link>Projects</a>
+      <a href="#experience" class="mobile-link" data-mobile-nav-link>Experience</a>
+      <a href="#resume"     class="mobile-link" data-mobile-nav-link>Résumé</a>
+      <a href="#research"   class="mobile-link" data-mobile-nav-link>Research &amp; Technical Work</a>
+      <a href="#contact"    class="mobile-link" data-mobile-nav-link>Contact</a>
+      <a href="https://www.linkedin.com/in/tanuj-ranjith/" class="mobile-link"
+         target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+      <a href="https://github.com/tanujranjith" class="mobile-link"
+         target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+    </div>
+  </header>
 
 
+  <!-- ═══════════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════════ -->
+  <section class="hero" id="home" aria-labelledby="hero-headline">
+
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-glow hero-glow--1"></div>
+      <div class="hero-glow hero-glow--2"></div>
+      <div class="hero-glow hero-glow--3"></div>
+    </div>
+
+    <div class="hero-inner">
+
+      <div class="hero-copy">
+        <p class="hero-eyebrow">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          Student Engineer &middot; Robotics, AI/ML &amp; Computer Vision
+        </p>
+
+        <h1 class="hero-headline" id="hero-headline">
+          Building robotics,<br>
+          software, and tools<br>
+          that <em>solve real problems.</em>
+        </h1>
+
+        <p class="hero-sub">
+          I'm a high school engineer focused on robotics, AI/ML, computer vision, and software.
+          I've founded VetsITGuide, competed in VEX Robotics for 7+ seasons (including Worlds), worked at UMich's Neurobionics Lab on the Open-Source Leg project,
+          interned at Vanguard, and built projects that connect hardware, code, and real use.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#work"    class="btn btn--primary">Explore my work</a>
+          <a href="#contact" class="btn btn--ghost">Get in touch</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-headshot-card">
+          <img src="./assets/images/ProfilePic_BG4.png"
+               alt="Tanuj Ranjith" class="hero-headshot" width="320" height="380">
+        </div>
+
+      </div>
+    </div>
+
+    <a href="#work" class="hero-scroll" aria-label="Scroll to projects">
+      <span class="scroll-line" aria-hidden="true"></span>
+    </a>
+  </section>
 
 
+  <!-- ═══════════════════════════════════════════════════
+       ROLES + HIGHLIGHTS — COMBINED 2-ROW TABLE
+  ═══════════════════════════════════════════════════ -->
+  <section class="combined-section" aria-label="Areas of focus and highlights">
+    <div class="section-inner">
+      <div class="combined-table">
+
+        <!-- Row 1: Role cards -->
+        <div class="combined-row roles-row">
+          <div class="role-card">
+            <div class="role-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </div>
+            <h3 class="role-name">Research &amp; Open Source</h3>
+            <p class="role-desc">Open-Source Leg contributor with the University of Michigan Neurobionics Lab, plus independent research and technical writing.</p>
+          </div>
+          <div class="role-card">
+            <div class="role-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                <circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" stroke-dasharray="3 3"/>
+              </svg>
+            </div>
+            <h3 class="role-name">Robotics &amp; ECE</h3>
+            <p class="role-desc">VEX Robotics, autonomous routines, pneumatics, sensors, drivetrain engineering</p>
+          </div>
+          <div class="role-card">
+            <div class="role-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                <rect x="3" y="3" width="8" height="8" rx="1.5"/>
+                <rect x="13" y="3" width="8" height="8" rx="1.5"/>
+                <rect x="3" y="13" width="8" height="8" rx="1.5"/>
+                <rect x="13" y="13" width="8" height="8" rx="1.5" stroke-dasharray="3 2"/>
+              </svg>
+            </div>
+            <h3 class="role-name">AI/ML &amp; Computer Vision</h3>
+            <p class="role-desc">PyTorch, TensorFlow, YOLO, sensor fusion, object detection, autonomous perception</p>
+          </div>
+          <div class="role-card">
+            <div class="role-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <h3 class="role-name">Student Founder</h3>
+            <p class="role-desc">VetsITGuide — free AI platform for veteran career transitions, VA Innovation Repository</p>
+          </div>
+          <div class="role-card">
+            <div class="role-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                <polyline points="16 18 22 12 16 6"/>
+                <polyline points="8 6 2 12 8 18"/>
+              </svg>
+            </div>
+            <h3 class="role-name">Software &amp; Web</h3>
+            <p class="role-desc">Python, Django, JavaScript, full-stack, browser-based tools and productivity systems</p>
+          </div>
+        </div>
+
+        <!-- Row 2: Highlight cards -->
+        <div class="combined-row highlights-row">
+          <div class="highlight-card">
+            <div class="highlight-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 2v4M12 18v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M2 12h4M18 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+              </svg>
+            </div>
+            <p class="highlight-label">VEX Robotics</p>
+            <h3 class="highlight-stat">5+ Seasons</h3>
+            <p class="highlight-detail">Teams 90H &amp; 91C · PA States · VEX Worlds (Dallas)</p>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                <line x1="4" y1="22" x2="4" y2="15"/>
+              </svg>
+            </div>
+            <p class="highlight-label">VetsITGuide</p>
+            <h3 class="highlight-stat">Founder</h3>
+            <p class="highlight-detail">Django · Gemini API · VA Innovation Repository</p>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                <polyline points="2 17 12 22 22 17"/>
+                <polyline points="2 12 12 17 22 12"/>
+              </svg>
+            </div>
+            <p class="highlight-label">Open-Source Leg</p>
+            <h3 class="highlight-stat">Contributor</h3>
+            <p class="highlight-detail">University of Michigan Neurobionics Lab · documentation, tests, and fixes</p>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+              </svg>
+            </div>
+            <p class="highlight-label">AI / ML &amp; CV</p>
+            <h3 class="highlight-stat">YOLO Projects</h3>
+            <p class="highlight-detail">Computer vision, aerial imagery, object detection, and simulation work</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
 
 
-  <!--
-    - custom js link
-  -->
+  <!-- ═══════════════════════════════════════════════════
+       ABOUT
+  ═══════════════════════════════════════════════════ -->
+  <section class="about-section" id="about" aria-labelledby="about-title">
+    <div class="section-inner about-inner">
+
+      <div class="about-copy">
+        <p class="section-eyebrow">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          About me
+        </p>
+        <h2 class="section-title" id="about-title">
+          Engineer,<br>
+          builder,<br>
+          <em>contributor.</em>
+        </h2>
+        <div class="about-text">
+          <p>
+            I'm Tanuj Ranjith, a high school student building across robotics, AI/ML, software engineering, and assistive technology. I like projects where code has to work outside a clean demo, whether that means tuning a VEX robot before a match, building a full-stack platform for veterans, or experimenting with perception systems for autonomous vehicles.
+          </p>
+          <p>
+            Most of my work sits between hardware, software, and practical use. I've worked with Python, Django, JavaScript, machine learning tools, robotics systems, and browser-based apps. I'm especially interested in robotics, embedded systems, autonomy, neurobionics, defense technology, AI-assisted education, and tools that make technical pathways easier to access.
+          </p>
+        </div>
+        <div class="about-social">
+          <a href="https://www.linkedin.com/in/tanuj-ranjith/"
+             class="social-pill" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+          <a href="https://github.com/tanujranjith"
+             class="social-pill" target="_blank" rel="noopener noreferrer">@tanujranjith ↗</a>
+          <a href="mailto:tanujranjith@gmail.com" class="social-pill">Email ↗</a>
+        </div>
+      </div>
+
+      <div class="about-sidebar">
+        <div class="detail-block">
+          <h3 class="block-label">Skills</h3>
+          <ul class="skill-chips" aria-label="Technical skills">
+            <li>Python</li><li>Java</li><li>JavaScript</li><li>Django</li>
+            <li>HTML &amp; CSS</li><li>Bootstrap</li>
+            <li>PyTorch</li><li>TensorFlow</li><li>Computer Vision</li>
+            <li>Jupyter Notebook</li><li>NumPy</li>
+            <li>VEX Robotics</li><li>Autonomous Programming</li>
+            <li>Sensor Integration</li><li>Pneumatics</li>
+            <li>AutoCAD</li><li>Autodesk Inventor</li><li>Revit</li>
+            <li>Google Cloud</li><li>Kubernetes</li><li>Git</li>
+          </ul>
+        </div>
+
+        <div class="detail-block">
+          <h3 class="block-label">Quick facts</h3>
+          <ul class="fact-list">
+            <li>
+              <span class="fact-key">School</span>
+              <span>B. Reed Henderson HS · West Chester, PA · Class of&nbsp;2027</span>
+            </li>
+            <li>
+              <span class="fact-key">VEX</span>
+              <span>5+ years · Teams 91C &amp; 90H · PA States · Worlds (Dallas)</span>
+            </li>
+            <li>
+              <span class="fact-key">Founder</span>
+              <span>VetsITGuide — VA Innovation Repository</span>
+            </li>
+            <li>
+              <span class="fact-key">Published</span>
+              <span>Curieux Academic Journal, Dec&nbsp;2025</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       FEATURED PROJECTS
+  ═══════════════════════════════════════════════════ -->
+  <section class="projects-section" id="work" aria-labelledby="work-title">
+    <div class="section-inner">
+
+      <div class="section-header">
+        <p class="section-eyebrow">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          Featured work
+        </p>
+        <h2 class="section-title" id="work-title">Selected projects.</h2>
+        <p class="section-desc">A few projects that show how I build: robotics, software, AI, simulations, and tools that are meant to be used.</p>
+        <a class="section-cta" href="https://github.com/tanujranjith"
+           target="_blank" rel="noopener noreferrer" aria-label="View more projects on GitHub">
+          View more on GitHub <span aria-hidden="true" class="cta-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="exp-tabs" role="tablist" aria-label="Filter projects">
+        <button class="exp-tab active" data-tab="all" role="tab" aria-selected="true">
+          <span class="tab-dot"></span><span class="tab-label">All</span>
+        </button>
+        <button class="exp-tab" data-tab="ai-ml" role="tab" aria-selected="false">
+          <span class="tab-dot"></span><span class="tab-label">AI / ML</span>
+        </button>
+        <button class="exp-tab" data-tab="web" role="tab" aria-selected="false">
+          <span class="tab-dot"></span><span class="tab-label">Web</span>
+        </button>
+        <button class="exp-tab" data-tab="tools" role="tab" aria-selected="false">
+          <span class="tab-dot"></span><span class="tab-label">Tools</span>
+        </button>
+      </div>
+
+      <ul class="project-card-grid" data-project-grid></ul>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       ROBOTICS GALLERY
+  ═══════════════════════════════════════════════════ -->
+  <section class="robotics-section" id="robotics" aria-labelledby="robotics-title">
+    <div class="robotics-sticky-wrapper">
+      <div class="robotics-sticky" role="region" aria-label="Engineering and competition photos">
+        <div class="section-inner robotics-header">
+          <p class="section-eyebrow">
+            <span class="eyebrow-dot" aria-hidden="true"></span>
+            Engineering &amp; Competition
+          </p>
+          <h2 class="section-title" id="robotics-title">Builds, hardware &amp; <em>leadership.</em></h2>
+          <p class="section-desc">
+            A mix of VEX Robotics, TSA, open-source work, hackathons, and engineering projects. These are the places where I've learned the most about debugging under pressure, designing with constraints, and getting ideas out of my head into something that works.
+          </p>
+        </div>
+        <div class="robotics-track">
+          <img src="./assets/images/robotics1.jpeg"         alt="VRC 2022 Worlds"    loading="lazy">
+          <img src="./assets/images/Vex sugar rush.png"     alt="VEX Sugar Rush"     loading="lazy">
+          <img src="./assets/images/AI night.png"           alt="AI Night Panel"     loading="lazy">
+          <img src="./assets/images/WCU hackathon 2.JPG"    alt="WCU Hackathon"      loading="lazy">
+          <img src="./assets/images/robotics2.jpg"          alt="VRC 2023 States"    loading="lazy">
+          <img src="./assets/images/robotics3.jpg"          alt="VRC 2023 States"    loading="lazy">
+          <img src="./assets/images/OSL pic.jpg"            alt="Open-Source Leg"    loading="lazy">
+          <img src="./assets/images/robotics4.jpg"          alt="VRC 2023 States"    loading="lazy">
+          <img src="./assets/images/robotics5.jpeg"         alt="VRC 2023 States"    loading="lazy">
+          <img src="./assets/images/OSL lab pic.jpg"        alt="OSL Lab"            loading="lazy">
+          <img src="./assets/images/robotics7.jpg"          alt="VRC 2024 States"    loading="lazy">
+          <img src="./assets/images/robotics8.jpg"          alt="VRC 2024 States"    loading="lazy">
+          <img src="./assets/images/TSA arch design.jpg"    alt="TSA Design"         loading="lazy">
+          <img src="./assets/images/Vex_2024_1.png"         alt="VEX 2024"           loading="lazy">
+          <img src="./assets/images/Vex_2024_2.png"         alt="VEX 2024"           loading="lazy">
+          <img src="./assets/images/WCU hackathon.png"      alt="WCU Hackathon"      loading="lazy">
+          <img src="./assets/images/Vex_2024_3.png"         alt="VEX 2024"           loading="lazy">
+          <img src="./assets/images/Vex_2024_5.png"         alt="VEX 2024"           loading="lazy">
+          <img src="./assets/images/WCU hackathon 3.JPG"    alt="WCU Hackathon"      loading="lazy">
+          <img src="./assets/images/robotics20.jpeg"        alt="VEX Design Award"   loading="lazy">
+          <img src="./assets/images/OSL pic 2.png"          alt="Open-Source Leg"    loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       EXPERIENCE
+  ═══════════════════════════════════════════════════ -->
+  <section class="experience-section" id="experience" aria-labelledby="exp-title">
+    <div class="section-inner">
+
+      <div class="section-header">
+        <p class="section-eyebrow">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          Experience &amp; Leadership
+        </p>
+        <h2 class="section-title" id="exp-title">Where I've worked<br>and <em>what I've built.</em></h2>
+      </div>
+
+      <div class="exp-grid">
+
+        <div class="exp-col">
+          <div class="exp-col-header">
+            <div class="exp-col-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+              </svg>
+            </div>
+            <h3 class="exp-col-title">Engineering &amp; Building</h3>
+            <span class="exp-col-divider" aria-hidden="true"></span>
+          </div>
+          <ol class="exp-list">
+
+            <li class="exp-item">
+              <div class="exp-head">
+                <h4 class="exp-role">Founder &amp; President, VetsITGuide</h4>
+                <span class="exp-date">Aug 2024 &ndash; Present</span>
+              </div>
+              <ul class="exp-bullets">
+                <li>Built a free AI-assisted platform that helps U.S. military veterans explore IT and cybersecurity careers through guided learning paths, certification guidance, role explanations, and job-search support.</li>
+                <li>Developed the platform with Python, Django, JavaScript, and the Google Gemini API.</li>
+                <li>Accepted into the U.S. Department of Veterans Affairs Innovation Repository.</li>
+              </ul>
+            </li>
+
+            <li class="exp-item">
+              <div class="exp-head">
+                <h4 class="exp-role">Harvard Ventures-TECH Undergraduate Summer Program (HUVTSP), Vanguard Defense Track</h4>
+                <span class="exp-date">Jun &ndash; Jul 2025</span>
+              </div>
+              <ul class="exp-bullets">
+                <li>Worked on the aerial and satellite imagery track, including image labeling, model training, and evaluation.</li>
+                <li>Trained a YOLO-based computer vision model that reached about 85% accuracy.</li>
+                <li>Documented dataset trade-offs, training decisions, and the labeling pipeline.</li>
+              </ul>
+            </li>
+
+            <li class="exp-item">
+              <div class="exp-head">
+                <h4 class="exp-role">Open-Source Leg Contributor</h4>
+                <span class="exp-date">Oct 2025 &ndash; Present</span>
+              </div>
+              <ul class="exp-bullets">
+                <li>Contributing to the University of Michigan Neurobionics Lab's Open-Source Leg project through documentation improvements, bug fixes, unit tests, and GitHub-based collaboration.</li>
+                <li>Visited the Neurobionics Lab in person and met with the research team.</li>
+              </ul>
+            </li>
+
+            <li class="exp-item">
+              <div class="exp-head">
+                <h4 class="exp-role">VEX Robotics 91C &mdash; Lead Programmer, Builder, Driver, Design</h4>
+                <span class="exp-date">Jun 2023 &ndash; Present</span>
+              </div>
+              <ul class="exp-bullets">
+                <li>Design and tune autonomous routines, drivetrain architecture, pneumatics, sensors, and competition strategy across local events and PA States.</li>
+              </ul>
+            </li>
+
+            <li class="exp-item">
+              <div class="exp-head">
+                <h4 class="exp-role">VEX Robotics 90H &mdash; Lead Programmer, Lead Driver, Builder, Design</h4>
+                <span class="exp-date">Mar 2021 &ndash; Jun 2023</span>
+              </div>
+              <ul class="exp-bullets">
+                <li>Led programming and driving while contributing to build design and competition strategy across local events, PA States, and VEX Worlds in Dallas.</li>
+              </ul>
+            </li>
+
+          </ol>
+        </div>
+
+        <div class="exp-col">
+          <div class="exp-col-header">
+            <div class="exp-col-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                <path d="M16 3.13a4 4 0 010 7.75"/>
+              </svg>
+            </div>
+            <h3 class="exp-col-title">Leadership &amp; Community</h3>
+            <span class="exp-col-divider" aria-hidden="true"></span>
+          </div>
+          <ol class="exp-list">
+
+            <li class="exp-item">
+              <div class="exp-head">
+                <h4 class="exp-role">Vice President, AI Club</h4>
+                <span class="exp-date">Aug 2025 &ndash; Present</span>
+              </div>
+              <ul class="exp-bullets">
+                <li>Help lead club activities, student projects, workshops, and technical discussions around AI.</li>
+                <li>Served as a student panelist at WCASD AI Night at Rustin High School, speaking about AI literacy and responsible use.</li>
+              </ul>
+            </li>
+
+            <li class="exp-item">
+              <div class="exp-head">
+                <h4 class="exp-role">Secretary, Technology Student Association</h4>
+                <span class="exp-date">Sep 2025 &ndash; Present</span>
+              </div>
+              <ul class="exp-bullets">
+                <li>Helped build our school's TSA chapter during its first year. Competed through regional semifinals and finals, then advanced to the PA State Conference semifinals at Seven Springs in April 2025.</li>
+              </ul>
+            </li>
+
+            <li class="exp-item">
+              <div class="exp-head">
+                <h4 class="exp-role">SAT Tutor, Schoolhouse.world</h4>
+                <span class="exp-date">Jan 2026 &ndash; Present</span>
+              </div>
+              <ul class="exp-bullets">
+                <li>Tutor students in SAT preparation through practice, concept review, and test-taking strategies.</li>
+              </ul>
+            </li>
+
+            <li class="exp-item">
+              <div class="exp-head">
+                <h4 class="exp-role">Volunteer Science Instructor / Tutor, YAPA Kids</h4>
+                <span class="exp-date">Jun 2025 &ndash; Present</span>
+              </div>
+              <ul class="exp-bullets">
+                <li>Teach and support elementary and middle school students in science through guided lessons, practice, and review.</li>
+              </ul>
+            </li>
+
+            <li class="exp-item">
+              <div class="exp-head">
+                <h4 class="exp-role">ENGin &middot; Safe Harbor of Chester County &middot; Sankara Eye Foundation</h4>
+              </div>
+              <ul class="exp-bullets">
+                <li>Volunteer work across English tutoring for students affected by the war in Ukraine, media and editing support, translation work, and fundraising ambassador efforts.</li>
+              </ul>
+            </li>
+
+          </ol>
+        </div>
+
+      </div>
+
+      <!-- Education row -->
+      <div class="education-strip">
+        <h3 class="block-label">Education</h3>
+        <div class="edu-item">
+          <h4>B. Reed Henderson High School, West Chester, PA</h4>
+          <span>Aug 2023 &ndash; Aug 2027</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       RÉSUMÉ
+  ═══════════════════════════════════════════════════ -->
+  <section class="resume-section" id="resume" aria-labelledby="resume-title">
+    <div class="section-inner">
+
+      <p class="section-eyebrow">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        Résumé
+      </p>
+      <h2 class="section-title" id="resume-title">The full picture.</h2>
+      <p class="section-desc">A one-page version of my experience, projects, skills, leadership, and technical work.</p>
+
+      <div class="resume-actions">
+        <a class="btn btn--primary" href="./assets/Resume.pdf" download="Tanuj_Ranjith_Resume.pdf">
+          Download PDF
+        </a>
+        <a class="btn btn--ghost" href="./assets/Resume.pdf"
+           target="_blank" rel="noopener noreferrer">Open in new tab ↗</a>
+      </div>
+
+      <div class="resume-preview">
+        <object class="resume-doc" data="./assets/Resume.pdf#view=FitH&toolbar=0"
+                type="application/pdf" aria-label="Résumé preview">
+          <div class="resume-fallback">
+            <p class="resume-fallback-title">Résumé</p>
+            <p>Your browser can’t display the embedded PDF.</p>
+            <a class="btn btn--primary" href="./assets/Resume.pdf"
+               target="_blank" rel="noopener noreferrer">Open résumé ↗</a>
+          </div>
+        </object>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       RESEARCH & PATENTS
+  ═══════════════════════════════════════════════════ -->
+  <section class="research-section" id="research" aria-labelledby="research-title">
+    <div class="section-inner">
+
+      <p class="section-eyebrow">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        Research &amp; Technical Work
+      </p>
+      <h2 class="section-title" id="research-title">Research &amp; technical work.</h2>
+      <p class="section-desc">Selected research, publications, and technical contributions.</p>
+
+      <ol class="research-list">
+
+        <li class="research-item">
+          <span class="research-num" aria-hidden="true">01</span>
+          <div class="research-body">
+            <h3 class="research-title-text">Open-Source Leg Contributor</h3>
+            <p class="research-meta">University of Michigan Neurobionics Lab &middot; Oct 2025 &ndash; Present</p>
+            <p class="research-desc">Contributing to a modular robotic prosthesis platform built to make advanced lower-limb robotics research more accessible. My work includes documentation improvements, bug fixes, unit tests, and small contributions through GitHub-based collaboration.</p>
+            <div class="research-links">
+              <a href="https://opensourceleg.org/" target="_blank" rel="noopener noreferrer">Open-Source Leg ↗</a>
+              <a href="https://github.com/neurobionics/opensourceleg" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+              <a href="https://github.com/tanujranjith/opensourceleg" target="_blank" rel="noopener noreferrer">My contributions ↗</a>
+            </div>
+          </div>
+        </li>
+
+        <li class="research-item">
+          <span class="research-num" aria-hidden="true">02</span>
+          <div class="research-body">
+            <h3 class="research-title-text">The Promise of Nanobots in Medicine: Biological Evidence and Applications</h3>
+            <p class="research-meta">Curieux Academic Journal &middot; Dec 29, 2025 &middot; Co-authored with Sanjeev Tamilselvan</p>
+            <p class="research-desc">A research paper on the future potential of medical nanobots, using biological nanomachines, DNA origami, nanoscale drug delivery, and engineering constraints to evaluate what is realistic now and what still needs to be solved.</p>
+            <div class="research-links">
+              <a href="https://www.curieuxreview.com/_files/ugd/60ed3c_facfd217d72a458a9fa8f8b82fac83ce.pdf"
+                 target="_blank" rel="noopener noreferrer">Read paper ↗</a>
+            </div>
+          </div>
+        </li>
+
+        <li class="research-item">
+          <span class="research-num" aria-hidden="true">03</span>
+          <div class="research-body">
+            <h3 class="research-title-text">Investigating Repetition-Code Quantum Error Correction via Open-Source Simulation</h3>
+            <p class="research-meta">Independent Research &middot; Dec 2025</p>
+            <p class="research-desc">An independent research project studying repetition-code quantum error correction with open-source simulation tools. Compared unencoded qubits with distance-3 and distance-5 codes under bit-flip, phase-flip, and depolarizing noise models.</p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       ACHIEVEMENTS & CERTIFICATIONS
+  ═══════════════════════════════════════════════════ -->
+  <section class="achievements-section" aria-labelledby="ach-title">
+    <div class="section-inner">
+
+      <p class="section-eyebrow">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        Achievements &amp; Certifications
+      </p>
+      <h2 class="section-title" id="ach-title">Milestones.</h2>
+
+      <div class="ach-grid">
+
+        <div class="ach-col">
+          <h3 class="block-label">Milestones</h3>
+          <ul class="milestone-list">
+            <li class="milestone-item">
+              <h4>Harvard Ventures-TECH Undergraduate Summer Program (HUVTSP)</h4>
+              <span>Jul 2025 &middot; Vanguard Defense Track &middot; YOLO model, ~85% accuracy</span>
+            </li>
+            <li class="milestone-item">
+              <h4>Technology Student Association</h4>
+              <span>Apr 2025 &middot; PA Regional Semifinals &amp; Finals &rarr; PA State Conference Semifinals, Seven Springs</span>
+            </li>
+            <li class="milestone-item">
+              <h4>VEX Robotics</h4>
+              <span>2021 &ndash; Present &middot; 5+ seasons, PA States, VEX Worlds (Dallas), Design Award</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="ach-col">
+          <h3 class="block-label">Certifications</h3>
+          <ul class="cert-list">
+            <li>
+              <span class="cert-org">Harvard</span>
+              <span>CS50 Python &middot; CS50 Web Programming</span>
+            </li>
+            <li>
+              <span class="cert-org">Stanford</span>
+              <span>Intro to Machine Learning</span>
+            </li>
+            <li>
+              <span class="cert-org">Microsoft</span>
+              <span>PyTorch series &mdash; Intro, Computer Vision, NLP, Audio Classification &middot; Aug 2024</span>
+            </li>
+            <li>
+              <span class="cert-org">Google Cloud</span>
+              <span>Generative AI &middot; LLM &middot; Vertex AI &middot; AI/ML Intro &middot; Kubernetes</span>
+            </li>
+            <li>
+              <span class="cert-org">Duke</span>
+              <span>Data Science with NumPy &middot; Advances in AI Workshop, Jul 2025</span>
+            </li>
+            <li>
+              <span class="cert-org">Univ. of Leeds</span>
+              <span>MEDTECH: AI and Medical Robots, Sep 2024</span>
+            </li>
+            <li>
+              <span class="cert-org">Univ. of Michigan</span>
+              <span>Joy of Coding with Python</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       CONTACT / FOOTER
+  ═══════════════════════════════════════════════════ -->
+  <footer class="site-footer" id="contact" aria-labelledby="footer-headline">
+    <canvas id="beams-canvas" aria-hidden="true"></canvas>
+    <div class="footer-inner">
+
+      <div class="footer-main">
+        <h2 class="footer-headline" id="footer-headline">
+          Let's build<br><em>what's next.</em>
+        </h2>
+        <p class="footer-sub">
+          I'm open to research collaborations, internships, robotics work, software projects, and technical problems worth spending time on.
+        </p>
+        <div class="footer-actions">
+          <a href="mailto:tanujranjith@gmail.com" class="btn btn--primary">Send an email</a>
+          <a href="https://www.linkedin.com/in/tanuj-ranjith/"
+             class="btn btn--ghost" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+        </div>
+      </div>
+
+      <div class="footer-cols">
+        <div class="footer-col">
+          <span class="footer-col-label">Links</span>
+          <a href="https://github.com/tanujranjith" target="_blank" rel="noopener noreferrer">GitHub @tanujranjith</a>
+          <a href="https://www.linkedin.com/in/tanuj-ranjith/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://www.vetsitguide.com/" target="_blank" rel="noopener noreferrer">VetsITGuide</a>
+          <a href="mailto:tanujranjith@gmail.com">tanujranjith@gmail.com</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-label">Site</span>
+          <a href="#about">About</a>
+          <a href="#robotics">Robotics</a>
+          <a href="#work">Projects</a>
+          <a href="#experience">Experience</a>
+          <a href="#resume">Résumé</a>
+          <a href="#research">Research &amp; Technical Work</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-mono">TR.</span>
+      <span class="footer-copy">&copy; 2026 Tanuj Ranjith</span>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════════
+       PROJECT DETAIL OVERLAY  (structure kept for JS)
+  ═══════════════════════════════════════════════════ -->
+  <div class="project-detail-shell" data-project-detail-shell aria-hidden="true">
+    <div class="project-detail-backdrop" data-project-detail-backdrop></div>
+    <section class="project-detail-panel" role="dialog" aria-modal="true"
+             aria-labelledby="project-detail-title">
+      <button class="project-detail-close" type="button"
+              data-project-detail-close aria-label="Close project details">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+      <div class="project-detail-header">
+        <p class="project-detail-eyebrow" data-project-detail-eyebrow></p>
+        <h3 id="project-detail-title" class="project-detail-title" data-project-detail-title></h3>
+        <p class="project-detail-summary" data-project-detail-summary></p>
+      </div>
+      <div class="project-detail-links" data-project-detail-links></div>
+      <div class="project-detail-gallery" data-project-detail-gallery></div>
+    </section>
+  </div>
+
+
+  <!-- Scripts -->
   <script src="./assets/js/script.js"></script>
-
-  <!--
-    - ionicon link
-  -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4GV5Q19FD1"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-  
     gtag('config', 'G-4GV5Q19FD1');
   </script>
-  
-</body>
 
+</body>
 </html>

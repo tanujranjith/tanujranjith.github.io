@@ -1,56 +1,54 @@
 'use strict';
 
 
-
-// element toggle function
-const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
-
-
-
-// sidebar variables
-const sidebar = document.querySelector("[data-sidebar]");
-const sidebarBtn = document.querySelector("[data-sidebar-btn]");
-
-// sidebar toggle functionality for mobile
-sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
-
-// ----- Theme toggle (light/dark) -----
+/* ═══════════════════════════════════════════════════════════
+   THEME TOGGLE
+═══════════════════════════════════════════════════════════ */
 (function initThemeToggle() {
-  const root = document.documentElement;
-  const getSaved = () => localStorage.getItem('theme');
-  const systemPrefersLight = () => window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  const root      = document.documentElement;
+  const getSaved  = () => localStorage.getItem('theme');
+  const prefersLight = () => window.matchMedia?.('(prefers-color-scheme: light)').matches;
+
   const applyTheme = (t) => {
     if (t === 'light') root.setAttribute('data-theme', 'light');
-    else root.removeAttribute('data-theme'); // default is dark
+    else               root.removeAttribute('data-theme');
     localStorage.setItem('theme', t);
-    updateIcon();
+    updateIcons(t);
   };
+
   const currentTheme = () => (root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
 
-  // Create toggle UI
-  const btn = document.createElement('button');
-  btn.className = 'theme-toggle theme-toggle--global';
-  btn.setAttribute('aria-label', 'Toggle theme');
-  btn.innerHTML = '<ion-icon name="moon"></ion-icon>';
-  document.body.appendChild(btn);
-
-  function updateIcon() {
-    const theme = currentTheme();
-    const icon = btn.querySelector('ion-icon');
-    if (icon) icon.setAttribute('name', theme === 'light' ? 'sunny' : 'moon');
+  function updateIcons(t) {
+    const name = t === 'light' ? 'moon-outline' : 'sunny-outline';
+    document.querySelectorAll('[data-theme-icon]').forEach(el => el.setAttribute('name', name));
+    // also update any ion-icon inside .nav-theme-btn and .theme-toggle--global
+    document.querySelectorAll('.nav-theme-btn ion-icon, .theme-toggle--global ion-icon').forEach(el => {
+      el.setAttribute('name', name);
+    });
   }
 
-  // Smooth crossfade with blur for theme switching
+  // Wire the nav button if present
+  const navBtn = document.getElementById('nav-theme-toggle');
+
+  // Also create a floating fallback button (only shown if nav btn absent)
+  const floatBtn = document.createElement('button');
+  floatBtn.className = 'theme-toggle theme-toggle--global';
+  floatBtn.setAttribute('aria-label', 'Toggle theme');
+  floatBtn.innerHTML = '<ion-icon name="moon-outline"></ion-icon>';
+  if (!navBtn) {
+    floatBtn.style.display = 'flex';
+    document.body.appendChild(floatBtn);
+  }
+
   function crossfadeTo(nextTheme) {
     const overlay = document.createElement('div');
     Object.assign(overlay.style, {
       position: 'fixed', inset: '0', zIndex: '9999', pointerEvents: 'none',
-      background: nextTheme === 'light' ? 'rgba(244,247,255,0.90)' : 'rgba(10,12,18,0.90)',
-      opacity: '0', transition: 'opacity 700ms ease',
-      backdropFilter: 'blur(8px) saturate(120%)', WebkitBackdropFilter: 'blur(8px) saturate(120%)'
+      background: nextTheme === 'light' ? 'rgba(245,246,250,0.92)' : 'rgba(10,11,14,0.92)',
+      opacity: '0', transition: 'opacity 600ms ease',
+      backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)'
     });
     document.body.appendChild(overlay);
-    document.documentElement.classList.add('is-theming');
     requestAnimationFrame(() => {
       overlay.style.opacity = '1';
       setTimeout(() => {
@@ -60,626 +58,875 @@ sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); }
         }
         requestAnimationFrame(() => {
           overlay.style.opacity = '0';
-          overlay.addEventListener('transitionend', () => {
-            overlay.remove();
-            document.documentElement.classList.remove('is-theming');
-          }, { once: true });
+          overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
         });
-      }, 350);
+      }, 300);
     });
   }
 
-  // Initialize theme
-  const saved = getSaved();
-  // Default to dark unless user explicitly saved a preference
-  const initial = saved ? saved : 'dark';
+  const toggle = () => crossfadeTo(currentTheme() === 'light' ? 'dark' : 'light');
+
+  if (navBtn)   navBtn.addEventListener('click', toggle);
+  if (!navBtn)  floatBtn.addEventListener('click', toggle);
+
+  // Initialise
+  const initial = getSaved() ?? 'light';
   applyTheme(initial);
 
-  btn.addEventListener('click', () => {
-    const next = currentTheme() === 'light' ? 'dark' : 'light';
-    crossfadeTo(next);
-  });
-
-  // Sync with system preference if user hasn't chosen explicitly
+  // Sync system pref if user hasn't chosen
   try {
-    const mql = window.matchMedia('(prefers-color-scheme: light)');
-    mql.addEventListener('change', () => {
-      if (!getSaved()) applyTheme(systemPrefersLight() ? 'light' : 'dark');
-    });
+    window.matchMedia('(prefers-color-scheme: light)')
+      .addEventListener('change', () => { if (!getSaved()) applyTheme(prefersLight() ? 'light' : 'dark'); });
   } catch (_) {}
 })();
 
 
+/* ═══════════════════════════════════════════════════════════
+   MOBILE NAV HAMBURGER
+═══════════════════════════════════════════════════════════ */
+(function initMobileNav() {
+  const hamburger = document.getElementById('nav-hamburger');
+  const mobileNav = document.getElementById('mobile-nav');
+  if (!hamburger || !mobileNav) return;
 
-// testimonials variables
-const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
-const modalContainer = document.querySelector("[data-modal-container]");
-const modalCloseBtn = document.querySelector("[data-modal-close-btn]");
-const overlay = document.querySelector("[data-overlay]");
-
-// modal variable
-const modalImg = document.querySelector("[data-modal-img]");
-const modalTitle = document.querySelector("[data-modal-title]");
-const modalText = document.querySelector("[data-modal-text]");
-
-// modal toggle function
-const testimonialsModalFunc = function () {
-  modalContainer.classList.toggle("active");
-  overlay.classList.toggle("active");
-}
-
-// add click event to all modal items
-for (let i = 0; i < testimonialsItem.length; i++) {
-
-  testimonialsItem[i].addEventListener("click", function () {
-
-    modalImg.src = this.querySelector("[data-testimonials-avatar]").src;
-    modalImg.alt = this.querySelector("[data-testimonials-avatar]").alt;
-    modalTitle.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
-    modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
-
-    testimonialsModalFunc();
-
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileNav.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+    mobileNav.setAttribute('aria-hidden', String(!isOpen));
   });
 
-}
-
-// add click event to modal close button
-modalCloseBtn.addEventListener("click", testimonialsModalFunc);
-overlay.addEventListener("click", testimonialsModalFunc);
-
-
-
-// custom select variables
-const select = document.querySelector("[data-select]");
-const selectItems = document.querySelectorAll("[data-select-item]");
-const selectValue = document.querySelector("[data-selecct-value]");
-const filterBtn = document.querySelectorAll("[data-filter-btn]");
-
-select.addEventListener("click", function () { elementToggleFunc(this); });
-
-// add event in all select items
-for (let i = 0; i < selectItems.length; i++) {
-  selectItems[i].addEventListener("click", function () {
-
-    let selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
-    elementToggleFunc(select);
-    filterFunc(selectedValue);
-    updateProjectGitHub(selectedValue);
-
+  // Close on mobile nav link click
+  mobileNav.querySelectorAll('[data-mobile-nav-link]').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileNav.setAttribute('aria-hidden', 'true');
+    });
   });
 
-  //if(selectItems[i].innerText.toLowerCase() == "vets it guide")
-  //{
-  //  selectItems[i].click(); 
-  //}
-    
-}
-
-
-// Removed Material-style ripple effect per request
-
-// filter variables
-const filterItems = document.querySelectorAll("[data-filter-item]");
-
-const filterFunc = function (selectedValue) {
-
-  for (let i = 0; i < filterItems.length; i++) {
-
-    
-    if (selectedValue === "all") {
-      filterItems[i].classList.add("active");
-    } else if (selectedValue === filterItems[i].dataset.category) {
-      filterItems[i].classList.add("active");
-    } else {
-      filterItems[i].classList.remove("active");
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
+      mobileNav.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileNav.setAttribute('aria-hidden', 'true');
     }
+  });
+})();
 
+
+/* ═══════════════════════════════════════════════════════════
+   ACTIVE NAV LINK ON SCROLL
+═══════════════════════════════════════════════════════════ */
+(function initScrollSpy() {
+  const sections = ['home', 'work', 'robotics', 'experience', 'about', 'contact'];
+  const navLinks  = document.querySelectorAll('.nav-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const id = entry.target.id;
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        link.classList.toggle('active', href === `#${id}`);
+      });
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   PROJECT CARDS + DETAIL OVERLAY
+═══════════════════════════════════════════════════════════ */
+const projectGrid        = document.querySelector('[data-project-grid]');
+const projectDetailShell = document.querySelector('[data-project-detail-shell]');
+
+if (projectGrid && projectDetailShell) {
+  const projectDetailClose    = projectDetailShell.querySelector('[data-project-detail-close]');
+  const projectDetailBackdrop = projectDetailShell.querySelector('[data-project-detail-backdrop]');
+  const projectDetailEyebrow  = projectDetailShell.querySelector('[data-project-detail-eyebrow]');
+  const projectDetailTitle    = projectDetailShell.querySelector('[data-project-detail-title]');
+  const projectDetailSummary  = projectDetailShell.querySelector('[data-project-detail-summary]');
+  const projectDetailLinks    = projectDetailShell.querySelector('[data-project-detail-links]');
+  const projectDetailGallery  = projectDetailShell.querySelector('[data-project-detail-gallery]');
+  const projectDetailPanel    = projectDetailShell.querySelector('.project-detail-panel');
+
+  if (projectDetailShell.parentElement !== document.body) {
+    document.body.appendChild(projectDetailShell);
   }
 
-}
+  const escapeHtml = (v) => String(v).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[c]);
 
-// Update single GitHub button under Projects based on current filter
-function updateProjectGitHub(selectedValue) {
-  const gh = document.getElementById('project-gh-global');
-  if (!gh) return;
-  const map = {
-    'vets it guide': 'https://github.com/tanujranjith/vets2tech',
-    'noteflow': 'https://github.com/tanujranjith/Notion-local-saving-clone',
-    'netflow': 'https://github.com/tanujranjith/Notion-local-saving-clone',
-    'pong (ai vs human)': 'https://github.com/tanujranjith/AI-Pong-Player',
-    'endangered animals': 'https://github.com/tanujranjith/Drexel-CCI-summer-camp-project'
+  const pluralize = (n, s, p = `${s}s`) => `${n} ${n === 1 ? s : p}`;
+  const makeLink  = (label, href, icon = 'open-outline') => ({ label, href, icon });
+  const makeImg   = (title, src, description, pageHref, pageLabel = 'Open page') => ({
+    title, src, alt: title, description,
+    links: pageHref
+      ? [makeLink(pageLabel, pageHref), makeLink('Open image', src, 'image-outline')]
+      : [makeLink('Open image', src, 'image-outline')]
+  });
+  const makeVideo = (title, src, description, poster) => ({
+    title, src, alt: title, description, type: 'video', poster,
+    links: [makeLink('Open video', src, 'play-circle-outline')]
+  });
+
+  /* ── PROJECT CATALOG ──────────────────────────────────── */
+  const projectCatalog = [
+    {
+      slug: 'vehicle-perception-simulator',
+      title: 'Vehicle Perception Simulator',
+      filter: 'vehicle perception simulator',
+      category: 'ai-ml',
+      kicker: 'Computer Vision · Simulation',
+      summary: 'A browser-based autonomous driving simulator that models what a vehicle might see from multiple sensors. It includes multi-view camera feeds, LiDAR/depth-style overlays, object-detection boxes, lane detection, traffic lights, sensor fusion visuals, and an AI decision log. Built with JavaScript.',
+      accent: '#0891b2',
+      cover: './assets/images/SD_sim_1.jpg',
+      links: [makeLink('GitHub', 'https://github.com/tanujranjith', 'logo-github')],
+      gallery: [
+        makeVideo('Live Demo', './assets/images/SD_sim.mp4',
+          'Full run-through of the Three.js perception simulator — multi-view cameras, sensor fusion overlays, object detection, lane following, and the AI decision log reacting to traffic in real time.',
+          './assets/images/SD_sim_1.jpg'),
+        makeImg('AV Stack Overview', './assets/images/SD_sim_1.jpg',
+          'Planner / occupancy view above the forward camera feed, with the full control surface — target speed, scenario difficulty, environment, and weather — while cruising a clear route.'),
+        makeImg('Stop-Sign Scenario', './assets/images/SD_sim_2.jpg',
+          'Sensor-fusion view detecting a stop sign, pedestrian, and vehicles ahead; the controller reads the speed-limit sign and prepares a full stop.'),
+        makeImg('Sensor Fusion HUD', './assets/images/SD_sim_3.jpg',
+          'Camera + LiDAR fusion with projected depth, lane estimates, and a decision HUD — yielding at a detected yield sign while waiting for a safe gap.'),
+        makeImg('Chase Camera Tracking', './assets/images/SD_sim_4.jpg',
+          'Third-person chase view tracking the vehicle through an intersection, with red-light, pedestrian, car, and yield-sign detections projected onto the scene.'),
+        makeImg('Intersection Approach', './assets/images/SD_sim_5.jpg',
+          'AV-stack view approaching a crosswalk intersection, planned trajectory drawn through the lane graph as the controller cruises and adjusts for traffic lights.')
+      ]
+    },
+    {
+      slug: 'vets-it-guide',
+      title: 'VetsITGuide',
+      filter: 'vetsitguide',
+      category: 'web',
+      kicker: 'Founder & President',
+      summary: 'A free AI-assisted platform helping U.S. military veterans transition into IT and cybersecurity careers through guided learning paths, role explanations, certification guidance, and job-search support. Built with Python, Django, JavaScript, and the Google Gemini API. Accepted into the U.S. Department of Veterans Affairs Innovation Repository.',
+      accent: '#2b6aff',
+      cover: './assets/images/VetsITGuide_Home.png',
+      links: [
+        makeLink('Live site', 'https://www.vetsitguide.com/'),
+        makeLink('GitHub', 'https://github.com/tanujranjith/vets2tech', 'logo-github')
+      ],
+      gallery: [
+        makeImg('Home Page', './assets/images/VetsITGuide_Home.png', 'Landing screen for the veteran transition platform.', 'https://www.vetsitguide.com/', 'Visit live site'),
+        makeImg('Sign Up', './assets/images/VetsITGuide_Signup.png', 'Account creation and onboarding flow.', 'https://www.vetsitguide.com/', 'Visit live site'),
+        makeImg('Vision & Mission', './assets/images/VetsITGuide_VisionAndMission.png', 'Mission and vision messaging.', 'https://www.vetsitguide.com/', 'Visit live site'),
+        makeImg('Employment Page', './assets/images/VetsITGuide_Employement.png', 'Career and employment guidance.', 'https://www.vetsitguide.com/employment/', 'Open employment page'),
+        makeImg('Education Page', './assets/images/VetsITGuide_Education1.png', 'Education overview and learning pathways.', 'https://www.vetsitguide.com/', 'Visit live site'),
+        makeImg('Education Details', './assets/images/VetsITGuide_Education2.png', 'Expanded education content.', 'https://www.vetsitguide.com/education/', 'Open education page'),
+        makeImg('Find a Job', './assets/images/VetsITGuide_FindAJob.png', 'Job search and support flow.', 'https://www.vetsitguide.com/jobfind/', 'Open job page')
+      ]
+    },
+    {
+      slug: 'sutra',
+      title: 'Sutra',
+      filter: 'sutra',
+      category: 'web',
+      kicker: 'Browser workspace',
+      summary: 'A local-first productivity workspace for students. Sutra brings together notes, planning, focus tools, calendar-style organization, split-screen editing, exports, and a privacy-first browser workspace. I\'m building it around the idea that students should own their workflow and their data.',
+      accent: '#c8a857',
+      cover: './assets/images/NoteFlow is a local-first.png',
+      links: [
+        makeLink('Live demo', 'https://tanujranjith.github.io/Sutra/HomePage.html'),
+        makeLink('GitHub', 'https://github.com/tanujranjith/Sutra', 'logo-github')
+      ],
+      gallery: [
+        makeImg('Browser App', './assets/images/NoteFlow is a local-first.png',
+          'Local-first workspace with notes, planning, and focus tools.',
+          'https://tanujranjith.github.io/Sutra/HomePage.html', 'Open live demo')
+      ]
+    },
+    {
+      slug: 'dynamic-island-windows',
+      title: 'Dynamic Island for Windows',
+      filter: 'dynamic island for windows',
+      category: 'tools',
+      kicker: 'Desktop widget',
+      summary: 'A lightweight Apple Dynamic Island-inspired desktop widget for Windows, built in Python with Tkinter. Shows media info, playback controls, time/date/battery, theme-aware visuals, and compact-to-expanded UI behavior.',
+      accent: '#7b6cff',
+      cover: './assets/images/icon-app.svg',
+      links: [makeLink('GitHub', 'https://github.com/tanujranjith/Dynamic-Island-Python', 'logo-github')],
+      gallery: [
+        makeImg('Widget Concept', './assets/images/icon-app.svg', 'Compact desktop widget layout.', 'https://github.com/tanujranjith/Dynamic-Island-Python', 'Open GitHub'),
+        makeImg('Utility UI', './assets/images/icon-dev.svg', 'Theme-aware compact and expanded states.', 'https://github.com/tanujranjith/Dynamic-Island-Python', 'Open GitHub')
+      ]
+    },
+    {
+      slug: 'pong-ai',
+      title: 'Pong AI',
+      filter: 'pong ai',
+      category: 'ai-ml',
+      kicker: 'AI demo',
+      summary: 'An AI-vs-human Pong game built in Python featuring an AI-controlled opponent with trained game-playing behavior, real-time visual simulation, and a training/observation mode to watch the agent develop over time.',
+      accent: '#22c1a2',
+      cover: './assets/images/Pong_AITraining.png',
+      links: [
+        makeLink('Watch demo', 'https://www.youtube.com/watch?v=UKmkkb-I8TY', 'play-circle-outline'),
+        makeLink('GitHub', 'https://github.com/tanujranjith/AI-Pong-Player', 'logo-github')
+      ],
+      gallery: [
+        makeImg('AI Training', './assets/images/Pong_AITraining.png', 'Training view for the Pong agent.', 'https://www.youtube.com/watch?v=UKmkkb-I8TY', 'Watch demo'),
+        makeImg('Playing Against AI', './assets/images/Pong_PlayingAgainstAI.png', 'Gameplay against the AI.', 'https://www.youtube.com/watch?v=UKmkkb-I8TY', 'Watch demo')
+      ]
+    },
+    {
+      slug: 'endangered-animals',
+      title: 'Endangered Animals',
+      filter: 'endangered animals',
+      category: 'web',
+      kicker: 'Gallery project',
+      summary: 'A visual awareness project built around endangered wildlife, habitat views, and species highlights.',
+      accent: '#66a86c',
+      cover: './assets/images/animalendagerment1.png',
+      links: [makeLink('GitHub', 'https://github.com/tanujranjith/Drexel-CCI-summer-camp-project', 'logo-github')],
+      gallery: [
+        makeImg('Home Page',       './assets/images/animalendagerment1.png', 'Landing screen and summary view.'),
+        makeImg('Continental View','./assets/images/animalendagerment2.png', 'Regional overview.'),
+        makeImg('Gallery View 3',  './assets/images/animalendagerment3.png', 'Wildlife artwork and content.'),
+        makeImg('Canada Lynx',     './assets/images/animalendagerment4.png', 'Species spotlight page.')
+      ]
+    },
+    {
+      slug: 'ivoted',
+      title: 'iVoted',
+      filter: 'ivoted',
+      category: 'web',
+      kicker: 'Civic site',
+      summary: 'A civic-engagement site with campaign highlights, organization pages, and voting flow visuals.',
+      accent: '#e06b4f',
+      cover: './assets/images/iVoted_Home.png',
+      links: [makeLink('Live site', 'https://ivoted.us/')],
+      gallery: [
+        makeImg('Campaign Highlights', './assets/images/iVoted_CampingHighlights.png', 'Campaign highlight montage.', 'https://ivoted.us/', 'Visit live site'),
+        makeImg('Home Page',           './assets/images/iVoted_Home.png', 'Landing screen.', 'https://ivoted.us/', 'Visit live site'),
+        makeImg('Who Are We',          './assets/images/iVoted_WhoAreWe.png', 'About the organization.', 'https://ivoted.us/', 'Visit live site'),
+        makeImg('Why Voting',          './assets/images/iVoted_WhyVoting.png', 'Why voting matters.', 'https://ivoted.us/', 'Visit live site'),
+        makeImg('Voting Flow 1',       './assets/images/iVoted_Voting1.png', 'Voting interface.', 'https://ivoted.us/', 'Visit live site'),
+        makeImg('Voting Flow 2',       './assets/images/iVoted_Voting2.png', 'Voting interface variation.', 'https://ivoted.us/', 'Visit live site'),
+        makeImg('Voting Flow 3',       './assets/images/iVoted_Voting3.png', 'Voting interface variation.', 'https://ivoted.us/', 'Visit live site')
+      ]
+    }
+  ];
+
+  /* ── Render helpers ───────────────────────────────────── */
+  const catalogMap = new Map(projectCatalog.map(p => [p.slug, p]));
+  let lastTrigger = null, prevBodyOverflow = '';
+
+  const renderLink = (link, compact = false) =>
+    `<a class="project-link-pill${compact ? ' project-link-pill--compact' : ''}"
+        href="${encodeURI(link.href)}" target="_blank" rel="noopener noreferrer">
+      <ion-icon name="${escapeHtml(link.icon || 'open-outline')}"></ion-icon>
+      <span>${escapeHtml(link.label)}</span>
+    </a>`;
+
+  const pickLinks = (p) => {
+    const links   = Array.isArray(p.links) ? p.links : [];
+    const isGH    = (h = '') => /github\.com/i.test(String(h));
+    const source  = links.find(l => isGH(l.href)) || null;
+    const primary = links.find(l => l?.href && !isGH(l.href)) || source;
+    return { primary: primary || null, source };
   };
-  const url = map[selectedValue];
-  if (url) {
-    gh.style.display = 'block';
-    const a = gh.querySelector('a');
-    if (a) a.href = url;
-  } else {
-    gh.style.display = 'none';
-  }
-}
 
-// add event in all filter button items for large screen
-let lastClickedBtn = filterBtn[1];
+  const renderCard = (project) => {
+    const { primary, source } = pickLinks(project);
+    const pLabel = primary
+      ? (source && primary.href === source.href ? 'Source'
+        : /youtu\.be|youtube\.com/i.test(String(primary.href)) ? 'Watch demo'
+        : 'Open project')
+      : '';
+    const pHref  = primary ? encodeURI(primary.href) : '';
+    const sHref  = source  ? encodeURI(source.href)  : '';
 
-for (let i = 0; i < filterBtn.length; i++) {
+    return `<li data-project-card data-category="${escapeHtml(project.category || 'web')}">
+      <article class="project-card" style="--project-accent:${project.accent};"
+               data-project-open="${escapeHtml(project.slug)}"
+               role="button" tabindex="0"
+               aria-label="Open ${escapeHtml(project.title)} details">
+        <div class="project-card-media">
+          <img src="${encodeURI(project.cover)}" alt="${escapeHtml(project.title)} preview"
+               loading="lazy" data-no-zoom>
+          <span class="project-card-badge"
+                aria-label="${escapeHtml(pluralize(project.gallery.length, 'visual'))}">
+            ${escapeHtml(String(project.gallery.length))}
+          </span>
+        </div>
+        <div class="project-card-body">
+          <div class="project-card-header">
+            <h4 class="project-card-title">${escapeHtml(project.title)}</h4>
+            <p class="project-card-summary">${escapeHtml(project.summary)}</p>
+          </div>
+          <div class="project-card-meta">
+            <span class="project-card-kicker">${escapeHtml(project.kicker)}</span>
+          </div>
+          <div class="project-card-actions">
+            ${pHref ? `<a class="project-card-action project-card-action--primary"
+                          href="${pHref}" target="_blank" rel="noopener noreferrer"
+                          aria-label="${escapeHtml(pLabel)} for ${escapeHtml(project.title)}">
+                          ${escapeHtml(pLabel)}</a>` : ''}
+            ${sHref && (!primary || sHref !== pHref)
+              ? `<a class="project-card-action" href="${sHref}"
+                    target="_blank" rel="noopener noreferrer"
+                    aria-label="Source code for ${escapeHtml(project.title)}">Source</a>` : ''}
+            <button class="project-card-action project-card-action--ghost"
+                    type="button" data-project-open="${escapeHtml(project.slug)}"
+                    aria-label="Open details for ${escapeHtml(project.title)}">Details</button>
+          </div>
+        </div>
+      </article>
+    </li>`;
+  };
 
-  filterBtn[i].addEventListener("click", function () {
+  const renderDetail = (project) => {
+    projectDetailPanel.style.setProperty('--project-accent', project.accent);
+    projectDetailEyebrow.textContent = project.kicker;
+    projectDetailTitle.textContent   = project.title;
+    projectDetailSummary.textContent = project.summary;
+    projectDetailLinks.innerHTML     = project.links.map(l => renderLink(l)).join('');
+    projectDetailGallery.innerHTML   = project.gallery.map(item => `
+      <article class="project-detail-card${item.type === 'video' ? ' project-detail-card--video' : ''}">
+        <div class="project-detail-card-media">
+          ${item.type === 'video'
+            ? `<video class="project-detail-video" src="${encodeURI(item.src)}"
+                      ${item.poster ? `poster="${encodeURI(item.poster)}"` : ''}
+                      controls preload="metadata" playsinline data-no-zoom></video>`
+            : `<img src="${encodeURI(item.src)}" alt="${escapeHtml(item.alt)}" loading="lazy" data-no-zoom>`}
+        </div>
+        <div class="project-detail-card-body">
+          <h4 class="project-detail-card-title">${escapeHtml(item.title)}</h4>
+          <p class="project-detail-card-description">${escapeHtml(item.description)}</p>
+          <div class="project-detail-card-links">
+            ${item.links.map(l => renderLink(l, true)).join('')}
+          </div>
+        </div>
+      </article>`).join('');
+  };
 
-    let selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
-    filterFunc(selectedValue);
-    updateProjectGitHub(selectedValue);
+  const openDetail = (slug, trigger) => {
+    const project = catalogMap.get(slug);
+    if (!project) return;
+    lastTrigger       = trigger || null;
+    prevBodyOverflow  = document.body.style.overflow;
+    renderDetail(project);
+    projectDetailShell.classList.add('active');
+    projectDetailShell.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => projectDetailClose?.focus());
+  };
 
-    lastClickedBtn.classList.remove("active");
-    this.classList.add("active");
-    lastClickedBtn = this;
+  const closeDetail = () => {
+    if (!projectDetailShell.classList.contains('active')) return;
+    projectDetailShell.classList.remove('active');
+    projectDetailShell.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = prevBodyOverflow;
+    lastTrigger?.focus();
+    lastTrigger = null;
+  };
 
+  // Render cards
+  projectGrid.innerHTML = projectCatalog.map(renderCard).join('');
+
+  // Event delegation: open detail
+  projectGrid.addEventListener('click', (e) => {
+    if (e.target.closest('a')) return;
+    const trigger = e.target.closest('[data-project-open]');
+    if (trigger) openDetail(trigger.dataset.projectOpen, trigger);
+  });
+  projectGrid.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const trigger = e.target.closest('[data-project-open]');
+    if (!trigger || trigger.tagName === 'BUTTON') return;
+    e.preventDefault();
+    openDetail(trigger.dataset.projectOpen, trigger);
   });
 
-}
-
-// Initialize GitHub button on load with default selection
-try {
-  const activeFilter = document.querySelector('.filter-item button.active');
-  const initial = activeFilter ? activeFilter.innerText.toLowerCase() : 'vets it guide';
-  updateProjectGitHub(initial);
-} catch (_) {}
-
-
-
-// contact form variables
-const form = document.querySelector("[data-form]");
-const formInputs = document.querySelectorAll("[data-form-input]");
-const formBtn = document.querySelector("[data-form-btn]");
-
-// add event to all form input field
-for (let i = 0; i < formInputs.length; i++) {
-  formInputs[i].addEventListener("input", function () {
-
-    // check form validation
-    if (form.checkValidity()) {
-      formBtn.removeAttribute("disabled");
-    } else {
-      formBtn.setAttribute("disabled", "");
-    }
-
+  projectDetailClose?.addEventListener('click', closeDetail);
+  projectDetailBackdrop?.addEventListener('click', closeDetail);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDetail();
   });
+
+  window.closeProjectDetail = closeDetail;
 }
 
 
+/* ═══════════════════════════════════════════════════════════
+   ROBOTICS HORIZONTAL SCROLL (driven by vertical scroll)
+═══════════════════════════════════════════════════════════ */
+(function initRoboticsScroll() {
+  const section = document.getElementById('robotics');
+  const wrapper = section?.querySelector('.robotics-sticky-wrapper');
+  const sticky  = section?.querySelector('.robotics-sticky');
+  const track   = section?.querySelector('.robotics-track');
+  if (!section || !wrapper || !sticky || !track) return;
 
-// page navigation variables
-const navigationLinks = document.querySelectorAll("[data-nav-link]");
-const pages = document.querySelectorAll("[data-page]");
+  const NAV_H = 60;
+  const MOBILE = () => window.innerWidth <= 768;
+  let setupPending = false;
 
-// add event to all nav link
-for (let n = 0; n < navigationLinks.length; n++) {
-  navigationLinks[n].addEventListener("click", function () {
-    const target = this.textContent.trim().toLowerCase();
-
-    // Deactivate all pages first
-    for (let p = 0; p < pages.length; p++) {
-      const isTarget = pages[p].dataset.page === target;
-      pages[p].classList.toggle("active", isTarget);
-      if (isTarget) {
-        // Special handling for achievements page: reveal eagerly
-        window.scrollTo(0, 0);
-        if (target === 'achievements') {
-          const achRoot = pages[p];
-          achRoot.querySelectorAll('.blog-post-item').forEach(el => {
-            el.setAttribute('data-reveal', '');
-            el.classList.add('is-visible');
-          });
-          achRoot.querySelectorAll('.blog-post-item img').forEach(img => {
-            try { img.loading = 'eager'; } catch (_) {}
-            img.decoding = 'async';
-            const src = img.getAttribute('src');
-            if (src) { const pre = new Image(); pre.src = src; }
-          });
-        }
-      }
-    }
-
-    // Update nav link states separately to avoid index mismatches
-    for (let k = 0; k < navigationLinks.length; k++) {
-      navigationLinks[k].classList.toggle('active', navigationLinks[k] === this);
-    }
-  });
-}
-
-
-// Open image links in a new window
-const imgLinkElems = document.querySelectorAll("[img-link]");
-for (let i = 0; i < imgLinkElems.length; i++) {
-  imgLinkElems[i].addEventListener("click", function (e) {
-    // If this is an image container, open its image in a new tab
-    const img = this.querySelector('img');
-    if (img && (img.currentSrc || img.src)) {
-      e.preventDefault();
-      const src = img.currentSrc || img.src;
-      try { window.open(src, 'image-viewer-' + Date.now(), 'noopener,noreferrer,resizable=yes,scrollbars=yes,width=1200,height=800'); } catch (_) {}
-    }
-  });
-}
-
-// Also make clicking any image open it in a new tab
-document.querySelectorAll('img').forEach(img => {
-  img.style.cursor = img.style.cursor || 'zoom-in';
-  img.addEventListener('click', (e) => {
-    // Skip zoom for profile/any explicitly disabled images
-    if (img.hasAttribute('data-no-zoom') || img.closest('.sidebar')) {
+  function setup() {
+    if (MOBILE()) {
+      wrapper.style.height = '';
       return;
     }
-    // If this image is inside a clickable project/blog link, let the link navigate
-    const enclosingAnchor = img.closest('a[href]');
-    if (enclosingAnchor && (enclosingAnchor.closest('.project-item') || enclosingAnchor.closest('.blog-post-item'))) {
-      return; // allow normal link behavior
+    setupPending = false;
+    const stickyH = window.innerHeight - NAV_H;
+    const travel  = Math.max(0, track.scrollWidth - sticky.offsetWidth);
+    wrapper.style.height = (stickyH + travel) + 'px';
+  }
+
+  function update() {
+    if (MOBILE()) {
+      track.style.transform = '';
+      return;
     }
+    const wrapRect = wrapper.getBoundingClientRect();
+    const travel   = wrapper.offsetHeight - (window.innerHeight - NAV_H);
+    if (travel <= 0) return;
+    const scrolled = -(wrapRect.top - NAV_H);
+    const progress = Math.max(0, Math.min(1, scrolled / travel));
+    const maxX     = -(track.scrollWidth - sticky.offsetWidth);
+    track.style.transform = `translateX(${(progress * maxX).toFixed(2)}px)`;
+  }
+
+  function scheduleSetup() {
+    if (setupPending) return;
+    setupPending = true;
+    requestAnimationFrame(() => {
+      setup();
+      update();
+    });
+  }
+
+  // Wait for images to load
+  const images = track.querySelectorAll('img');
+  let loadedCount = 0;
+  const checkAllLoaded = () => {
+    loadedCount++;
+    if (loadedCount === images.length) {
+      setup();
+      update();
+    }
+  };
+
+  if (images.length === 0) {
+    setup();
+    update();
+  } else {
+    images.forEach(img => {
+      if (img.complete) {
+        checkAllLoaded();
+      } else {
+        img.addEventListener('load', checkAllLoaded, { once: true });
+        img.addEventListener('error', checkAllLoaded, { once: true });
+      }
+    });
+  }
+
+  // Watch for size changes
+  const resizeObserver = new ResizeObserver(() => scheduleSetup());
+  resizeObserver.observe(track);
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', scheduleSetup, { passive: true });
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   ROBOTICS PHOTO ZOOM (click to open in new tab)
+═══════════════════════════════════════════════════════════ */
+document.querySelectorAll('.robotics-track img').forEach(img => {
+  img.addEventListener('click', () => {
     const src = img.currentSrc || img.src;
-    if (src) {
-      // Prevent parent anchors from hijacking when intent is to view the image
-      e.preventDefault();
-      e.stopPropagation();
-      try { window.open(src, 'image-viewer-' + Date.now(), 'noopener,noreferrer,resizable=yes,scrollbars=yes,width=1200,height=800'); } catch (_) {}
-    }
+    if (src) window.open(src, '_blank', 'noopener,noreferrer,resizable=yes,scrollbars=yes,width=1200,height=900');
   });
 });
 
-// Delegated handler: ensure project/blog tiles also open their image when clicking the visual area
-document.addEventListener('click', (e) => {
-  // Only trigger for project tiles and blog list items, not sidebar avatar
-  const tileImgContainer = e.target.closest('.project-img, .blog-post-item .blog-banner-box');
-  if (!tileImgContainer) return;
-  // If container is inside an anchor with href (project/blog tiles), let anchor navigate
-  if (tileImgContainer.closest('a[href]')) return;
-  const img = tileImgContainer.querySelector('img');
-  if (!img) return;
-  const src = img.currentSrc || img.src;
-  if (!src) return;
-  e.preventDefault();
-  e.stopPropagation();
-  try { window.open(src, 'image-viewer-' + Date.now(), 'noopener,noreferrer,resizable=yes,scrollbars=yes,width=1200,height=800'); } catch (_) {}
-}, true);
 
-// Explicitly open image when clicking the eye icon overlay on tiles
-document.addEventListener('click', (e) => {
-  const eye = e.target.closest('.project-item-icon-box, .blog-post-item-icon-box');
-  if (!eye) return;
-  const link = eye.closest('.project-item > a, .blog-post-item > a');
-  const fig = eye.closest('figure');
-  const img = fig && fig.querySelector('img');
-  if (!img) return;
-  const src = img.currentSrc || img.src;
-  if (!src) return;
 
-  // Determine if this project/blog tile should open the image instead of following the link
-  let shouldOpenImage = true;
-  if (link && link.getAttribute('href')) {
-    const categoryEl = link.parentElement && link.parentElement.querySelector('.project-category');
-    const category = (categoryEl && categoryEl.textContent || '').trim().toLowerCase();
-    if (category && !category.includes('endangered animals')) {
-      shouldOpenImage = false; // normal linked project: let link navigate
-    }
-  }
 
-  if (!shouldOpenImage) return;
-
-  e.preventDefault();
-  e.stopPropagation();
-  try { window.open(src, 'image-viewer-' + Date.now(), 'noopener,noreferrer,resizable=yes,scrollbars=yes,width=1200,height=800'); } catch (_) {}
-}, true);
-
-// Special case: Endangered Animals projects should open the image instead of the link
-document.addEventListener('click', (e) => {
-  const projectLink = e.target.closest('.project-item > a');
-  if (!projectLink) return;
-  const categoryEl = projectLink.parentElement && projectLink.parentElement.querySelector('.project-category');
-  if (!categoryEl) return;
-  const category = (categoryEl.textContent || '').trim().toLowerCase();
-  if (category.includes('endangered') && category.includes('animals')) {
-    const img = projectLink.querySelector('.project-img img');
-    if (!img) return;
-    const src = img.currentSrc || img.src;
-    if (!src) return;
-    e.preventDefault();
-    e.stopPropagation();
-    try { window.open(src, 'image-viewer-' + Date.now(), 'noopener,noreferrer,resizable=yes,scrollbars=yes,width=1200,height=800'); } catch (_) {}
-  }
-}, true);
-
-/* -------------------------------------------------------
-   Enhancements: Mac dark theme motion & a11y improvements
--------------------------------------------------------- */
+/* ═══════════════════════════════════════════════════════════
+   NAV BACKGROUND on scroll
+═══════════════════════════════════════════════════════════ */
 (function () {
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const root = document.documentElement;
+  const nav = document.querySelector('.site-nav');
+  if (!nav) return;
+  const update = () => nav.classList.toggle('scrolled', window.scrollY > 20);
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
 
-  // Ambient shimmer: decoupled from pointer (no event listeners)
 
-  // Gentle autonomous shimmer using smooth random targets
-  (function autoShimmer() {
-    const ease = (t) => t * t * (3 - 2 * t);
-    const minDur = prefersReduced ? 4000 : 3000;
-    const maxDur = prefersReduced ? 8000 : 11000;
-    const min = 15, max = 85; // keep away from edges
-    let mx = 50, my = 50, sx = 50, sy = 50, tx = 50, ty = 50;
-    let start = performance.now();
-    let dur = minDur + Math.random() * (maxDur - minDur);
 
-    const pick = () => {
-      sx = mx; sy = my;
-      tx = min + Math.random() * (max - min);
-      ty = min + Math.random() * (max - min);
-      start = performance.now();
-      dur = minDur + Math.random() * (maxDur - minDur);
+
+
+
+/* ═══════════════════════════════════════════════════════════
+   EXPANDABLE TABS — PROJECT FILTER
+═══════════════════════════════════════════════════════════ */
+(function initProjectTabs() {
+  const tabs = document.querySelectorAll('.exp-tab');
+  const grid = document.querySelector('[data-project-grid]');
+  if (!tabs.length || !grid) return;
+
+  function filterCards(tab) {
+    const category = tab.dataset.tab;
+    tabs.forEach(t => {
+      t.classList.toggle('active', t === tab);
+      t.setAttribute('aria-selected', String(t === tab));
+    });
+    grid.querySelectorAll('[data-project-card]').forEach(card => {
+      const match = category === 'all' || card.dataset.category === category;
+      card.toggleAttribute('data-hidden', !match);
+    });
+  }
+
+  tabs.forEach(tab => tab.addEventListener('click', () => filterCards(tab)));
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   BEAMS CANVAS — FOOTER BACKGROUND
+═══════════════════════════════════════════════════════════ */
+(function initBeamsBackground() {
+  const canvas = document.getElementById('beams-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  const BEAM_COUNT = 6;
+  const HUES = [220, 230, 210, 240, 215, 225];
+
+  function makeBeam(index) {
+    return {
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      angle: (Math.random() * Math.PI * 2),
+      speed: 0.3 + Math.random() * 0.5,
+      length: 120 + Math.random() * 180,
+      width: 2 + Math.random() * 3,
+      hue: HUES[index % HUES.length],
+      pulse: Math.random() * Math.PI * 2,
+      pulseSpeed: 0.02 + Math.random() * 0.02,
+      opacity: 0.4 + Math.random() * 0.5,
     };
+  }
 
-    function frame() {
-      const now = performance.now();
-      let t = (now - start) / dur;
-      if (t >= 1) { pick(); t = 0; }
-      const k = ease(Math.max(0, Math.min(1, t)));
-      mx = sx + (tx - sx) * k;
-      my = sy + (ty - sy) * k;
-      root.style.setProperty('--mx', mx.toFixed(2) + '%');
-      root.style.setProperty('--my', my.toFixed(2) + '%');
-      requestAnimationFrame(frame);
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width  = rect.width  || window.innerWidth;
+    canvas.height = rect.height || 300;
+  }
+
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  const beams = Array.from({ length: BEAM_COUNT }, (_, i) => makeBeam(i));
+
+  function drawBeam(b) {
+    const alpha = b.opacity * (0.7 + 0.3 * Math.sin(b.pulse));
+    const dx = Math.cos(b.angle) * b.length;
+    const dy = Math.sin(b.angle) * b.length;
+    const grad = ctx.createLinearGradient(b.x, b.y, b.x + dx, b.y + dy);
+    grad.addColorStop(0,   `hsla(${b.hue}, 70%, 60%, 0)`);
+    grad.addColorStop(0.4, `hsla(${b.hue}, 70%, 60%, ${alpha})`);
+    grad.addColorStop(1,   `hsla(${b.hue}, 70%, 60%, 0)`);
+    ctx.save();
+    ctx.strokeStyle = grad;
+    ctx.lineWidth   = b.width;
+    ctx.beginPath();
+    ctx.moveTo(b.x, b.y);
+    ctx.lineTo(b.x + dx, b.y + dy);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function tickBeam(b) {
+    b.x     += Math.cos(b.angle) * b.speed;
+    b.y     += Math.sin(b.angle) * b.speed;
+    b.pulse += b.pulseSpeed;
+    const w = canvas.width, h = canvas.height;
+    const margin = b.length;
+    if (b.x < -margin || b.x > w + margin || b.y < -margin || b.y > h + margin) {
+      const side = Math.floor(Math.random() * 4);
+      if (side === 0)      { b.x = Math.random() * w; b.y = -margin; }
+      else if (side === 1) { b.x = w + margin;         b.y = Math.random() * h; }
+      else if (side === 2) { b.x = Math.random() * w; b.y = h + margin; }
+      else                 { b.x = -margin;             b.y = Math.random() * h; }
+      b.angle = Math.atan2(h / 2 - b.y, w / 2 - b.x) + (Math.random() - 0.5) * 1.2;
+    }
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    beams.forEach(b => { tickBeam(b); drawBeam(b); });
+  }
+  animate();
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   BACKGROUND SHADER — site-wide animated WebGL flow field
+   Domain-warped fractal noise tinted with the navy accent.
+   Sits behind all content; subtle enough to keep text readable.
+═══════════════════════════════════════════════════════════ */
+(function initBackgroundShader() {
+  const canvas = document.getElementById('bg-shader');
+  if (!canvas) return;
+
+  const gl = canvas.getContext('webgl', { antialias: false, alpha: false, depth: false })
+          || canvas.getContext('experimental-webgl', { antialias: false, alpha: false, depth: false });
+  if (!gl) return; // graceful fallback: body base color shows instead
+
+  const VERT = `
+    attribute vec2 a_pos;
+    void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
+  `;
+
+  const FRAG = `
+    precision highp float;
+    uniform vec2  u_res;
+    uniform float u_time;
+    uniform vec3  u_accent;
+    uniform float u_dark;   // 1.0 = dark theme, 0.0 = light
+
+    // Smooth, clean height field — layered ridges, no grainy noise.
+    float surface(vec2 p, float t) {
+      float h = 0.0;
+      h +=        sin(p.x * 1.20 + t * 0.55);
+      h +=        sin(p.y * 1.55 - t * 0.45);
+      h += 0.80 * sin((p.x + p.y) * 0.95 + t * 0.35);
+      h += 0.60 * sin((p.x - p.y) * 1.85 - t * 0.65);
+      h += 0.45 * sin(length(p - vec2(sin(t * 0.25) * 1.5, cos(t * 0.21) * 1.5)) * 2.4 - t * 0.9);
+      return h;
     }
 
-    pick();
-    requestAnimationFrame(frame);
-  })();
+    // Faux studio environment that the glass reflects / refracts.
+    vec3 env(vec2 dir, vec3 base, vec3 accent, float dark) {
+      float g = clamp(dir.y * 0.5 + 0.5, 0.0, 1.0);
+      vec3 c = mix(base, mix(base * 1.5, accent, 0.40), g);
+      // soft light booth — a couple of bright reflections
+      c += vec3(1.0) * exp(-3.2 * length(dir - vec2(0.35, 0.55))) * mix(0.18, 0.36, dark);
+      c += accent    * exp(-4.0 * length(dir + vec2(0.45, 0.30))) * mix(0.08, 0.45, dark);
+      return c;
+    }
 
-  // Reveal-on-scroll using IntersectionObserver
-  const markReveal = (selector) => {
-    document.querySelectorAll(selector).forEach(el => el.setAttribute('data-reveal', ''));
-  };
-  markReveal('.service-item, .content-card, .project-item, .blog-post-item, .timeline-item, .clients-item, .contact-form, .mapbox');
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
-      }
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
-    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+    void main() {
+      vec2 uv = gl_FragCoord.xy / u_res.xy;
+      vec2 p  = (uv - 0.5) * vec2(u_res.x / u_res.y, 1.0) * 4.2;
+      float t = u_time * 0.35;
+
+      // surface normal from the height-field gradient -> glassy lighting
+      float e  = 0.045;
+      float h  = surface(p, t);
+      float hx = surface(p + vec2(e, 0.0), t);
+      float hy = surface(p + vec2(0.0, e), t);
+      vec3  n  = normalize(vec3(h - hx, h - hy, e * 5.0));
+
+      vec3 viewDir = vec3(0.0, 0.0, 1.0);
+      float fres = pow(1.0 - max(n.z, 0.0), 2.4);          // Fresnel: more reflective at edges
+
+      vec3 darkBase  = vec3(0.012, 0.018, 0.038);
+      vec3 lightBase = vec3(1.0, 1.0, 1.0);
+      vec3 base = mix(lightBase, darkBase, u_dark);
+
+      // Refraction through the glass, with chromatic dispersion (prismatic edges).
+      vec2 d = uv * 2.0 - 1.0;
+      vec2 bend = n.xy * 0.26;
+      vec3 trans;
+      trans.r = env(d + bend * 1.05, base, u_accent, u_dark).r;
+      trans.g = env(d + bend * 1.00, base, u_accent, u_dark).g;
+      trans.b = env(d + bend * 0.95, base, u_accent, u_dark).b;
+
+      // Reflection of the environment off the glass surface.
+      vec3 refl = env(reflect(-viewDir, n).xy, base, u_accent, u_dark);
+
+      // Glass = Fresnel blend of transmission (face) and reflection (grazing edges).
+      vec3 col = mix(trans, refl, clamp(fres * 0.85, 0.0, 1.0));
+
+      // Sharp mirror glints on top — reduced so white flares stay subdued.
+      vec3 lightDir = normalize(vec3(0.45, 0.65, 0.62));
+      vec3 halfDir  = normalize(lightDir + viewDir);
+      float spec = pow(max(dot(n, halfDir), 0.0), 140.0);
+      col += vec3(1.0) * spec * mix(0.30, 0.48, u_dark);
+
+      // Cool accent rim sheen.
+      col += u_accent * fres * mix(0.10, 0.20, u_dark);
+
+      // gentle vignette so the panel settles into the page edges
+      float vig = smoothstep(1.35, 0.30, length(uv - 0.5));
+      col *= mix(0.90, 1.0, vig);
+
+      // Hard ceiling: no pixel exceeds this brightness, keeping text legible
+      // without any CSS overlay or visible box anywhere on the page.
+      col = min(col, vec3(0.74));
+
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+
+  function compile(type, src) {
+    const sh = gl.createShader(type);
+    gl.shaderSource(sh, src);
+    gl.compileShader(sh);
+    if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
+      console.warn('bg-shader compile error:', gl.getShaderInfoLog(sh));
+      gl.deleteShader(sh);
+      return null;
+    }
+    return sh;
+  }
+
+  const vs = compile(gl.VERTEX_SHADER, VERT);
+  const fs = compile(gl.FRAGMENT_SHADER, FRAG);
+  if (!vs || !fs) return;
+
+  const prog = gl.createProgram();
+  gl.attachShader(prog, vs);
+  gl.attachShader(prog, fs);
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+    console.warn('bg-shader link error:', gl.getProgramInfoLog(prog));
+    return;
+  }
+  gl.useProgram(prog);
+
+  // full-screen triangle
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog, 'a_pos');
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+  const uRes    = gl.getUniformLocation(prog, 'u_res');
+  const uTime   = gl.getUniformLocation(prog, 'u_time');
+  const uAccent = gl.getUniformLocation(prog, 'u_accent');
+  const uDark   = gl.getUniformLocation(prog, 'u_dark');
+
+  // Mobile / touch devices: render a single static frame instead of an
+  // animation loop. An animated full-screen canvas behind backdrop-filter
+  // panels re-blurs every frame and drains battery on phones.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const lowPower = window.matchMedia('(max-width: 768px)').matches
+                || window.matchMedia('(pointer: coarse)').matches;
+  const staticOnly = reduceMotion || lowPower;
+
+  // render at a reduced scale — it's a soft backdrop, not a sharp asset
+  // (lower still on mobile, where the static frame is GPU-cheap)
+  const SCALE = lowPower ? 0.45 : 0.6;
+  const DPR_CAP = lowPower ? 1.0 : 1.5;
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
+    const w = Math.max(1, Math.floor(window.innerWidth  * dpr * SCALE));
+    const h = Math.max(1, Math.floor(window.innerHeight * dpr * SCALE));
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width = w;
+      canvas.height = h;
+    }
+    gl.viewport(0, 0, w, h);
+    gl.uniform2f(uRes, w, h);
+    if (staticOnly) drawStatic();   // re-render the frozen frame at the new size
+  }
+
+  // theme-aware tint
+  function hexToRgb(hex) {
+    const m = hex.trim().replace('#', '');
+    const n = parseInt(m.length === 3 ? m.replace(/(.)/g, '$1$1') : m, 16);
+    return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+  }
+  function syncTheme() {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    const accent = getComputedStyle(document.documentElement)
+      .getPropertyValue('--accent').trim() || '#4169e1';
+    const rgb = accent.startsWith('#') ? hexToRgb(accent) : [0.255, 0.412, 0.882];
+    gl.uniform3f(uAccent, rgb[0], rgb[1], rgb[2]);
+    gl.uniform1f(uDark, isLight ? 0.0 : 1.0);
+  }
+  let raf = null;
+  let start = null;
+  function drawStatic() {
+    gl.uniform1f(uTime, 9.0);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  function frame(now) {
+    if (start === null) start = now;
+    gl.uniform1f(uTime, (now - start) / 1000);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    raf = requestAnimationFrame(frame);
+  }
+  function play() {
+    if (raf === null) raf = requestAnimationFrame(frame);
+  }
+  function stop() {
+    if (raf !== null) { cancelAnimationFrame(raf); raf = null; }
+  }
+
+  // initial sizing + theme (drawStatic is now defined for resize() to call)
+  resize();
+  syncTheme();
+  window.addEventListener('resize', resize, { passive: true });
+  new MutationObserver(() => { syncTheme(); if (staticOnly) drawStatic(); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  if (staticOnly) {
+    drawStatic();   // one frozen frame — no animation loop on mobile / reduced-motion
   } else {
-    document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('is-visible'));
-  }
-
-  // Parallax disabled - tiles stay still
-
-  // Particle Network Animation Background
-  if (!prefersReduced) {
-    const canvas = document.createElement('canvas');
-    canvas.id = 'particle-network';
-    canvas.setAttribute('aria-hidden', 'true');
-    Object.assign(canvas.style, {
-      position: 'fixed',
-      inset: '0',
-      zIndex: '0',
-      pointerEvents: 'none',
-      opacity: '1'
-    });
-    document.body.prepend(canvas);
-    
-    const ctx = canvas.getContext('2d');
-    let width, height;
-    let particles = [];
-    let mouse = { x: null, y: null, radius: 150 };
-    let animationId;
-    
-    // Get theme colors
-    const getColors = () => {
-      const isDark = !document.documentElement.getAttribute('data-theme') || 
-                     document.documentElement.getAttribute('data-theme') !== 'light';
-      return {
-        particle: isDark ? 'rgba(43, 106, 255, 0.6)' : 'rgba(43, 106, 255, 0.5)',
-        particleAlt: isDark ? 'rgba(200, 168, 87, 0.5)' : 'rgba(180, 148, 67, 0.4)',
-        line: isDark ? 'rgba(43, 106, 255, 0.15)' : 'rgba(43, 106, 255, 0.12)',
-        lineHover: isDark ? 'rgba(200, 168, 87, 0.35)' : 'rgba(180, 148, 67, 0.3)'
-      };
-    };
-    
-    let colors = getColors();
-    
-    // Expose function for theme toggle
-    window.__updateParticleColors = () => {
-      colors = getColors();
-    };
-    
-    // Resize handler
-    const resize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      initParticles();
-    };
-    
-    // Particle class
-    class Particle {
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.size = Math.random() * 2 + 1;
-        this.baseSize = this.size;
-        this.speedX = (Math.random() - 0.5) * 0.8;
-        this.speedY = (Math.random() - 0.5) * 0.8;
-        this.color = Math.random() > 0.7 ? colors.particleAlt : colors.particle;
-        this.pulsePhase = Math.random() * Math.PI * 2;
-        this.pulseSpeed = 0.02 + Math.random() * 0.02;
-      }
-      
-      update() {
-        // Pulse effect
-        this.pulsePhase += this.pulseSpeed;
-        this.size = this.baseSize + Math.sin(this.pulsePhase) * 0.5;
-        
-        // Movement
-        this.x += this.speedX;
-        this.y += this.speedY;
-        
-        // Mouse interaction - particles gently attracted/repelled
-        if (mouse.x !== null && mouse.y !== null) {
-          const dx = mouse.x - this.x;
-          const dy = mouse.y - this.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < mouse.radius) {
-            const force = (mouse.radius - dist) / mouse.radius;
-            const angle = Math.atan2(dy, dx);
-            // Gentle push away from cursor
-            this.x -= Math.cos(angle) * force * 1.5;
-            this.y -= Math.sin(angle) * force * 1.5;
-          }
-        }
-        
-        // Boundary wrapping
-        if (this.x < 0) this.x = width;
-        if (this.x > width) this.x = 0;
-        if (this.y < 0) this.y = height;
-        if (this.y > height) this.y = 0;
-      }
-      
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-        
-        // Glow effect
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
-        const gradient = ctx.createRadialGradient(
-          this.x, this.y, 0,
-          this.x, this.y, this.size * 2
-        );
-        gradient.addColorStop(0, this.color);
-        gradient.addColorStop(1, 'transparent');
-        ctx.fillStyle = gradient;
-        ctx.fill();
-      }
-    }
-    
-    // Initialize particles
-    const initParticles = () => {
-      particles = [];
-      const particleCount = Math.min(80, Math.floor((width * height) / 15000));
-      for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-      }
-    };
-    
-    // Draw connecting lines between nearby particles
-    const drawConnections = () => {
-      const maxDist = 150;
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          
-          if (dist < maxDist) {
-            const opacity = 1 - (dist / maxDist);
-            
-            // Check if near mouse for highlight effect
-            let lineColor = colors.line;
-            if (mouse.x !== null && mouse.y !== null) {
-              const midX = (particles[i].x + particles[j].x) / 2;
-              const midY = (particles[i].y + particles[j].y) / 2;
-              const mouseDist = Math.sqrt(
-                Math.pow(mouse.x - midX, 2) + Math.pow(mouse.y - midY, 2)
-              );
-              if (mouseDist < mouse.radius) {
-                lineColor = colors.lineHover;
-              }
-            }
-            
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = lineColor.replace(/[\d.]+\)$/, (opacity * 0.5) + ')');
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
-      }
-    };
-    
-    // Animation loop
-    const animate = () => {
-      ctx.clearRect(0, 0, width, height);
-      
-      // Update and draw particles
-      particles.forEach(p => {
-        p.color = Math.random() > 0.995 
-          ? (Math.random() > 0.5 ? colors.particleAlt : colors.particle)
-          : p.color;
-        p.update();
-        p.draw();
-      });
-      
-      // Draw connections
-      drawConnections();
-      
-      animationId = requestAnimationFrame(animate);
-    };
-    
-    // Mouse tracking
-    const hasFinePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
-    if (hasFinePointer) {
-      window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-      }, { passive: true });
-      
-      window.addEventListener('mouseleave', () => {
-        mouse.x = null;
-        mouse.y = null;
-      });
-    }
-    
-    // Initialize
-    resize();
-    window.addEventListener('resize', resize);
-    animate();
-    
-    // Pause when tab not visible
+    play();
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        cancelAnimationFrame(animationId);
-      } else {
-        animate();
-      }
+      if (document.hidden) stop(); else { start = null; play(); }
     });
   }
+})();
 
-  // Image performance: lazy/async + sizes
-  document.querySelectorAll('.project-img img, .blog-banner-box img').forEach(img => {
-    img.setAttribute('loading', img.getAttribute('loading') || 'lazy');
-    img.setAttribute('decoding', 'async');
-    if (!img.hasAttribute('sizes')) img.setAttribute('sizes', '(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw');
-  });
 
-  // A11y: label social icons
-  document.querySelectorAll('.social-list a.social-link[href]').forEach(a => {
-    if (!a.getAttribute('aria-label')) {
-      try { a.setAttribute('aria-label', new URL(a.href).hostname.replace('www.','')); } catch (_) {}
-    }
-  });
+/* ═══════════════════════════════════════════════════════════
+   ENTRANCE ANIMATIONS
+═══════════════════════════════════════════════════════════ */
+(function initEntranceAnimations() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  // Remove preview modal - direct links only
-  document.querySelectorAll('.project-item > a .project-item-icon-box').forEach(iconBox => {
-    iconBox.style.cursor = 'pointer';
-    iconBox.addEventListener('click', (e) => {
-      const link = iconBox.closest('a');
-      if (link && link.href) {
-        e.preventDefault();
-        window.open(link.href, '_blank');
-      }
+  // Split hero headline into per-line reveal spans
+  const hl = document.querySelector('.hero-headline');
+  if (hl) {
+    const parts = hl.innerHTML.split(/<br\s*\/?>/i);
+    hl.innerHTML = parts
+      .map((p, i) => {
+        const t = p.trim();
+        if (!t) return '';
+        return `<span class="hero-line-wrap"><span class="hero-line-inner" style="animation-delay:${(0.2 + i * 0.13).toFixed(2)}s">${t}</span></span>`;
+      })
+      .filter(Boolean)
+      .join('');
+  }
+
+  // Scroll-triggered fade-up via IntersectionObserver
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('is-visible');
+      io.unobserve(e.target);
     });
+  }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+
+  document.querySelectorAll('.section-header').forEach(el => {
+    el.classList.add('anim-enter');
+    io.observe(el);
+  });
+
+  document.querySelectorAll('.role-card, .highlight-card').forEach((el, i) => {
+    el.style.transitionDelay = `${(i * 0.06).toFixed(2)}s`;
+    el.classList.add('anim-enter');
+    io.observe(el);
   });
 })();
