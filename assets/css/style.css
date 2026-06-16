@@ -852,6 +852,12 @@ section {
 @media (max-width: 400px) {
   .roles-row, .highlights-row { grid-template-columns: 1fr; }
 }
+/* 5 role cards leave an orphan cell in 3-col and 2-col layouts — let the
+   last card span the remaining columns so the grid fills cleanly (only
+   between 401–900px; at 1-col a span would overflow) */
+@media (min-width: 401px) and (max-width: 900px) {
+  .roles-row .role-card:nth-child(5) { grid-column: span 2; }
+}
 
 /* ─── Focus + Highlights combined grid ────────────────────── */
 .focus-section {
@@ -1440,22 +1446,34 @@ section {
   transform: scale(1.04);
 }
 
-/* Mobile fallback: plain horizontal scroll, no sticky */
+/* Mobile fallback: only the image track scrolls sideways — the heading
+   and description stay fixed (they must NOT live inside the scroller). */
 @media (max-width: 768px) {
   .robotics-section { padding-bottom: var(--section-v); }
   .robotics-sticky-wrapper { height: auto !important; }
+
+  /* Sticky reverts to a normal block so the header doesn't move */
   .robotics-sticky {
     position: static;
     height: auto;
-    padding: 0 0 12px;
+    display: block;
+    overflow: visible;
+    padding: 0;
+  }
+
+  /* The track itself becomes the horizontal scroll container */
+  .robotics-track {
+    transform: none !important;
+    width: auto;
+    max-width: 100%;
     overflow-x: auto;
-    overflow-y: visible;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 var(--gutter) 14px;
     scrollbar-width: thin;
     scrollbar-color: var(--border-mid) transparent;
   }
-  .robotics-track {
-    transform: none !important;
-  }
+  .robotics-track img { height: 260px; }
 }
 
 
