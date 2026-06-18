@@ -188,7 +188,10 @@ if (projectGrid && projectDetailShell) {
       summary: 'A browser-based autonomous driving simulator that models what a vehicle might see from multiple sensors. It includes multi-view camera feeds, LiDAR/depth-style overlays, object-detection boxes, lane detection, traffic lights, sensor fusion visuals, and an AI decision log. Built with JavaScript.',
       accent: '#0891b2',
       cover: './assets/images/SD_sim_1.jpg',
-      links: [makeLink('GitHub', 'https://github.com/tanujranjith', 'logo-github')],
+      links: [
+        makeLink('Live demo', 'https://project-6fes9.vercel.app'),
+        makeLink('GitHub', 'https://github.com/tanujranjith', 'logo-github')
+      ],
       gallery: [
         makeVideo('Live Demo', './assets/images/SD_sim.mp4',
           'Full run-through of the Three.js perception simulator — multi-view cameras, sensor fusion overlays, object detection, lane following, and the AI decision log reacting to traffic in real time.',
@@ -255,11 +258,14 @@ if (projectGrid && projectDetailShell) {
       kicker: 'Desktop widget',
       summary: 'A lightweight Apple Dynamic Island-inspired desktop widget for Windows, built in Python with Tkinter. Shows media info, playback controls, time/date/battery, theme-aware visuals, and compact-to-expanded UI behavior.',
       accent: '#7b6cff',
-      cover: './assets/images/icon-app.svg',
+      cover: './assets/images/DynamicIsland_OpenClose.gif',
       links: [makeLink('GitHub', 'https://github.com/tanujranjith/Dynamic-Island-Python', 'logo-github')],
       gallery: [
-        makeImg('Widget Concept', './assets/images/icon-app.svg', 'Compact desktop widget layout.', 'https://github.com/tanujranjith/Dynamic-Island-Python', 'Open GitHub'),
-        makeImg('Utility UI', './assets/images/icon-dev.svg', 'Theme-aware compact and expanded states.', 'https://github.com/tanujranjith/Dynamic-Island-Python', 'Open GitHub')
+        makeImg('Expanded State', './assets/images/DynamicIsland_Expanded.png', 'Expanded view showing media info, playback controls, and live details.', 'https://github.com/tanujranjith/Dynamic-Island-Python', 'Open GitHub'),
+        makeImg('Compact State', './assets/images/DynamicIsland_Compact.png', 'Compact pill showing time, date, and battery at a glance.', 'https://github.com/tanujranjith/Dynamic-Island-Python', 'Open GitHub'),
+        makeImg('Collapsing', './assets/images/DynamicIsland_Collapsing.png', 'Mid-animation as the widget transitions between compact and expanded.', 'https://github.com/tanujranjith/Dynamic-Island-Python', 'Open GitHub'),
+        makeImg('Open / Close Animation', './assets/images/DynamicIsland_OpenClose.gif', 'The expand-and-collapse interaction in motion.', 'https://github.com/tanujranjith/Dynamic-Island-Python', 'Open GitHub'),
+        makeImg('Live Demo', './assets/images/DynamicIsland_Demo.gif', 'Full widget demo with media playback and live system info.', 'https://github.com/tanujranjith/Dynamic-Island-Python', 'Open GitHub')
       ]
     },
     {
@@ -471,7 +477,10 @@ if (projectGrid && projectDetailShell) {
   if (!section || !wrapper || !sticky || !track) return;
 
   const NAV_H = 60;
-  const MOBILE = () => window.innerWidth <= 768;
+  // Gallery is now a free horizontal-scroll strip at all widths, so the
+  // scroll-jack (sticky height + translateX) is disabled by treating every
+  // viewport like the mobile path: clears any injected height/transform.
+  const MOBILE = () => true;
   let setupPending = false;
 
   function setup() {
@@ -543,14 +552,171 @@ if (projectGrid && projectDetailShell) {
 
 
 /* ═══════════════════════════════════════════════════════════
-   ROBOTICS PHOTO ZOOM (click to open in new tab)
+   ROBOTICS PHOTO ZOOM (click to open in a lightbox modal)
 ═══════════════════════════════════════════════════════════ */
-document.querySelectorAll('.robotics-track img').forEach(img => {
-  img.addEventListener('click', () => {
-    const src = img.currentSrc || img.src;
-    if (src) window.open(src, '_blank', 'noopener,noreferrer,resizable=yes,scrollbars=yes,width=1200,height=900');
+(function initRoboticsLightbox() {
+  const imgs = document.querySelectorAll('.robotics-track img');
+  if (!imgs.length) return;
+
+  const overlay = document.createElement('div');
+  overlay.className = 'img-lightbox';
+  overlay.setAttribute('aria-hidden', 'true');
+  overlay.innerHTML =
+    '<button class="img-lightbox-close" type="button" aria-label="Close image">&times;</button>' +
+    '<img class="img-lightbox-img" alt="">';
+  document.body.appendChild(overlay);
+
+  const lbImg   = overlay.querySelector('.img-lightbox-img');
+  const lbClose = overlay.querySelector('.img-lightbox-close');
+  let prevOverflow = '';
+
+  const open = (src, alt) => {
+    lbImg.src = src;
+    lbImg.alt = alt || '';
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+    prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+  };
+  const close = () => {
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = prevOverflow;
+    lbImg.src = '';
+  };
+
+  // Click backdrop or close button closes; clicking the image itself does not.
+  overlay.addEventListener('click', (e) => {
+    if (e.target !== lbImg) close();
   });
-});
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) close();
+  });
+
+  imgs.forEach(img => {
+    img.addEventListener('click', () => {
+      const track = img.closest('.robotics-track');
+      if (track && track.__wasDragging) return;   // ignore the click that ends a drag
+      open(img.currentSrc || img.src, img.alt);
+    });
+  });
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   GALLERY: click-and-drag to pan (mouse). Touch uses native scroll.
+═══════════════════════════════════════════════════════════ */
+(function initRoboticsDrag() {
+  const track = document.querySelector('.robotics-track');
+  if (!track) return;
+
+  let down = false, startX = 0, startScroll = 0, moved = false, pid = null;
+  let vel = 0, lastScroll = 0, lastT = 0;        // velocity in px/ms
+  let raf = null;
+
+  const stopMomentum = () => { if (raf !== null) { cancelAnimationFrame(raf); raf = null; } };
+
+  function momentum(now) {
+    const dt = Math.min(now - lastT, 40) || 16;
+    lastT = now;
+    track.scrollLeft += vel * dt;
+    // Stop at the edges.
+    const max = track.scrollWidth - track.clientWidth;
+    if (track.scrollLeft <= 0)   { track.scrollLeft = 0;   vel = 0; }
+    if (track.scrollLeft >= max) { track.scrollLeft = max; vel = 0; }
+    vel *= Math.pow(0.95, dt / 16);              // friction (frame-rate independent)
+    if (Math.abs(vel) < 0.015) { raf = null; return; }   // ~15 px/s -> rest
+    raf = requestAnimationFrame(momentum);
+  }
+
+  track.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'touch') return;       // let touch scroll natively
+    if (e.button !== 0) return;
+    stopMomentum();
+    down = true; moved = false; pid = e.pointerId;
+    startX = e.clientX;
+    startScroll = lastScroll = track.scrollLeft;
+    lastT = performance.now();
+    vel = 0;
+  });
+
+  track.addEventListener('pointermove', (e) => {
+    if (!down) return;
+    const dx = e.clientX - startX;
+    // Only begin a real drag past a small threshold — a plain click stays a
+    // click (so the image still opens the lightbox), and capture is taken
+    // only once dragging starts so it doesn't swallow the click event.
+    if (!moved && Math.abs(dx) > 4) {
+      moved = true;
+      track.classList.add('is-dragging');
+      track.setPointerCapture?.(pid);
+    }
+    if (moved) {
+      track.scrollLeft = startScroll - dx;
+      e.preventDefault();
+      // Track flick velocity from how fast scrollLeft is changing.
+      const now = performance.now();
+      const dt = now - lastT;
+      if (dt > 0) {
+        const v = (track.scrollLeft - lastScroll) / dt;
+        vel = 0.8 * v + 0.2 * vel;               // light smoothing
+        lastT = now;
+        lastScroll = track.scrollLeft;
+      }
+    }
+  });
+
+  const end = () => {
+    if (!down) return;
+    down = false;
+    track.classList.remove('is-dragging');
+    track.__wasDragging = moved;                 // checked by the image click handler
+    setTimeout(() => { track.__wasDragging = false; }, 0);
+    // Fling: the harder the flick, the further it glides.
+    if (moved && Math.abs(vel) > 0.02) {
+      lastT = performance.now();
+      stopMomentum();
+      raf = requestAnimationFrame(momentum);
+    }
+  };
+  track.addEventListener('pointerup', end);
+  track.addEventListener('pointercancel', end);
+
+  // A new interaction (wheel or pointer) cancels an in-flight fling.
+  track.addEventListener('wheel', stopMomentum, { passive: true });
+
+  // Stop the browser's native image-drag ghost from hijacking the pan.
+  track.querySelectorAll('img').forEach(img =>
+    img.addEventListener('dragstart', (e) => e.preventDefault()));
+})();
+
+
+/* ═══════════════════════════════════════════════════════════
+   GALLERY: vertical wheel over the strip scrolls it horizontally.
+   At either end (or off the strip) the page scrolls normally.
+═══════════════════════════════════════════════════════════ */
+(function initRoboticsWheelScroll() {
+  const track = document.querySelector('.robotics-track');
+  if (!track) return;
+
+  track.addEventListener('wheel', (e) => {
+    // Respect real horizontal gestures (trackpad) — don't fight them.
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    if (maxScroll <= 0) return;               // nothing to scroll sideways
+
+    const atStart = track.scrollLeft <= 0;
+    const atEnd   = track.scrollLeft >= maxScroll - 1;
+
+    // Let the page take over once the strip hits an edge and the user
+    // keeps scrolling past it — so the gallery never traps the page.
+    if ((atStart && e.deltaY < 0) || (atEnd && e.deltaY > 0)) return;
+
+    e.preventDefault();
+    track.scrollLeft += e.deltaY;
+  }, { passive: false });
+})();
 
 
 
