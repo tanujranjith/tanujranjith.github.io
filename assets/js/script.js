@@ -239,15 +239,23 @@ if (projectGrid && projectDetailShell) {
       kicker: 'Browser workspace',
       summary: 'A local-first productivity workspace for students. Sutra brings together notes, planning, focus tools, calendar-style organization, split-screen editing, exports, and a privacy-first browser workspace. I\'m building it around the idea that students should own their workflow and their data.',
       accent: '#c8a857',
-      cover: './assets/images/NoteFlow is a local-first.png',
+      cover: './assets/images/Sutra_today.png',
       links: [
         makeLink('Live demo', 'https://tanujranjith.github.io/Sutra/HomePage.html'),
         makeLink('GitHub', 'https://github.com/tanujranjith/Sutra', 'logo-github')
       ],
       gallery: [
-        makeImg('Browser App', './assets/images/NoteFlow is a local-first.png',
-          'Local-first workspace with notes, planning, and focus tools.',
-          'https://tanujranjith.github.io/Sutra/HomePage.html', 'Open live demo')
+        makeImg('Today Dashboard', './assets/images/Sutra_today.png', 'Daily overview of tasks, classes, and focus for the day.', 'https://tanujranjith.github.io/Sutra/HomePage.html', 'Open live demo'),
+        makeImg('Homework & Assignments', './assets/images/Sutra_homework.png', 'Track assignments and coursework across classes.', 'https://tanujranjith.github.io/Sutra/HomePage.html', 'Open live demo'),
+        makeImg('Notes Editor', './assets/images/Sutra_notes-editor.png', 'Rich note-taking with canvas-style pages.', 'https://tanujranjith.github.io/Sutra/HomePage.html', 'Open live demo'),
+        makeImg('Weekly Timeline', './assets/images/Sutra_timeline-weekly.png', 'Week-at-a-glance planning view.', 'https://tanujranjith.github.io/Sutra/HomePage.html', 'Open live demo'),
+        makeImg('Daily Timeline', './assets/images/Sutra_timeline-daily.png', 'Hour-by-hour daily schedule.', 'https://tanujranjith.github.io/Sutra/HomePage.html', 'Open live demo'),
+        makeImg('Deadline Radar', './assets/images/Sutra_deadline-radar.png', 'Upcoming deadlines surfaced at a glance.', 'https://tanujranjith.github.io/Sutra/HomePage.html', 'Open live demo'),
+        makeImg('Testing Hub', './assets/images/Sutra_testing-hub.png', 'Study tools and practice for tests.', 'https://tanujranjith.github.io/Sutra/HomePage.html', 'Open live demo'),
+        makeImg('Testing Hub Review', './assets/images/Sutra_testing-hub-review.png', 'Review and feedback on practice sessions.', 'https://tanujranjith.github.io/Sutra/HomePage.html', 'Open live demo'),
+        makeImg('Sutra Assistant', './assets/images/Sutra_assistant.png', 'AI assistant for organizing coursework and generating study materials.', 'https://tanujranjith.github.io/Sutra/HomePage.html', 'Open live demo'),
+        makeImg('Themes & Customization', './assets/images/Sutra_themes-customization.png', 'Personalize the workspace appearance.', 'https://tanujranjith.github.io/Sutra/HomePage.html', 'Open live demo'),
+        makeImg('Mobile View', './assets/images/Sutra_mobile-today.png', 'The Today view on mobile.', 'https://tanujranjith.github.io/Sutra/HomePage.html', 'Open live demo')
       ]
     },
     {
