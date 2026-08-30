@@ -188,6 +188,7 @@ if (projectGrid && projectDetailShell) {
       summary: 'A browser-based autonomous driving simulator that models what a vehicle might see from multiple sensors. It includes multi-view camera feeds, LiDAR/depth-style overlays, object-detection boxes, lane detection, traffic lights, sensor fusion visuals, and an AI decision log. Built with JavaScript.',
       accent: '#0891b2',
       cover: './assets/images/SD_sim_1.jpg',
+      hideSource: true,
       links: [
         makeLink('Live demo', 'https://project-6fes9.vercel.app'),
         makeLink('GitHub', 'https://github.com/tanujranjith', 'logo-github')
@@ -217,6 +218,7 @@ if (projectGrid && projectDetailShell) {
       summary: 'A free AI-assisted platform helping U.S. military veterans transition into IT and cybersecurity careers through guided learning paths, role explanations, certification guidance, and job-search support. Built with Python, Django, JavaScript, and the Google Gemini API. Accepted into the U.S. Department of Veterans Affairs Innovation Repository.',
       accent: '#2b6aff',
       cover: './assets/images/VetsITGuide_Home.png',
+      hideSource: true,
       links: [
         makeLink('Live site', 'https://www.vetsitguide.com/'),
         makeLink('GitHub', 'https://github.com/tanujranjith/vets2tech', 'logo-github')
@@ -388,7 +390,7 @@ if (projectGrid && projectDetailShell) {
                           href="${pHref}" target="_blank" rel="noopener noreferrer"
                           aria-label="${escapeHtml(pLabel)} for ${escapeHtml(project.title)}">
                           ${escapeHtml(pLabel)}</a>` : ''}
-            ${sHref && (!primary || sHref !== pHref)
+            ${sHref && !project.hideSource && (!primary || sHref !== pHref)
               ? `<a class="project-card-action" href="${sHref}"
                     target="_blank" rel="noopener noreferrer"
                     aria-label="Source code for ${escapeHtml(project.title)}">Source</a>` : ''}

@@ -1800,6 +1800,34 @@ section {
   margin-bottom: 12px;
 }
 
+.research-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 24px;
+  margin: 0 0 16px;
+  max-width: 680px;
+}
+.research-fact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  align-items: baseline;
+  min-width: 0;
+}
+.research-fact dt {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.research-fact dd {
+  font-size: 13px;
+  color: var(--fg);
+  margin: 0;
+}
+
 .research-desc {
   font-size: 15px;
   color: var(--fg);
@@ -2104,6 +2132,7 @@ section {
   /* Research number hidden */
   .research-item { grid-template-columns: 1fr; gap: 8px; }
   .research-num { display: none; }
+  .research-facts { grid-template-columns: 1fr; gap: 8px; }
 
   /* Project grid 1-col */
   .project-card-grid { grid-template-columns: 1fr; }
