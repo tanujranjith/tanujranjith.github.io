@@ -2474,3 +2474,549 @@ section {
   }
   .hero-glow { animation: none !important; }
 }
+/* ─── VISUAL REFINEMENTS ───────────────────────────────────
+   Stronger proof hierarchy, featured case study rhythm, and
+   restrained interaction cues layered onto the existing system. */
+.hero-proof {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 560px;
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.hero-proof-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.hero-proof-value {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.hero-proof-label {
+  font-size: 12px;
+  color: var(--fg-muted);
+  line-height: 1.4;
+}
+
+.hero-glow { opacity: 0.65; }
+
+.section-header,
+.section-desc,
+.about-text,
+.research-body,
+.exp-bullets {
+  max-width: 62ch;
+}
+.section-desc { line-height: 1.65; }
+.about-text p,
+.exp-bullets,
+.research-desc { line-height: 1.62; }
+
+/* Project cards use their catalog accent as a restrained category signal. */
+.project-card::before {
+  background: var(--project-accent, var(--accent));
+  opacity: 0.9;
+}
+.project-card-badge {
+  color: var(--project-accent, var(--accent));
+  border-color: var(--project-accent, var(--accent));
+}
+.project-card-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.project-card-kicker::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  background: var(--project-accent, var(--accent));
+}
+.project-card-action--primary {
+  background: var(--project-accent, var(--accent));
+  border-color: var(--project-accent, var(--accent));
+}
+.project-card-featured-label {
+  position: absolute;
+  z-index: 1;
+  top: 14px;
+  left: 14px;
+  padding: 5px 9px;
+  background: var(--bg);
+  color: var(--project-accent, var(--accent));
+  border: 1px solid var(--project-accent, var(--accent));
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.project-card-grid > li[data-featured] {
+  grid-column: span 2;
+}
+.project-card--featured {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+  min-height: 390px;
+}
+.project-card--featured .project-card-media {
+  height: 100%;
+  aspect-ratio: auto;
+}
+.project-card--featured .project-card-body {
+  justify-content: center;
+  padding: clamp(24px, 4vw, 42px);
+}
+.project-card--featured .project-card-title {
+  max-width: 18ch;
+  font-family: var(--font-serif);
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 400;
+  line-height: 1.08;
+}
+.project-card--featured .project-card-summary {
+  max-width: 44ch;
+  -webkit-line-clamp: 5;
+  line-height: 1.65;
+}
+
+/* Patent entry: a quiet technical spec-sheet treatment. */
+.research-item--patent {
+  border-top: 2px solid var(--border-acc);
+}
+.research-item--patent .research-body {
+  padding-left: 20px;
+  border-left: 2px solid var(--accent);
+}
+.research-item--patent .research-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 9px;
+  color: var(--accent);
+  border: 1px solid var(--border-acc);
+  background: var(--accent-dim);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.research-item--patent .research-facts {
+  padding: 14px 16px;
+  border-left: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg-card-2) 45%, transparent);
+}
+
+.robotics-guide {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -12px 0 18px var(--gutter);
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.robotics-guide-mark {
+  color: var(--accent);
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* A more legible active-section cue in the sticky navigation. */
+.nav-link.active::after { height: 2px; }
+
+@media (max-width: 1024px) {
+  .project-card--featured {
+    grid-column: span 1;
+    grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-proof {
+    max-width: 520px;
+    margin-inline: auto;
+    text-align: left;
+  }
+  .project-card--featured {
+    display: flex;
+    min-height: 0;
+  }
+  .project-card--featured .project-card-media {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+  .project-card--featured .project-card-body {
+    padding: 20px;
+  }
+  .project-card--featured .project-card-title {
+    font-size: clamp(24px, 7vw, 32px);
+  }
+  .research-item--patent .research-body {
+    padding-left: 14px;
+  }
+  .robotics-guide {
+    margin-left: var(--gutter);
+  }
+  .hero-glow { opacity: 0.42; }
+}
+
+@media (max-width: 480px) {
+  .hero-proof {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    text-align: center;
+  }
+  .hero-proof-item {
+    align-items: center;
+  }
+  .project-card-featured-label {
+    font-size: 9px;
+  }
+  .robotics-guide {
+    justify-content: center;
+    margin: -8px 0 16px;
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow { animation: none !important; opacity: 0.28; }
+}
+@media (max-width: 1024px) {
+  .project-card-grid > li[data-featured] { grid-column: span 1; }
+}
+
+/* --- AMBIENT BACKGROUND MOTION ----------------------------
+   Slow, low-contrast movement keeps the long page feeling alive
+   without competing with the editorial content. */
+.ambient-motion {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.82;
+  isolation: isolate;
+}
+.ambient-motion::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background-image:
+    linear-gradient(90deg, transparent 0 49.8%, var(--border) 50%, transparent 50.2%),
+    linear-gradient(0deg, transparent 0 49.8%, var(--border) 50%, transparent 50.2%);
+  background-size: 180px 180px;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
+  opacity: 0.42;
+  transform: rotate(-6deg) scale(1.15);
+  animation: ambient-grid-drift 34s linear infinite;
+}
+.ambient-motion span {
+  position: absolute;
+  display: block;
+  width: min(48vw, 620px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.2;
+  will-change: transform;
+}
+.ambient-motion span:first-child {
+  top: 18%;
+  left: -14%;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 68%);
+  animation: ambient-orbit-a 28s ease-in-out infinite alternate;
+}
+.ambient-motion span:last-child {
+  right: -16%;
+  bottom: 8%;
+  background: radial-gradient(circle, #c9965c 0%, transparent 68%);
+  animation: ambient-orbit-b 36s ease-in-out infinite alternate;
+}
+@keyframes ambient-grid-drift {
+  from { transform: rotate(-6deg) translate3d(0, 0, 0) scale(1.15); }
+  to   { transform: rotate(-6deg) translate3d(45px, 30px, 0) scale(1.15); }
+}
+@keyframes ambient-orbit-a {
+  from { transform: translate3d(0, 0, 0) scale(0.92); }
+  to   { transform: translate3d(18vw, 16vh, 0) scale(1.08); }
+}
+@keyframes ambient-orbit-b {
+  from { transform: translate3d(0, 0, 0) scale(1.04); }
+  to   { transform: translate3d(-16vw, -12vh, 0) scale(0.9); }
+}
+:root[data-theme="light"] .ambient-motion { opacity: 0.58; }
+:root[data-theme="light"] .ambient-motion span { opacity: 0.14; }
+@media (max-width: 768px) {
+  .ambient-motion { opacity: 0.42; }
+  .ambient-motion::before { background-size: 130px 130px; }
+  .ambient-motion span { filter: blur(72px); opacity: 0.11; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient-motion::before,
+  .ambient-motion span { animation: none !important; }
+}
+/* --- PULSING TECHNICAL GRID ------------------------------- */
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: -8%;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(212, 175, 55, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.18) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse at center, black 0%, rgba(0, 0, 0, 0.72) 42%, transparent 82%);
+  opacity: 0.34;
+  transform: perspective(900px) rotateX(48deg) translateY(12%) scale(1.22);
+  transform-origin: center bottom;
+  animation: technical-grid-pulse 5.5s ease-in-out infinite;
+}
+@keyframes technical-grid-pulse {
+  0%, 100% { opacity: 0.18; transform: perspective(900px) rotateX(48deg) translateY(12%) scale(1.22); }
+  50%      { opacity: 0.5; transform: perspective(900px) rotateX(48deg) translateY(8%) scale(1.28); }
+}
+:root[data-theme="light"] .hero-bg::after {
+  background-image:
+    linear-gradient(rgba(154, 123, 31, 0.38) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(154, 123, 31, 0.38) 1px, transparent 1px);
+  opacity: 0.5;
+}
+@media (max-width: 768px) {
+  .hero-bg::after {
+    background-size: 54px 54px;
+    opacity: 0.24;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg::after { animation: none; opacity: 0.24; }
+}
+/* --- STATIONARY GRID + TRAVELING LIGHT -------------------- */
+.editorial-grid,
+.ambient-motion { display: none !important; }
+.hero-glow { animation: none !important; opacity: 0.22; }
+.hero-bg::after {
+  background-image:
+    linear-gradient(rgba(212, 175, 55, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.16) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse at center, black 0%, rgba(0, 0, 0, 0.78) 48%, transparent 88%);
+  opacity: 0.34;
+  transform: perspective(900px) rotateX(48deg) translateY(12%) scale(1.22);
+  animation: none;
+}
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(112deg, transparent 34%, rgba(212, 175, 55, 0.04) 42%, rgba(255, 226, 125, 0.5) 49%, rgba(212, 175, 55, 0.05) 56%, transparent 65%);
+  background-size: 220% 100%;
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: grid-light-sweep 8s ease-in-out infinite;
+}
+@keyframes grid-light-sweep {
+  0%, 18% { background-position: 140% 0; opacity: 0; }
+  32%      { opacity: 0.18; }
+  52%      { background-position: -40% 0; opacity: 0.42; }
+  66%, 100% { background-position: -40% 0; opacity: 0; }
+}
+:root[data-theme="light"] .hero-bg::after {
+  background-image:
+    linear-gradient(rgba(154, 123, 31, 0.24) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(154, 123, 31, 0.24) 1px, transparent 1px);
+  opacity: 0.38;
+}
+:root[data-theme="light"] .hero-bg::before {
+  background: linear-gradient(112deg, transparent 34%, rgba(154, 123, 31, 0.03) 42%, rgba(185, 145, 40, 0.34) 49%, rgba(154, 123, 31, 0.04) 56%, transparent 65%);
+  mix-blend-mode: multiply;
+}
+@media (max-width: 768px) {
+  .hero-bg::after { background-size: 54px 54px; opacity: 0.28; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg::before { animation: none; opacity: 0; }
+}
+/* --- CLEAN FULL-SCREEN GRID ------------------------------- */
+body {
+  position: relative;
+}
+body::before {
+  content: "";
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(212, 175, 55, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.13) 1px, transparent 1px);
+  background-size: 84px 84px;
+  opacity: 0.7;
+}
+.hero-bg::after {
+  display: none;
+}
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 0%, transparent 42%, rgba(255, 224, 120, 0.02) 46%, rgba(255, 224, 120, 0.42) 50%, rgba(255, 224, 120, 0.02) 54%, transparent 58%, transparent 100%);
+  background-size: 240% 100%;
+  mix-blend-mode: screen;
+  animation: straight-grid-pulse 7s ease-in-out infinite;
+}
+@keyframes straight-grid-pulse {
+  0%, 12% { background-position: 120% 0; opacity: 0; }
+  24%      { opacity: 0.2; }
+  50%      { background-position: -20% 0; opacity: 0.72; }
+  64%, 100% { background-position: -20% 0; opacity: 0; }
+}
+:root[data-theme="light"] body::before {
+  background-image:
+    linear-gradient(rgba(154, 123, 31, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(154, 123, 31, 0.16) 1px, transparent 1px);
+  opacity: 0.8;
+}
+:root[data-theme="light"] .hero-bg::before {
+  background: linear-gradient(90deg, transparent 0%, transparent 42%, rgba(154, 123, 31, 0.02) 46%, rgba(154, 123, 31, 0.32) 50%, rgba(154, 123, 31, 0.02) 54%, transparent 58%, transparent 100%);
+  mix-blend-mode: multiply;
+}
+@media (max-width: 768px) {
+  body::before { background-size: 58px 58px; opacity: 0.58; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg::before { animation: none; opacity: 0; }
+}
+/* Remove the full-height light sweep; retain the clean stationary grid. */
+.hero-bg::before { display: none !important; }
+/* --- RANDOM GRID-LINE PULSES ------------------------------ */
+.grid-pulse {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 226, 125, 0.08) 32%, rgba(255, 246, 196, 0.95) 50%, rgba(255, 226, 125, 0.08) 68%, transparent 100%);
+  box-shadow: 0 0 10px rgba(255, 224, 120, 0.65), 0 0 26px rgba(212, 175, 55, 0.35);
+}
+.grid-pulse.is-horizontal {
+  left: 0;
+  width: 100%;
+  height: 2px;
+  animation: grid-line-horizontal 2.4s linear forwards;
+}
+.grid-pulse.is-vertical {
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 226, 125, 0.08) 32%, rgba(255, 246, 196, 0.95) 50%, rgba(255, 226, 125, 0.08) 68%, transparent 100%);
+  animation: grid-line-vertical 2.4s linear forwards;
+}
+@keyframes grid-line-horizontal {
+  from { transform: translateX(-18%); opacity: 0; }
+  12%  { opacity: 0.92; }
+  78%  { opacity: 0.72; }
+  to   { transform: translateX(18%); opacity: 0; }
+}
+@keyframes grid-line-vertical {
+  from { transform: translateY(-18%); opacity: 0; }
+  12%  { opacity: 0.92; }
+  78%  { opacity: 0.72; }
+  to   { transform: translateY(18%); opacity: 0; }
+}
+:root[data-theme="light"] .grid-pulse {
+  background: linear-gradient(90deg, transparent 0%, rgba(154, 123, 31, 0.04) 32%, rgba(154, 123, 31, 0.72) 50%, rgba(154, 123, 31, 0.04) 68%, transparent 100%);
+  box-shadow: 0 0 8px rgba(154, 123, 31, 0.45), 0 0 22px rgba(154, 123, 31, 0.2);
+}
+:root[data-theme="light"] .grid-pulse.is-vertical {
+  background: linear-gradient(180deg, transparent 0%, rgba(154, 123, 31, 0.04) 32%, rgba(154, 123, 31, 0.72) 50%, rgba(154, 123, 31, 0.04) 68%, transparent 100%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .grid-pulse { display: none; }
+}
+/* Random routed pulse: a short illuminated segment follows a generated
+   orthogonal path while remaining locked to the stationary grid. */
+.grid-pulse { display: none !important; }
+.grid-pulse-path {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.grid-pulse-path polyline {
+  fill: none;
+  stroke: rgba(255, 241, 180, 0.98);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  filter: drop-shadow(0 0 5px rgba(255, 224, 120, 0.9))
+          drop-shadow(0 0 12px rgba(212, 175, 55, 0.55));
+}
+:root[data-theme="light"] .grid-pulse-path polyline {
+  stroke: rgba(132, 101, 18, 0.96);
+  filter: drop-shadow(0 0 4px rgba(154, 123, 31, 0.55))
+          drop-shadow(0 0 10px rgba(154, 123, 31, 0.28));
+}
+@media (prefers-reduced-motion: reduce) {
+  .grid-pulse-path { display: none; }
+}
+
+/* --- SITE-WIDE GRID BACKDROP ------------------------------ */
+.grid-pulse-path {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+}
+body > section,
+body > footer {
+  position: relative;
+  z-index: 2;
+}
+.combined-section,
+.about-section,
+.projects-section,
+.robotics-section,
+.experience-section,
+.resume-section,
+.research-section,
+.achievements-section,
+.site-footer {
+  background: color-mix(in srgb, var(--bg) 76%, transparent);
+}
+:root[data-theme="light"] .combined-section,
+:root[data-theme="light"] .about-section,
+:root[data-theme="light"] .projects-section,
+:root[data-theme="light"] .robotics-section,
+:root[data-theme="light"] .experience-section,
+:root[data-theme="light"] .resume-section,
+:root[data-theme="light"] .research-section,
+:root[data-theme="light"] .achievements-section,
+:root[data-theme="light"] .site-footer {
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+}

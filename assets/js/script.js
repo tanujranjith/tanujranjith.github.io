@@ -119,7 +119,7 @@
    ACTIVE NAV LINK ON SCROLL
 ═══════════════════════════════════════════════════════════ */
 (function initScrollSpy() {
-  const sections = ['home', 'work', 'robotics', 'experience', 'about', 'contact'];
+  const sections = ['home', 'about', 'work', 'robotics', 'experience', 'resume', 'research', 'contact'];
   const navLinks  = document.querySelectorAll('.nav-link');
 
   const observer = new IntersectionObserver((entries) => {
@@ -188,6 +188,7 @@ if (projectGrid && projectDetailShell) {
       summary: 'A browser-based autonomous driving simulator that models what a vehicle might see from multiple sensors. It includes multi-view camera feeds, LiDAR/depth-style overlays, object-detection boxes, lane detection, traffic lights, sensor fusion visuals, and an AI decision log. Built with JavaScript.',
       accent: '#0891b2',
       cover: './assets/images/SD_sim_1.jpg',
+      featured: true,
       hideSource: true,
       links: [
         makeLink('Live demo', 'https://project-6fes9.vercel.app'),
@@ -364,12 +365,13 @@ if (projectGrid && projectDetailShell) {
     const pHref  = primary ? encodeURI(primary.href) : '';
     const sHref  = source  ? encodeURI(source.href)  : '';
 
-    return `<li data-project-card data-category="${escapeHtml(project.category || 'web')}">
-      <article class="project-card" style="--project-accent:${project.accent};"
+    return `<li data-project-card data-category="${escapeHtml(project.category || 'web')}"${project.featured ? ' data-featured' : ''}>
+      <article class="project-card${project.featured ? ' project-card--featured' : ''}" style="--project-accent:${project.accent};"
                data-project-open="${escapeHtml(project.slug)}"
                role="button" tabindex="0"
                aria-label="Open ${escapeHtml(project.title)} details">
         <div class="project-card-media">
+          ${project.featured ? '<span class="project-card-featured-label">Featured case study</span>' : ''}
           <img src="${encodeURI(project.cover)}" alt="${escapeHtml(project.title)} preview"
                loading="lazy" data-no-zoom>
           <span class="project-card-badge"
@@ -1105,4 +1107,98 @@ if (projectGrid && projectDetailShell) {
     el.classList.add('anim-enter');
     io.observe(el);
   });
+})();
+
+/* --- CONCURRENT RANDOM ROUTED GRID PULSES ----------------- */
+(function initGridPathPulses() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const pulseLayer = document.querySelector('.grid-pulse-path');
+  const svg = pulseLayer;
+  const paths = [...(svg?.querySelectorAll('polyline') || [])];
+  if (!pulseLayer || !svg || !paths.length) return;
+
+  const GRID_SIZE = 84;
+  const DIRECTIONS = [
+    { x: 1, y: 0 }, { x: -1, y: 0 },
+    { x: 0, y: 1 }, { x: 0, y: -1 }
+  ];
+  const timers = new Map();
+  const animations = new Map();
+
+  function randomItem(items) {
+    return items[Math.floor(Math.random() * items.length)];
+  }
+
+  function buildRoute(columns, rows) {
+    let x = Math.floor(Math.random() * columns);
+    let y = Math.floor(Math.random() * rows);
+    let direction = randomItem(DIRECTIONS);
+    const points = [{ x: x * GRID_SIZE, y: y * GRID_SIZE }];
+    const turns = 4 + Math.floor(Math.random() * 5);
+
+    for (let i = 0; i < turns; i += 1) {
+      const candidates = DIRECTIONS.filter(next => {
+        const reversing = next.x === -direction.x && next.y === -direction.y;
+        const continuingStraight = next.x === direction.x && next.y === direction.y;
+        const nx = x + next.x;
+        const ny = y + next.y;
+        return !reversing && !continuingStraight && nx >= 0 && nx < columns && ny >= 0 && ny < rows;
+      });
+      if (!candidates.length) break;
+
+      direction = randomItem(candidates);
+      const maxSteps = direction.x
+        ? (direction.x > 0 ? columns - 1 - x : x)
+        : (direction.y > 0 ? rows - 1 - y : y);
+      const steps = 1 + Math.floor(Math.random() * Math.max(1, Math.min(4, maxSteps)));
+      x += direction.x * steps;
+      y += direction.y * steps;
+      points.push({ x: x * GRID_SIZE, y: y * GRID_SIZE });
+    }
+
+    return points;
+  }
+
+  function schedulePulse(path, initialDelay = false) {
+    window.clearTimeout(timers.get(path));
+    const delay = initialDelay
+      ? Math.random() * 2600
+      : 700 + Math.random() * 2200;
+    timers.set(path, window.setTimeout(() => playPulse(path), delay));
+  }
+
+  function playPulse(path) {
+    const rect = pulseLayer.getBoundingClientRect();
+    const columns = Math.max(2, Math.floor(rect.width / GRID_SIZE) + 1);
+    const rows = Math.max(2, Math.floor(rect.height / GRID_SIZE) + 1);
+    const points = buildRoute(columns, rows);
+    path.setAttribute('points', points.map(point => `${point.x},${point.y}`).join(' '));
+
+    const length = path.getTotalLength();
+    const litSegment = Math.min(150, Math.max(72, length * 0.16));
+    path.style.strokeDasharray = `${litSegment} ${length + litSegment}`;
+    path.style.strokeDashoffset = `${litSegment}`;
+    path.style.opacity = '1';
+
+    animations.get(path)?.cancel();
+    const animation = path.animate(
+      [
+        { strokeDashoffset: `${litSegment}`, opacity: 0 },
+        { opacity: 1, offset: 0.12 },
+        { opacity: 1, offset: 0.84 },
+        { strokeDashoffset: `${-length}`, opacity: 0 }
+      ],
+      {
+        duration: Math.min(5600, Math.max(2600, length * (1.9 + Math.random() * 0.8))),
+        easing: 'linear',
+        fill: 'forwards'
+      }
+    );
+    animations.set(path, animation);
+    animation.finished.then(() => schedulePulse(path)).catch(() => {});
+  }
+
+  window.addEventListener('resize', () => paths.forEach(path => schedulePulse(path)), { passive: true });
+  paths.forEach(path => schedulePulse(path, true));
 })();

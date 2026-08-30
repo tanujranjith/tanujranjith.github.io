@@ -27,9 +27,14 @@
        BACKGROUND SHADER (retired in favour of paper texture)
   ═══════════════════════════════════════════════════ -->
   <canvas id="bg-shader" aria-hidden="true"></canvas>
+  <svg class="grid-pulse-path" aria-hidden="true" focusable="false">
+        <polyline></polyline>
+        <polyline></polyline>
+        <polyline></polyline>
+        <polyline></polyline>
+      </svg>
 
   <!-- Faint architectural vertical gridlines (editorial structure) -->
-  <div class="editorial-grid" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
 
 
   <!-- ═══════════════════════════════════════════════════
@@ -104,14 +109,27 @@
         </h1>
 
         <p class="hero-sub">
-          I'm a high school student focused on engineering, working across robotics, AI/ML, computer vision, and software.
-          I've founded VetsITGuide, competed in VEX Robotics for 7+ seasons (including Worlds), worked at UMich's Neurobionics Lab on the Open-Source Leg project,
-          interned at Vanguard, and built projects that connect hardware, code, and real use.
+          I'm a high school student building across robotics, AI/ML, computer vision, and software.
+          My work spans a patent-pending robotic control system, VetsITGuide, VEX Robotics, and open-source neurobionics.
         </p>
 
         <div class="hero-actions">
           <a href="#work"    class="btn btn--primary">Explore my work</a>
           <a href="#contact" class="btn btn--ghost">Get in touch</a>
+        </div>
+        <div class="hero-proof" aria-label="Selected credentials">
+          <div class="hero-proof-item">
+            <span class="hero-proof-value">U.S. Patent Pending</span>
+            <span class="hero-proof-label">Robotic control</span>
+          </div>
+          <div class="hero-proof-item">
+            <span class="hero-proof-value">Open-Source Leg</span>
+            <span class="hero-proof-label">UMich contributor</span>
+          </div>
+          <div class="hero-proof-item">
+            <span class="hero-proof-value">VetsITGuide</span>
+            <span class="hero-proof-label">Founder</span>
+          </div>
         </div>
       </div>
 
@@ -361,8 +379,9 @@
           </p>
           <h2 class="section-title" id="robotics-title">Builds, hardware &amp; <em>leadership.</em></h2>
           <p class="section-desc">
-            A mix of VEX Robotics, TSA, open-source work, hackathons, and engineering projects. These are the places where I've learned the most about debugging under pressure, designing with constraints, and getting ideas out of my head into something that works.
+            A mix of VEX Robotics, TSA, open-source work, hackathons, and engineering projects. I keep the gallery focused on the builds, people, and moments that shaped how I solve problems under real constraints.
           </p>
+          <p class="robotics-guide"><span class="robotics-guide-mark" aria-hidden="true">↔</span> Swipe or drag to explore the build log.</p>
         </div>
         <div class="robotics-track">
           <img src="./assets/images/robotics1.jpeg"         alt="VRC 2022 Worlds"    loading="lazy">
@@ -623,7 +642,7 @@
 
       <ol class="research-list">
 
-        <li class="research-item">
+        <li class="research-item research-item--patent">
           <span class="research-num" aria-hidden="true">01</span>
           <div class="research-body">
             <h3 class="research-title-text">Predictive Cable Slack Compensator for Tendon-Driven Robotic Systems Using Combined Velocity and Thermal Elongation Estimation</h3>
