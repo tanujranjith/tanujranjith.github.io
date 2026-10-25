@@ -1690,6 +1690,10 @@ section {
   line-height: 1.6;
 }
 
+.edu-item p + p {
+  margin-top: 6px;
+}
+
 .edu-item + .edu-item {
   margin-top: 18px;
   padding-top: 18px;
